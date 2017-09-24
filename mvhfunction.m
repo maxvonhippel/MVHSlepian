@@ -2,6 +2,8 @@ function varargout=mvhfunction(n)
 % Last modified by maxvonhippel-at-email.arizona.edu, 09/21/2017
 % regn: the name of the region (eg, 'greenland')
 % n: the max number of slepian functions to optimize L for
+% The Iceland.mat file I use is built out of a ShapeFile my good friend
+% Vivian Arriaga, a GIS major at ASU, made for me: varriag1@asu.edu
 
 % For iceland:
 c11=[-25.2246 66.861];
