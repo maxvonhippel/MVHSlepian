@@ -1,5 +1,5 @@
 function varargout=iceland(res,buf) 
-% Sample comment 2  
+% Sample comment 3  
 % XY=ICELAND(res,buf,nearby)
 % ICELAND(...) % Only makes a plot
 %
