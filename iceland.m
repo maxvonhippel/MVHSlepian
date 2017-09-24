@@ -1,5 +1,5 @@
 function varargout=iceland(res,buf) 
-% Sample comment to make sure save daemon works  
+% Sample comment 2  
 % XY=ICELAND(res,buf,nearby)
 % ICELAND(...) % Only makes a plot
 %
