@@ -1,5 +1,4 @@
 function varargout=iceland(res,buf) 
-% Sample comment 3  
 % XY=ICELAND(res,buf,nearby)
 % ICELAND(...) % Only makes a plot
 %
@@ -23,8 +22,8 @@ regn='iceland';
 defval('res',0);
 defval('buf',0);
 
-% c11=[-25.2246 66.861];
-% cmn=[-12.9199 63.0748];
+c11=[-25.2246 66.861];
+cmn=[-12.9199 63.0748];
 
 % Inspired by orinoco.m
 XY=load(fullfile(getenv('IFILES'),'COASTS',regn));
