@@ -1,5 +1,5 @@
-function varargout=mvhfunction(n)
-% Last modified by maxvonhippel-at-email.arizona.edu, 09/21/2017
+function varargout=mvhfunction(L)
+% Last modified by maxvonhippel-at-email.arizona.edu, 09/27/2017
 % regn: the name of the region (eg, 'greenland')
 % n: the max number of slepian functions to optimize L for
 % The Iceland.mat file I use is built out of a ShapeFile my good friend
@@ -8,22 +8,10 @@ function varargout=mvhfunction(n)
 % For iceland:
 c11=[-25.2246 66.861];
 cmn=[-12.9199 63.0748];
-
-% Figure out good value of L
 [Ao4p,~]=spharea(c11,cmn);
-L=0;
-for L = 1:10
-    n0 = ((L+1)^2) * Ao4p;
-    if (n0 >= n)
-        break
-    end
-end
-disp(L)
-
+n = ((L+1)^2) * Ao4p;
 % Get the kernelc
-% Needs to be modified for other countries, right now iceland
-% hard-coded in.
-[Klmlmp,XY]=kernelc(L,'iceland');
+[Klmlmp,XY]=kernelc(L,iceland(0,1));
 % Run glmalpha
 J=max(int8(n), 1);
 [G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
@@ -32,7 +20,7 @@ J=max(int8(n), 1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 
 % Plot
-defval('meth',4);
+defval('meth',5);
 defval('degres',1);
 data=plotplm(lmcosi,[],[],meth,degres);
 kelicol
