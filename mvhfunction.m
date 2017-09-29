@@ -18,14 +18,8 @@ J=max(int8(n), 1);
 % Reorder
 [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
-
-defval('meth',4);
-defval('degres',1);
-data=plotplm(lmcosi,[],[],meth,degres);
-
-defval('par',1)
-defval('fi',0)
-[ah,ha,~,~,H]=plotstuff(iceland(0,1),'ll',9,L,L);
+data=plotplm(lmcosi,[],[],4,1);
+[ah,ha,~,~,H]=plotstuff(iceland(0,1),1,L);
 set(ah,'xlim',cmn)
 set(ah,'ylim',c11)
 set(ah,'XTick',cmn,'XTickLabel',cmn,...
@@ -42,11 +36,11 @@ varargout=varns(1:nargout);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [ah,ha,bh,th,H]=plotstuff(reg,lox,fozo,fi,L,index)
+function [ah,ha,bh,th,H]=plotstuff(reg,fi,L)
 % Number of basis function to show
 defval('np',12)
 % Legend location
-defval('lox','l')
+defval('lox','ll')
 % Tick mark switching option
 defval('swti','no')
 % Axis expansion
@@ -54,7 +48,7 @@ defval('num',40)
 % Data exaggeration
 defval('swl',1)
 % Font Size
-defval('fozo',11)
+defval('fozo',6)
 % Panel geometry
 defval('fi',0);
 % Bandwidth
