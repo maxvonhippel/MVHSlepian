@@ -46,7 +46,7 @@ function [ah,ha,bh,th,H]=plotstuff(reg,lox,fozo,fi,L,index)
 % Number of basis function to show
 defval('np',12)
 % Legend location
-defval('lox','ul')
+defval('lox','l')
 % Tick mark switching option
 defval('swti','no')
 % Axis expansion
