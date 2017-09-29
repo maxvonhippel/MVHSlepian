@@ -19,12 +19,11 @@ J=max(int8(n), 1);
 [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 data=plotplm(lmcosi,[],[],4,1);
-[ah,ha,~,~,H]=plotstuff(iceland(0,1),1,L);
+[ah,~,~,~,~]=plotstuff(iceland(0,1),1,L,V);
 set(ah,'xlim',cmn)
 set(ah,'ylim',c11)
 set(ah,'XTick',cmn,'XTickLabel',cmn,...
 	 'YTick',c11,'YTickLabel',c11)
-kelicol
 % nolabels(ah(1:8),1); nolabels(ha(4:12),2); deggies(ah)
 % serre(H,1/3,'across')
 % serre(H',1/3,'down')
@@ -36,7 +35,7 @@ varargout=varns(1:nargout);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [ah,ha,bh,th,H]=plotstuff(reg,fi,L)
+function [ah,ha,bh,th,H]=plotstuff(reg,fi,L,V)
 % Number of basis function to show
 defval('np',12)
 % Legend location
@@ -64,7 +63,7 @@ end
 [dems,dels]=addmon(L);
 
 infl=1;
-[V,C,~,~,~]=localization(L,reg,[],np*infl);
+[~,C,~,~,~]=localization(L,reg,[],np*infl);
 defval('XY',reg)
 % Modify to do only partial reconstruction to save time
 r=NaN([181 361 np]);
@@ -87,9 +86,7 @@ ka=swl*r(:,:,index);
 ka=ka/max(max(abs(ka)));
 ka(abs(ka)<0.01)=NaN;
 axes(ah(index))
-sax=[-1 1];
-cola='kelicol';
-imagefnan([0 90-100*eps],[360 -90],ka,cola,sax)
+imagefnan([0 90-100*eps],[360 -90],ka,'kelicol',[-1 1])
 
 axis image
 set(ah,'FontSize',fozo-2)
