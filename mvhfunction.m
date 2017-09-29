@@ -15,7 +15,6 @@ n = ((L+1)^2) * Ao4p;
 % Run glmalpha
 J=max(int8(n), 1);
 [G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
-
 % Reorder
 [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
@@ -23,20 +22,19 @@ lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 defval('meth',4);
 defval('degres',1);
 data=plotplm(lmcosi,[],[],meth,degres);
-% lon,lat
-kelicol
 
 defval('par',1)
 defval('fi',0)
-[ah,ha,~,~,H]=plotstuff(iceland(0,1),V,lmcosi,degres,[],[],[],[],[],9,L);
+[ah,ha,~,~,H]=plotstuff(iceland(0,1),'ll',9,L,L);
 set(ah,'xlim',cmn)
 set(ah,'ylim',c11)
 set(ah,'XTick',cmn,'XTickLabel',cmn,...
 	 'YTick',c11,'YTickLabel',c11)
-nolabels(ah(1:8),1); nolabels(ha(4:12),2); deggies(ah)
-serre(H,1/3,'across')
-serre(H',1/3,'down')
-set(ah,'camerav',8)
+kelicol
+% nolabels(ah(1:8),1); nolabels(ha(4:12),2); deggies(ah)
+% serre(H,1/3,'across')
+% serre(H',1/3,'down')
+% set(ah,'camerav',8)
 
 % Prepare outputs
 varns={G,V,data,N,GM2AL,MTAP,IMTAP,Klmlmp};
@@ -44,11 +42,11 @@ varargout=varns(1:nargout);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [ah,ha,bh,th,H]=plotstuff(reg,V,lmcosi,degres,XY,lox,swti,num,swl,fozo,fi,L,index)
+function [ah,ha,bh,th,H]=plotstuff(reg,lox,fozo,fi,L,index)
 % Number of basis function to show
 defval('np',12)
 % Legend location
-defval('lox','ll')
+defval('lox','ul')
 % Tick mark switching option
 defval('swti','no')
 % Axis expansion
@@ -72,6 +70,8 @@ end
 [dems,dels]=addmon(L);
 
 infl=1;
+[V,C,~,~,~]=localization(L,reg,[],np*infl);
+defval('XY',reg)
 % Modify to do only partial reconstruction to save time
 r=NaN([181 361 np]);
 if L>48
@@ -79,14 +79,14 @@ if L>48
       'Expanding spherical harmonics up to degree %i',L));
 end
 % Get a file with the harmonics to reuse
-[r(:,:,1),~,~,Plm]=plm2xyz(lmcosi,degres,[],[],[],c11);
+[r(:,:,1),~,~,Plm]=plm2xyz([dels dems C{1}],1);
 whichone=1+(index-1)*infl;
 if L>48
     waitbar(index/12,h)
 end
 if index>1
 % In the next line should expand only in the region to save time
-r(:,:,index)=plm2xyz(lmcosi,degres,[c11 cmn],[],[],c11)
+r(:,:,index)=plm2xyz([dels dems C{whichone}],1,[],[],[],Plm);
 end
 ka=swl*r(:,:,index);
 % Use setnans for this, rather
@@ -100,7 +100,7 @@ imagefnan([0 90-100*eps],[360 -90],ka,cola,sax)
 axis image
 set(ah,'FontSize',fozo-2)
 
-[~,pc]=plotcont;
+[axl,pc]=plotcont;
 axis([0 360 -90 90])
 set(pc,'Linew',0.5);
 t{index}=sprintf('%s = %i','\alpha',whichone);
