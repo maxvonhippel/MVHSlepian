@@ -15,6 +15,7 @@ n = ((L+1)^2) * Ao4p;
 % Run glmalpha
 J=max(int8(n), 1);
 [G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
+
 % Reorder
 [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
@@ -27,7 +28,7 @@ kelicol
 
 defval('par',1)
 defval('fi',0)
-[ah,ha,~,~,H]=plotstuff(iceland(0,1),[],'ll',[],[],[],9,1,L);
+[ah,ha,~,~,H]=plotstuff(iceland(0,1),V,lmcosi,degres,[],[],[],[],[],9,L);
 set(ah,'xlim',cmn)
 set(ah,'ylim',c11)
 set(ah,'XTick',cmn,'XTickLabel',cmn,...
@@ -43,11 +44,11 @@ varargout=varns(1:nargout);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [ah,ha,bh,th,H]=plotstuff(reg,XY,lox,swti,num,swl,fozo,fi,L)
+function [ah,ha,bh,th,H]=plotstuff(reg,V,lmcosi,degres,XY,lox,swti,num,swl,fozo,fi,L,index)
 % Number of basis function to show
 defval('np',12)
 % Legend location
-defval('lox','ul')
+defval('lox','ll')
 % Tick mark switching option
 defval('swti','no')
 % Axis expansion
@@ -60,6 +61,8 @@ defval('fozo',11)
 defval('fi',0);
 % Bandwidth
 defval('L',18)
+% Index to draw
+defval('index',1)
 
 if fi==0
   [ah,ha,H]=krijetem(subnum(4,3));
@@ -68,52 +71,43 @@ else
 end
 [dems,dels]=addmon(L);
 
-infx=30;
 infl=1;
-[V,C,~,~,XYZ]=localization(L,reg,[],np*infl);
-defval('XY',XYZ)
-
-% If it's all oceans, plot every  fifth eigenfunction or so
-
 % Modify to do only partial reconstruction to save time
-r=repmat(NaN,[181 361 np]);
+r=NaN([181 361 np]);
 if L>48
   h=waitbar(0,sprintf(...
       'Expanding spherical harmonics up to degree %i',L));
 end
 % Get a file with the harmonics to reuse
-[r(:,:,1),lor,lar,Plm]=plm2xyz([dels dems C{1}],1);
-for index=1:np
-  whichone=1+(index-1)*infl;
-  if L>48
+[r(:,:,1),~,~,Plm]=plm2xyz(lmcosi,degres,[],[],[],c11);
+whichone=1+(index-1)*infl;
+if L>48
     waitbar(index/12,h)
-  end
-  if index>1
-    % In the next line should expand only in the region to save time
-    r(:,:,index)=plm2xyz([dels dems C{whichone}],1,[],[],[],Plm);
-  end
-  ka=swl*r(:,:,index);
-  % Use setnans for this, rather
-  ka=ka/max(max(abs(ka)));
-  ka(abs(ka)<0.01)=NaN;
-  axes(ah(index))
-  sax=[-1 1];
-  cola='kelicol';
-  imagefnan([0 90-100*eps],[360 -90],ka,cola,sax)
-  xtix=[0:90:360];
-  ytix=[-90:45:90];
-
-  axis image
-  set(ah,'FontSize',fozo-2)
-
-  [axl,pc]=plotcont;
-  axis([0 360 -90 90])
-  set(pc,'Linew',0.5);
-  t{index}=sprintf('%s = %i','\alpha',whichone);
-  title(sprintf('%s = %.13g','\lambda',V(whichone)));
-  % Box labeling
-  [bh(index),th(index)]=boxtex(lox,ah(index),t{index},fozo,[],[],1.1,0.8,1.2);
 end
+if index>1
+% In the next line should expand only in the region to save time
+r(:,:,index)=plm2xyz(lmcosi,degres,[c11 cmn],[],[],c11)
+end
+ka=swl*r(:,:,index);
+% Use setnans for this, rather
+ka=ka/max(max(abs(ka)));
+ka(abs(ka)<0.01)=NaN;
+axes(ah(index))
+sax=[-1 1];
+cola='kelicol';
+imagefnan([0 90-100*eps],[360 -90],ka,cola,sax)
+
+axis image
+set(ah,'FontSize',fozo-2)
+
+[~,pc]=plotcont;
+axis([0 360 -90 90])
+set(pc,'Linew',0.5);
+t{index}=sprintf('%s = %i','\alpha',whichone);
+title(sprintf('%s = %.13g','\lambda',V(whichone)));
+% Box labeling
+[bh(index),th(index)]=boxtex(lox,ah(index),t{index},fozo,[],[],1.1,0.8,1.2);
+
 longticks(ah)
 set(ah,'xgrid','off','ygrid','off')
 
