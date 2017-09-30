@@ -17,7 +17,7 @@ cmn=[-12.9199 63.0748];
 [Ao4p,~]=spharea(c11,cmn);
 n = ((L+1)^2) * Ao4p;
 % Get the kernelc
-[Klmlmp,XY]=kernelc(L,iceland(0,1));
+[Klmlmp,XY]=kernelc(L,reg);
 % Run glmalpha
 J=max(int8(n), 1);
 [G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
@@ -28,9 +28,7 @@ data=plotplm(lmcosi,[],[],4,1);
 
 [ah,ha,H]=krijetem(subnum(3,4));
 
-infl=1;
-[~,C,~,~,~]=localization(L,reg,[],np*infl);
-defval('XY',reg)
+[~,C,~,~,~]=localization(L,reg,[],np);
 % Modify to do only partial reconstruction to save time
 r=NaN([181 361 np]);
 if L>48
@@ -39,7 +37,7 @@ if L>48
 end
 % Get a file with the harmonics to reuse
 [r(:,:,1),~,~,Plm]=plm2xyz([dels dems C{1}],1);
-whichone=1+(index-1)*infl;
+whichone=1+(index-1);
 if L>48
     waitbar(index/12,h)
 end
