@@ -19,15 +19,14 @@ J=max(int8(n), 1);
 [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 data=plotplm(lmcosi,[],[],4,1);
-[ah,~,~,~,~]=plotstuff(iceland(0,1),1,L,V);
+[ah,~,~,~,~]=plotstuff(iceland(0,1),L,V);
 set(ah,'xlim',cmn)
 set(ah,'ylim',c11)
 set(ah,'XTick',cmn,'XTickLabel',cmn,...
 	 'YTick',c11,'YTickLabel',c11)
-% nolabels(ah(1:8),1); nolabels(ha(4:12),2); deggies(ah)
-% serre(H,1/3,'across')
-% serre(H',1/3,'down')
-% set(ah,'camerav',8)
+serre(H,1/3,'across')
+serre(H',1/3,'down')
+set(ah,'camerav',8)
 
 % Prepare outputs
 varns={G,V,data,N,GM2AL,MTAP,IMTAP,Klmlmp};
@@ -35,7 +34,7 @@ varargout=varns(1:nargout);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [ah,ha,bh,th,H]=plotstuff(reg,fi,L,V)
+function [ah,ha,bh,th,H]=plotstuff(reg,L,V)
 % Number of basis function to show
 defval('np',12)
 % Legend location
@@ -49,7 +48,7 @@ defval('swl',1)
 % Font Size
 defval('fozo',6)
 % Panel geometry
-defval('fi',0);
+defval('fi',1);
 % Bandwidth
 defval('L',18)
 % Index to draw
@@ -102,17 +101,6 @@ title(sprintf('%s = %.13g','\lambda',V(whichone)));
 longticks(ah)
 set(ah,'xgrid','off','ygrid','off')
 
-if fi==0
-  nolabels(ah(1:9),1)
-  nolabels(ha(5:12),2)
-  serre(ah(1:3),1/2,'across')
-  serre(ah(4:6),1/2,'across')
-  serre(ah(7:9),1/2,'across')
-  serre(ah(10:12),1/2,'across')
-  serre(ha(1:4),2/3,'down')
-  serre(ha(5:8),2/3,'down')
-  serre(ha(9:12),2/3,'down')
-end
 seemax(ah,3) 
 fig2print(gcf,'landscape')  
 figdisp('sdwregions',sprintf('%s_%i',reg,L))
