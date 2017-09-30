@@ -58,17 +58,9 @@ set(ah,'FontSize',fozo-2)
 [axl,pc]=plotcont;
 axis([0 360 -90 90])
 set(pc,'Linew',0.5);
-t{index}=sprintf('%s = %i','\alpha',whichone);
 title(sprintf('%s = %.13g','\lambda',V(whichone)));
-% Box labeling
-[bh(index),th(index)]=boxtex('ll',ah(index),t{index},fozo,[],[],1.1,0.8,1.2);
-
 longticks(ah)
 set(ah,'xgrid','off','ygrid','off')
-
-seemax(ah,3) 
-fig2print(gcf,'landscape')  
-figdisp('sdwregions',sprintf('%s_%i',reg,L))
 
 set(ah,'xlim',cmn)
 set(ah,'ylim',c11)
