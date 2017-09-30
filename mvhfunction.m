@@ -5,36 +5,6 @@ function varargout=mvhfunction(L)
 % The Iceland.mat file I use is built out of a ShapeFile my good friend
 % Vivian Arriaga, a GIS major at ASU, made for me: varriag1@asu.edu
 
-% For iceland:
-c11=[-25.2246 66.861];
-cmn=[-12.9199 63.0748];
-[Ao4p,~]=spharea(c11,cmn);
-n = ((L+1)^2) * Ao4p;
-% Get the kernelc
-[Klmlmp,XY]=kernelc(L,iceland(0,1));
-% Run glmalpha
-J=max(int8(n), 1);
-[G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
-% Reorder
-[~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
-lmcosi(2*length(lmcosi)+ronm)=G(:,1);
-data=plotplm(lmcosi,[],[],4,1);
-[ah,~,~,~,~]=plotstuff(iceland(0,1),L,V);
-set(ah,'xlim',cmn)
-set(ah,'ylim',c11)
-set(ah,'XTick',cmn,'XTickLabel',cmn,...
-	 'YTick',c11,'YTickLabel',c11)
-serre(H,1/3,'across')
-serre(H',1/3,'down')
-set(ah,'camerav',8)
-
-% Prepare outputs
-varns={G,V,data,N,GM2AL,MTAP,IMTAP,Klmlmp};
-varargout=varns(1:nargout);
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [ah,ha,bh,th,H]=plotstuff(reg,L,V)
 % Number of basis function to show
 defval('np',12)
 % Legend location
@@ -53,6 +23,22 @@ defval('fi',1);
 defval('L',18)
 % Index to draw
 defval('index',1)
+reg=iceland(0,1);
+
+% For iceland:
+c11=[-25.2246 66.861];
+cmn=[-12.9199 63.0748];
+[Ao4p,~]=spharea(c11,cmn);
+n = ((L+1)^2) * Ao4p;
+% Get the kernelc
+[Klmlmp,XY]=kernelc(L,iceland(0,1));
+% Run glmalpha
+J=max(int8(n), 1);
+[G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
+% Reorder
+[~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
+lmcosi(2*length(lmcosi)+ronm)=G(:,1);
+data=plotplm(lmcosi,[],[],4,1);
 
 if fi==0
   [ah,ha,H]=krijetem(subnum(4,3));
@@ -104,3 +90,15 @@ set(ah,'xgrid','off','ygrid','off')
 seemax(ah,3) 
 fig2print(gcf,'landscape')  
 figdisp('sdwregions',sprintf('%s_%i',reg,L))
+
+set(ah,'xlim',cmn)
+set(ah,'ylim',c11)
+set(ah,'XTick',cmn,'XTickLabel',cmn,...
+	 'YTick',c11,'YTickLabel',c11)
+serre(H,1/3,'across')
+serre(H',1/3,'down')
+set(ah,'camerav',8)
+
+% Prepare outputs
+varns={G,V,data,N,GM2AL,MTAP,IMTAP,Klmlmp};
+varargout=varns(1:nargout);
