@@ -5,7 +5,6 @@ function varargout=mvhfunction(L)
 % The Iceland.mat file I use is built out of a ShapeFile my good friend
 % Vivian Arriaga, a GIS major at ASU, made for me: varriag1@asu.edu
 np=12;
-num=40;
 swl=1;
 index=1;
 reg=iceland(0,1);
@@ -26,7 +25,7 @@ J=max(int8(n), 1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 data=plotplm(lmcosi,[],[],4,1);
 
-[ah,ha,H]=krijetem(subnum(3,4));
+[ah,~,H]=krijetem(subnum(3,4));
 
 [~,C,~,~,~]=localization(L,reg,[],np);
 % Modify to do only partial reconstruction to save time
@@ -55,7 +54,7 @@ imagefnan([0 90-100*eps],[360 -90],ka,'kelicol',[-1 1])
 axis image
 set(ah,'FontSize',fozo-2)
 
-[axl,pc]=plotcont;
+[~,pc]=plotcont;
 axis([0 360 -90 90])
 set(pc,'Linew',0.5);
 title(sprintf('%s = %.13g','\lambda',V(whichone)));
