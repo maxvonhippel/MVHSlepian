@@ -4,26 +4,12 @@ function varargout=mvhfunction(L)
 % n: the max number of slepian functions to optimize L for
 % The Iceland.mat file I use is built out of a ShapeFile my good friend
 % Vivian Arriaga, a GIS major at ASU, made for me: varriag1@asu.edu
-
-% Number of basis function to show
-defval('np',12)
-% Legend location
-defval('lox','ll')
-% Tick mark switching option
-defval('swti','no')
-% Axis expansion
-defval('num',40)
-% Data exaggeration
-defval('swl',1)
-% Font Size
-defval('fozo',6)
-% Panel geometry
-defval('fi',1);
-% Bandwidth
-defval('L',18)
-% Index to draw
-defval('index',1)
+np=12;
+num=40;
+swl=1;
+index=1;
 reg=iceland(0,1);
+fozo=6;
 
 % For iceland:
 c11=[-25.2246 66.861];
@@ -36,16 +22,11 @@ n = ((L+1)^2) * Ao4p;
 J=max(int8(n), 1);
 [G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
 % Reorder
-[~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
+[dems,dels,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 data=plotplm(lmcosi,[],[],4,1);
 
-if fi==0
-  [ah,ha,H]=krijetem(subnum(4,3));
-else
-  [ah,ha,H]=krijetem(subnum(3,4));
-end
-[dems,dels]=addmon(L);
+[ah,ha,H]=krijetem(subnum(3,4));
 
 infl=1;
 [~,C,~,~,~]=localization(L,reg,[],np*infl);
@@ -82,7 +63,7 @@ set(pc,'Linew',0.5);
 t{index}=sprintf('%s = %i','\alpha',whichone);
 title(sprintf('%s = %.13g','\lambda',V(whichone)));
 % Box labeling
-[bh(index),th(index)]=boxtex(lox,ah(index),t{index},fozo,[],[],1.1,0.8,1.2);
+[bh(index),th(index)]=boxtex('ll',ah(index),t{index},fozo,[],[],1.1,0.8,1.2);
 
 longticks(ah)
 set(ah,'xgrid','off','ygrid','off')
