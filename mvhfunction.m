@@ -19,7 +19,10 @@ J=max(int8(n), 1);
 % Reorder
 [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
 lmcosi(2*length(lmcosi)+ronm)=G(:,1);
-data=plotplm(lmcosi,[],[],5,0.01);
+data=plotplm(lmcosi,[],[],5,0.1);
+kelicol
+caxis([-max(abs(reshape(peaks,[],1))) max(abs(reshape(peaks,[],1)))]);
+colorbar
 % PLOTPLM(lmcosi,[],[],meth,degres,th0,sres,cax)
 % Prepare outputs
 varns={G,V,data,N,GM2AL,MTAP,IMTAP,Klmlmp};
