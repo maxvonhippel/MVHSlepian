@@ -25,24 +25,25 @@ lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 % Now get the monthly grace data
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','POT',0);
 % Project it into Slepians
-% [slepcoffs,calerrors,thedates,TH,G,CC,V]=grace2slept(...
-%     'CSRRL05',reg,0,L,0,0,0,'N','POT',1);
+[slepcoffs,calerrors,thedates,TH,G,CC,V,N]=grace2slept(...
+    'CSRRL05','iceland',1,L,[],[],[],'N','POT',1);
 
 % Make a nice plot
-data=plotplm(lmcosi,[],[],5,degres);
+% data=plotplm(lmcosi,[],[],5,degres);
 [r,lon,lat,Plm]=plm2xyz(lmcosi,degres);
 indeks1 = repmat(lon,length(1:90),1);
 indeks2 = repmat(lat(1:90)',1,length(lon));
 figure
 axesm('mercator','Origin',[70 318 0],...
-     'FLatLimit',[-20 20],...
-     'FLonLimit',[-20 20]);
+     'FLatLimit',[-7 1],...
+     'FLonLimit',[4 14]);
 axis off; framem on; gridm on; tightmap
-geoshow(indeks2,indeks1,data,'DisplayType','texturemap')
+geoshow(indeks2,indeks1,lmcosi,'DisplayType','texturemap')
+geoshow(XY(:,2),XY(:,1),'DisplayType','line')
 kelicol
 caxis([-max(abs(reshape(peaks,[],1))) max(abs(reshape(peaks,[],1)))]);
 colorbar
 
 % Prepare outputs
-varns={G,V,data,N,GM2AL,MTAP,IMTAP,Klmlmp};
+varns={G,V,lmcosi,N,GM2AL,MTAP,IMTAP,Klmlmp};
 varargout=varns(1:nargout);
