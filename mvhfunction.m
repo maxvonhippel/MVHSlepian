@@ -5,11 +5,9 @@ function varargout=mvhfunction(L, degres)
 % The Iceland.mat file I use is built out of a ShapeFile my good friend
 % Vivian Arriaga, a GIS major at ASU, made for me: varriag1@asu.edu
 reg=iceland(0,1);
-
 % For iceland:
 c11=[-25.2246 66.861];
 cmn=[-12.9199 63.0748];
-c11cmn=[-25.2246 66.861 -12.9199 63.0748];
 [Ao4p,~]=spharea(c11,cmn);
 n = ((L+1)^2) * Ao4p;
 % Get the kernelc
@@ -26,13 +24,13 @@ lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','POT',0);
 % Project it into Slepians
 [slepcoffs,calerrors,thedates,TH,G,CC,V,N]=grace2slept(...
-    'CSRRL05','iceland',1,L,[],[],[],'N','POT',1);
+    'CSRRL05','iceland',1,L,0,0,0,J,'POT',1);
 
 % Make a nice plot
 % data=plotplm(lmcosi,[],[],5,degres);
 [r,lon,lat,Plm]=plm2xyz(lmcosi,degres);
-indeks1 = repmat(lon,length(1:90),1);
-indeks2 = repmat(lat(1:90)',1,length(lon));
+indeks1=repmat(lon,length(1:90),1);
+indeks2=repmat(lat(1:90)',1,length(lon));
 figure
 axesm('mercator','Origin',[70 318 0],...
      'FLatLimit',[-7 1],...
