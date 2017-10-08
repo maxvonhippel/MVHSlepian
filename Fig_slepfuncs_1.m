@@ -61,9 +61,6 @@ end
 %%%
 % PLOTTING
 %%%
-
-% Figure 1
-% Figure of Slepian Functions for Greenland for the chosen bandwidth
 figure
 ah1=krijetem(subnum(3,3));
 fig2print(gcf,'landscape')
@@ -99,13 +96,14 @@ for panel=1:9
     geoshow(XY1(:,2),XY1(:,1),'DisplayType','line')
     caxis([-max(abs(reshape(peaks,[],1))) max(abs(reshape(peaks,[],1)))]);
     [Int,A,miniK,XY]=plm2avg(CC{panel},XY);
-    if XYbuffer ~= 0, linem(XY(:,1),XY(:,2),'color','white','linestyle','--'); end
-    t=title(['alpha=1, lambda_1 = ' num2str(V(panel),3) ', Avg Val= ' num2str(A,3)]);
+    if XYbuffer ~= 0, linem(XY(:,1),XY(:,2),...
+            'color','white','linestyle','--'); end
+    t=title(['alpha=1, lambda_1 = ' num2str(V(panel),3)...
+        ', Avg Val= ' num2str(A,3)]);
     P=get(t,'position');
     P(2)=P(2)*1.05;
     set(t,'position',P);
 end
 
-%   Color code everything
 kelicol
-colorbar 
+colorbar('location','Manual', 'position', [0.93 0.1 0.02 0.81]);
