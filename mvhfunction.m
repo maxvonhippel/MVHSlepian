@@ -7,22 +7,89 @@ function varargout=mvhfunction(L, degres)
 
 % degres must be >= 1
 % for example, mvhfunction(4,1) should work
+defval('L',60);
+defval('TH',{'iceland' 0.5});
+defval('pars',10);
+defval('phi',0);
+defval('theta',0);
+defval('omega',0);
+defval('J',(L+1)^2);
+defval('K',19);
+defval('rotb',1);
 
-reg=iceland(0,1);
-% For iceland:
-c11=[-25.2246 66.861];
-cmn=[-12.9199 63.0748];
-[Ao4p,~]=spharea(c11,cmn);
-n = ((L+1)^2) * Ao4p;
-% Get the kernelc
-[Klmlmp,XY]=kernelc(L,reg);
-% Run glmalpha
-N=int8(n);
-J=max(N, 1);
-[G,V,~,~,N,GM2AL,MTAP,IMTAP]=glmalpha(XY,L,1,[],[],[],J,0);
-% Reorder
-[~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(sqrt(length(G))-1);
-lmcosi(2*length(lmcosi)+ronm)=G(:,1);
+XYbuffer=TH{2};
+dom=TH{1};
+eval(sprintf('XY=%s(10,%f);',dom,XYbuffer));
+[~,~,~,lmcosiW,~,~,~,~,~,ronmW]=addmon(L);
+% Get the Slepian basis; definitely not block-sorted as for the rotated
+% versions this will make no sense at all anymore
+[G,V,EL,EM,N,GM2AL,MTAP,IMTAP]=glmalpha(TH,L,[],0,[],[],J);
+% Sort by decreasing eigenvalue
+[V,vi]=sort(V,'descend');
+G=G(:,vi); if ~isnan(MTAP); MTAP=MTAP(vi); end
+% Collect the eigenvector output into a format that PLM2XYZ knows how to interpret
+for j=1:size(G,2)
+   % Create the blanks
+   cosi=lmcosiW(:,3:4);
+   % Stick in the coefficients of the 1st eigentaper
+   cosi(ronmW)=G(:,j);
+   % Construct the full matrix
+   CC{j} = [lmcosiW(:,1:2) cosi]; 
+end
+% Expand eigenfunctions into space
+for i=1:K
+    [r{i},lon,lat]=plm2xyz(CC{i},1);
+end
+[dems,dels,mz,lmc,mzin]=addmon(L);
+%%%
+% PLOTTING
+%%%
+figure
+ah1=krijetem(subnum(3,3));
+fig2print(gcf,'landscape')
+  
+%Main top text
+axes('position',[0,0,1,1]);  % Define axes for the text.
+% In this case, the axes are for the entire page.
+% Write some text: 
+htext = text(.5,0.98,['Functions from PLM2SLEP:  dom = '...
+    num2str(dom) '+' num2str(XYbuffer) 'buffer, Lwindow = '...
+    num2str(L)], 'FontSize', 12  );
+% Specify that the coordinates provided above are for the middle
+% of the text string: 
+set(htext,'HorizontalAlignment','center');
+set(gca,'Visible','off');
+
+% The integrals here are expressed as fractional sphere area
+
+indeks1=repmat(lon,length(1:181),1);
+indeks2=repmat(lat(1:181)',1,length(lon));
+XY2=greenland(0,0);
+XY1=iceland(0,0);
+for panel=1:9
+%   Current subplot axes
+    axes(ah1(panel));
+    ah1(panel)=axesm('mercator','Origin',[70 318 0],...
+     'FLatLimit',[-20 20],...
+     'FLonLimit',[-20 20]);
+    geoshow(indeks2,indeks1,r{panel}(1:181,:),'DisplayType','texturemap')
+    % Draw greenland
+    geoshow(XY2(:,2),XY2(:,1),'DisplayType','line')
+    % Draw iceland
+    geoshow(XY1(:,2),XY1(:,1),'DisplayType','line')
+    caxis([-max(abs(reshape(peaks,[],1))) max(abs(reshape(peaks,[],1)))]);
+    [Int,A,miniK,XY]=plm2avg(CC{panel},XY);
+    if XYbuffer ~= 0, linem(XY(:,1),XY(:,2),...
+            'color','white','linestyle','--'); end
+    t=title(['alpha=1, lambda_1 = ' num2str(V(panel),3)...
+        ', Avg Val= ' num2str(A,3)]);
+    P=get(t,'position');
+    P(2)=P(2)*1.05;
+    set(t,'position',P);
+end
+
+kelicol
+colorbar('location','Manual', 'position', [0.93 0.1 0.02 0.81]);
 
 % Now get the monthly grace data
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','POT',0);
@@ -30,32 +97,6 @@ lmcosi(2*length(lmcosi)+ronm)=G(:,1);
 [slepcoffs,calerrors,thedates,TH,G,CC,V,N]=grace2slept(...
     'CSRRL05','iceland',1,L,0,0,0,J,'POT',1);
 
-% Make a nice plot
-% data=plotplm(lmcosi,[],[],5,degres);
-[r,lon,lat,Plm]=plm2xyz(lmcosi,degres);
-% plotplm(lmcosi,[],[],4,1)
-indeks1=repmat(lon,length(1:181),1);
-indeks2=repmat(lat(1:181)',1,length(lon));
-figure
-% axesm('mercator','Origin',[70 318 0],...
-%      'FLatLimit',[-7 1],...
-%      'FLonLimit',[4 14]);
-axesm('mercator','Origin',[70 318 0],...
-     'FLatLimit',[-20 20],...
-     'FLonLimit',[-20 20]);
-axis off; framem on; gridm on; tightmap
-geoshow(indeks2,indeks1,r,'DisplayType','texturemap')
-% Get border of greenland and iceland
-XY2=greenland(0,0);
-XY1=iceland(0,0);
-% Draw greenland
-geoshow(XY2(:,2),XY2(:,1),'DisplayType','line')
-% Draw iceland
-geoshow(XY1(:,2),XY1(:,1),'DisplayType','line')
-kelicol
-caxis([-max(abs(reshape(peaks,[],1))) max(abs(reshape(peaks,[],1)))]);
-colorbar
-
 % Prepare outputs
-varns={G,V,lmcosi,N,GM2AL,MTAP,IMTAP,Klmlmp};
+varns={G,V,lmcosiW,dems,dels,mz,lmc,mzin};
 varargout=varns(1:nargout);
