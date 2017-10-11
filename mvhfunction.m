@@ -95,8 +95,11 @@ colorbar('location', 'Manual', 'position', [0.93 0.1 0.02 0.81]);
 % Now get the monthly grace data
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR', 'RL05', 'POT', 0);
 % Project it into Slepians
-[slepcoffs,calerrors,thedates,TH,G,CC,V,N]=grace2slept(...
+[slept,cal_errors,thedates,TH,G,CC,V,N]=grace2slept(...
     'CSRRL05', 'iceland', 1, L, 0, 0, 0, J, 'POT', 1);
+[dems,dels,mz,lmcosi,mzi,mzo,bigm,bigl,rinm,ronm,demin] = addmon(L);
+% Reference the following script:
+% https://github.com/harig00/Harigit/blob/026e270e0c5ca2b21ddcb92f48d79c1d5bc65bb9/hs12totaltrend.m
 
 % Prepare outputs
 varns={G,V,lmcosiW,dems,dels,mz,lmc,mzin};
