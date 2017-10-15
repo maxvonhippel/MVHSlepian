@@ -4,6 +4,11 @@ function varargout=mvhfunction(L)
 % The Iceland.mat file I use is built out of a ShapeFile my good friend
 % Vivian Arriaga, a GIS major at ASU, made for me: varriag1@asu.edu
 
+% See the following:
+% SyntheticExperiments.m
+% SyntheticCaseA.m
+% slept2resid_fgls.m
+
 defval('L',60);
 defval('TH',{'iceland' 0.5});
 defval('pars',10);
@@ -97,10 +102,17 @@ colorbar('location', 'Manual', 'position', [0.93 0.1 0.02 0.81]);
 % Project it into Slepians
 [slept,cal_errors,thedates,TH,G,CC,V,N]=grace2slept(...
     'CSRRL05', 'iceland', 1, L, 0, 0, 0, J, 'POT', 1);
-[dems,dels,mz,lmcosi,mzi,mzo,bigm,bigl,rinm,ronm,demin] = addmon(L);
-% Reference the following script:
-% https://github.com/harig00/Harigit/blob/026e270e0c5ca2b21ddcb92f48d79c1d5bc65bb9/hs12totaltrend.m
-
+% Next run SLEPT2RESID to fit a choice of functions (e.g. lines, 
+% quadratics, etc.) to the Slepian coefficients.
+N=max(round((L+1)^2*spharea(TH)),1);
+[ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,totalparams,...
+    totalparamerrors,totalfit,functionintegrals,alphavar]=...
+        slept2resid(slept,thedates,[3 365.0 182.5],...
+                    [],[],CC(1:N),TH);
+figure
+% axesm('mercator','Origin', [70 318 0],'FLatLimit',[-20 20],...
+%                  'FLonLimit',[-20 20]);
+% geoshow(indeks2, indeks1, ESTsignal,'DisplayType', 'texturemap')              
 % Prepare outputs
 varns={G,V,lmcosiW,dems,dels,mz,lmc,mzin};
 varargout=varns(1:nargout);
