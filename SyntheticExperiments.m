@@ -26,28 +26,27 @@ function varargout=SyntheticExperiments(myCase)
 
 % Top level directory
 % For Chris
-IFILES=getenv('IFILES');
+%IFILES=getenv('IFILES');
 % For FJS, who has a different $IFILES
 %IFILES='/u/charig/Data/';
 
 defval('myCase','C');
-defval('xver',0);
+defval('xver',0)
 defval('TH','greenland');
 defval('THS','greenland');
-defval('Pcenter','CSR');
-defval('Ldata',60);
-defval('Signal',200); % Gt/yr
+defval('Pcenter','CSR')
+defval('Ldata',60)
+defval('Signal',200) % Gt/yr
 defval('pars',10);
-defval('wantnoise',0);
+defval('wantnoise',0)
 defval('Ls',[60]);
 defval('thebuffers',[0.5]);
 defval('truncations',[0]);
-defval('Rlevel','RL05');
 
 % INITIALIZE
 
 % Get data
-[potcoffs,cal_errors,thedates] = grace2plmt(Pcenter,Rlevel,'SD');
+[potcoffs,cal_errors,thedates] = grace2plmt(Pcenter,'SD');
 nmonths=length(thedates);
 % Find the noise
 [ESTresid]=plmt2resid(potcoffs,thedates,[1 1 365.0],cal_errors);

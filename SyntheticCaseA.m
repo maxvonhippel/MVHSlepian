@@ -55,8 +55,7 @@ defval('truncations',[-2 -1 0 1 2]);
 
 % We should run this in parallel to make it faster.  The parallel part here
 % is done in plm2avgp where we calculate Slepian function integrals.
-delete(gcp('nocreate'));
-parpool;
+matlabpool open
 
 % Decompose the covariance matrix
 disp('Decomposing the covariance...')
