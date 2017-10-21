@@ -55,10 +55,18 @@ end
 tic;
 switch myCase
     case 'A'
+      % Geoboxcap for dom (eg Iceland), run recovery, see what we get
       allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations);
+    case 'AA'
+      % A but with synthetic noise
+      disp('Case AA not yet implemented');
     case 'B'
-      disp('Case B not yet implemented');
+      % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
+      disp('Case BB not yet implemented');
     case 'C'
+      % Use actual noise from dom1 (eg Greenland) to recover dom2 (eg Iceland)
+      % (unless this is currently implemented to do something else?)
+      % (I don't have SyntheticCaseC script ...)
       allslopes = SyntheticCaseC(Clmlmp,thedates,Ls,thebuffers,truncations);
     case 'D'
       disp('Case D not yet implemented');
