@@ -45,8 +45,9 @@ nmonths = length(thedates);
 [Clmlmp,Clmlmpr,Clmlmpd,EL,EM] = plmresid2cov(ESTresid,Ldata,[]);
 % The critical line that is returning []
 T = cholcov(Clmlmp);
-if T==[]
+if isempty(T)
   disp('Empty covariance matrix, something is wrong.');
+  return
 end
 
 %%%
