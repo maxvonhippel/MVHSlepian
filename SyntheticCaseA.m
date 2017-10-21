@@ -30,7 +30,8 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 %
 % SEE ALSO: SYNTHETICEXPERIMENTS
 %
-% Last modified by charig-at-princeton.edu on 6/22/2012
+% Modified by charig-at-princeton.edu on 6/22/2012
+% Last modified by maxvonhippel-at-email.arizon.edu on 10/21/2017
 
 
 %%%
@@ -49,11 +50,12 @@ defval('truncations',[-2 -1 0 1 2]);
 
 % We should run this in parallel to make it faster.  The parallel part here
 % is done in plm2avgp where we calculate Slepian function integrals.
+% Delete any existing pool before launching a new one to avoid errors.
 delete(gcp('nocreate'));
 parpool;
 
 % Decompose the covariance matrix
-disp('Decomposing the covariance...')
+disp('Decomposing the covariance...');
 T = cholcov(Clmlmp);
 [n,m] = size(T);
 
@@ -62,8 +64,8 @@ if xver
     % Generate a lot of data that averages to the correct covariance 
     % (aside from random variation).
     SYNClmlmp = cov(randn(10000,n)*T);
-    Clmlmp(1:10,1:10)
-    SYNClmlmp(1:10,1:10)
+    Clmlmp(1:10,1:10);
+    SYNClmlmp(1:10,1:10);
 end
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
