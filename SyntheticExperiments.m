@@ -1,4 +1,4 @@
-function varargout=SyntheticExperiments(myCase)
+function varargout=SyntheticExperiments(myCase, dom)
 % []=SYNTHETICEXPERIMENTS(Case)
 %
 % This function runs one of several synthetic experiments to recover a 
@@ -11,24 +11,16 @@ function varargout=SyntheticExperiments(myCase)
 %           B - 
 %           C -  
 %
-% OUTPUT:
-%
+% OUTPUT: none
 % 
-%
 % SEE ALSO: SYNTHETICCASEA
 %
-% Last modified by charig-at-princeton.edu on 6/25/2012
-
+% Modified by charig-at-princeton.edu on 6/25/2012
+% Last modified by maxvonhippel-at-email.arizona.edu on 21/10/2017
 
 %%%
 % INITIALIZE
 %%%
-
-% Top level directory
-% For Chris
-%IFILES=getenv('IFILES');
-% For FJS, who has a different $IFILES
-%IFILES='/u/charig/Data/';
 
 defval('myCase','C');
 defval('xver',0);
@@ -44,37 +36,37 @@ defval('Ls',[60]);
 defval('thebuffers',[0.5]);
 defval('truncations',[0]);
 
-% INITIALIZE
-
 % Get data
 [potcoffs,cal_errors,thedates] = grace2plmt(Pcenter,Rlevel,'SD',1);
-nmonths=length(thedates);
+nmonths = length(thedates);
 % Find the noise
-[ESTresid]=plmt2resid(potcoffs,thedates,[1 1 365.0],cal_errors);
+[ESTresid] = plmt2resid(potcoffs,thedates,[1 1 365.0],cal_errors);
 % Find the noise covariance
-[Clmlmp,Clmlmpr,Clmlmpd,EL,EM]=plmresid2cov(ESTresid,Ldata,[]);
+[Clmlmp,Clmlmpr,Clmlmpd,EL,EM] = plmresid2cov(ESTresid,Ldata,[]);
 % The critical line that is returning []
 T = cholcov(Clmlmp);
-
+if T==[]
+  disp('Empty covariance matrix, something is wrong.');
+end
 
 %%%
 % RUN THE CASES
 %%%
-
+tic;
 switch myCase
     case 'A'
-        tic;
-        allslopes=SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations);
-        casetime=toc;
-        disp(['Elapsed time for this case was ' num2str(casetime) ' seconds']);
+      allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations);
     case 'B'
-        
+      disp('Case B not yet implemented');
     case 'C'
-        %tic;
-        allslopes=SyntheticCaseC(Clmlmp,thedates,Ls,thebuffers,truncations);
-        %casetime=toc;
-        %disp(['Elapsed time for this case was ' num2str(casetime) ' seconds']);
+      allslopes = SyntheticCaseC(Clmlmp,thedates,Ls,thebuffers,truncations);
+    case 'D'
+      disp('Case D not yet implemented');
+    otherwise
+      disp('Invalid case name. Try A, B, C, or D.');
 end
+casetime = toc;
+disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 
 
 
@@ -95,19 +87,20 @@ end
   
 % Save relevant data for use in something like GMT
 
-for h=1:length(truncations)
-   mydata=reshape(allslopes{h},length(i),length(j));
+for h = 1:length(truncations)
+   mydata = reshape(allslopes{h},length(i),length(j));
     
-   [m,n]=size(mydata);
+   [m,n] = size(mydata);
 
-   theL=repmat(j,m,1);
-   theXYBuf=repmat(i,1,n);
-   theL=reshape(theL,m*n,1);
-   theXYBuf=reshape(theXYBuf,m*n,1);
-   mydata=reshape(mydata,m*n,1);
+   theL = repmat(j,m,1);
+   theXYBuf = repmat(i,1,n);
+   theL = reshape(theL,m*n,1);
+   theXYBuf = reshape(theXYBuf,m*n,1);
+   mydata = reshape(mydata,m*n,1);
 
    tosave1 = [theL theXYBuf mydata]';
-   fp1 = fopen(['figures/figdata/SyntheticSignalContourCASE' myCase '_N' num2str(truncations(h),'%+i') '.dat'],'wt');
+   fp1 = fopen(['figures/figdata/SyntheticSignalContourCASE' myCase ...
+               '_N' num2str(truncations(h),'%+i') '.dat'],'wt');
    fprintf(fp1,'%.5f %.5f %.5e\n',tosave1);
    fclose(fp1);
 
