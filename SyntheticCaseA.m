@@ -68,24 +68,23 @@ if xver
     SYNClmlmp(1:10,1:10);
 end
 % Get info for the data bandlimit
-[~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
-
-% Make a synthetic unit signal over Greenland
-[~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
+[~,~,~,lmcosidata,~,~,~,~,~,ronmdata] = addmon(Ldata);
+% Make a synthetic unit signal over the region
+[~,~,~,~,~,lmcosiS] = geoboxcap(120,dom,[],[],1);
 % Convert desired Gt/yr to kg
-factor1=Signal*907.1847*10^9;
-% Then get an average needed for greenland (area in meters)
+factor1 = Signal*907.1847*10^9;
+% Then get an average needed for the region (area in meters)
 factor1 = factor1/spharea(dom)/4/pi/6370000^2;
 % So now we have kg/m^2
 
 % Get relative dates to make a trend
 deltadates = thedates-thedates(1);
 % Preallocate
-lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
-fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+lmcosiSSD = zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+fullS = zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 % fullS holds the combined synthetic signal and synthetic noise
 
-counter=1;
+counter = 1;
 for k = deltadates
     % Caltulate the desired trend amount for this month, putting the mean
     % approximately in the middle (4th year)
@@ -95,7 +94,7 @@ for k = deltadates
     % Make a synthetic noise realization
     syntheticnoise = randn(1,n)*T;
     % Reorder the noise
-    temp1=lmcosidata(:,3:4);
+    temp1 = lmcosidata(:,3:4);
     temp1(ronmdata) = syntheticnoise(:);
     syntheticnoise = [lmcosidata(:,1:2) temp1];
     % Add this to the signal
@@ -106,7 +105,7 @@ for k = deltadates
        fullS(counter,:,:) = [lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
     end
     
-    counter=counter+1;
+    counter = counter+1;
 end
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
@@ -117,15 +116,13 @@ end
 % PROCESS THE BASES
 %%%
 
-counter=1;
+counter = 1;
 for L = Ls
-    for XY_buffer=buffers
-        TH=dom;
-        % Get coordinates for Greenland, which we have already
+    for XY_buffer = buffers
         TH = {dom XY_buffer};
         % Something like {'greenland' 0.5}
-        XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
-        N=round((L+1)^2*spharea(XY));
+        XY = eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
+        N = round((L+1)^2*spharea(XY));
         
         % We could use plm2slep for each month, but since we have so many
         % months, it would be much faster to load it once, and do the
@@ -134,10 +131,10 @@ for L = Ls
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
         %[G,V,EL,EM,N]=glmalpha(TH,L,[],0);
-        [~,~,~,XY,G,CC] = grace2slept('CSR','greenland',XY_buffer,L,[],[],[],[],'SD');
+        [~,~,~,XY,G,CC] = grace2slept('CSR',dom,XY_buffer,L,[],[],[],[],'SD');
         
         % Get the mapping from LMCOSI into not-block-sorted GLMALPHA
-        [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
+        [~,~,~,lmcosipad,~,~,~,~,~,ronm] = addmon(L);
   
         % Preallocate a slept
         slept = zeros(nmonths,(L+1)^2);
@@ -157,61 +154,53 @@ for L = Ls
             % If we want a specific truncation, we limit it here.
             numfun = N+truncations;
             
-            %for h=1:length(truncations)
-            %    if numfun(h) > 0
-                   falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-                   slept(k,:) = falpha;
-            %    else
-            %       slept{h} = NaN;
-            %    end
-            %end
+            falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+            slept(k,:) = falpha;
         end
-        
-                       
-        for h=1:length(truncations)
+                   
+        for h = 1:length(truncations)
            if numfun(h) > 0
               % Estimate the total mass change 
               [ESTsignal,ESTresid,ftests,extravalues,total,...
-              alphavarall,totalparams,totalparamerrors,totalfit,functionintegrals,alphavar]...
-              =slept2resid(slept,thedates,[1 365.0],[],[],CC,TH,numfun(h));
+               alphavarall,totalparams,totalparamerrors,totalfit,...
+               functionintegrals,alphavar] = slept2resid(slept,thedates,...
+                [1 365.0],[],[],CC,TH,numfun(h));
                
-              allslopes{h}(counter)=totalparams(2)*365;
+              allslopes{h}(counter) = totalparams(2)*365;
            else
-              allslopes{h}(counter)=NaN;
+              allslopes{h}(counter) = NaN;
            end
         end
         
-        counter=counter+1;
+        counter = counter+1;
         
         if xver && L==60 && XY_buffer==0.5
             keyboard
             path(path,'~/src/m_map');
             mydata = slept(11,:) - slept(1,:);
-            tempplms=[zeros(size(CC{1}(:,3:4)))];
-            for v=1:N
+            tempplms = [zeros(size(CC{1}(:,3:4)))];
+            for v = 1:N
                 tempplms = tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms = [CC{1}(:,1:2) tempplms];
             [rtotal,lon,lat]=plm2xyz(tempplms,1);
             
             figure
-            crange=[-100 25];
-            m_proj('oblique mercator','longitudes',[318 318],'latitudes',[90 50],'aspect',1.0);
-            m_pcolor(lon,lat(1:80),rtotal(1:80,:)); % 90 to 10, resolution is 1 degree
+            crange = [-100 25];
+            m_proj('oblique mercator','longitudes',[318 318],'latitudes',...
+                [90 50],'aspect',1.0);
+            % 90 to 10, resolution is 1 degree
+            m_pcolor(lon,lat(1:80),rtotal(1:80,:));
             caxis(crange);
             shading flat;
             m_grid;
             m_coast('color','w');
-
-            
-        end
-                
-        
+        end       
     end
 end
 
-matlabpool close
+% Close the parpool
+delete(gcp('nocreate'));
 
 varns={allslopes};
 varargout=varns(1:nargout);
-
