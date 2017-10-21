@@ -27,7 +27,7 @@ defval('xver',0);
 defval('TH','greenland');
 defval('THS','greenland');
 defval('Pcenter','CSR');
-defval('Rlevel','RLO5');
+defval('Rlevel','RL05');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('pars',10);
