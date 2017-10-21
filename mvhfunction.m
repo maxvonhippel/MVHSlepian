@@ -144,7 +144,7 @@ colorbar('location', 'Manual', 'position', [0.93 0.1 0.02 0.81]);
 fprintf('\nGetting & Processing GRACE Data (Step 4/6)\n');
 
 % Now get the monthly grace data
-[potcoffs, cal_errors, thedates] = grace2plmt(Pcenter, 'RL05', 'POT', 0);  
+[potcoffs, cal_errors, thedates] = grace2plmt(Pcenter, 'RL05', 'POT', 1);  
 
 % Number of months our data looks at
 defval('nmonths', length(thedates));

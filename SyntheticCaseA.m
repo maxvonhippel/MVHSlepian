@@ -1,4 +1,4 @@
-function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations)
+function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 % [allslopes]=SYNTHETICCASEA(Clmlmp,thedates,Ls,buffers,truncations)
 %
 % This function runs a synthetic experiment to recover a mass loss trend in
@@ -22,6 +22,7 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations)
 %                Shannon number, e.g. [-2 -1 0 1 2].  The Shannon number
 %                will be added to this array to end up with something like 
 %                [N-2 N-1 N N+1 N+2]
+% dom       The region. 
 % 
 % OUTPUT:
 %
@@ -36,18 +37,11 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations)
 % INITIALIZE
 %%%
 
-% Top level directory
-% For Chris
-IFILES=getenv('IFILES');
-% For FJS, who has a different $IFILES
-%IFILES='/u/charig/Data/';
-
-defval('xver',0)
+defval('xver',0);
 defval('dom','greenland');
-defval('THS','greenland');
-defval('Ldata',60)
-defval('Signal',200) % Gt/yr
-defval('wantnoise',0)
+defval('Ldata',60);
+defval('Signal',200); % Gt/yr
+defval('wantnoise',0);
 defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
@@ -55,7 +49,8 @@ defval('truncations',[-2 -1 0 1 2]);
 
 % We should run this in parallel to make it faster.  The parallel part here
 % is done in plm2avgp where we calculate Slepian function integrals.
-matlabpool open
+delete(gcp('nocreate'));
+parpool;
 
 % Decompose the covariance matrix
 disp('Decomposing the covariance...')
@@ -74,11 +69,11 @@ end
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 
 % Make a synthetic unit signal over Greenland
-[~,~,~,~,~,lmcosiS]=geoboxcap(120,THS,[],[],1);
+[~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for greenland (area in meters)
-factor1 = factor1/spharea(THS)/4/pi/6370000^2;
+factor1 = factor1/spharea(dom)/4/pi/6370000^2;
 % So now we have kg/m^2
 
 % Get relative dates to make a trend
@@ -123,7 +118,7 @@ end
 counter=1;
 for L = Ls
     for XY_buffer=buffers
-        TH=THS;
+        TH=dom;
         % Get coordinates for Greenland, which we have already
         TH = {dom XY_buffer};
         % Something like {'greenland' 0.5}
