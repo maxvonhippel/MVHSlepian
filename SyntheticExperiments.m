@@ -59,15 +59,16 @@ switch myCase
       allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations);
     case 'AA'
       % A but with synthetic noise
-      disp('Case AA not yet implemented');
+      disp('Synthetic Experiment AA not yet implemented');
     case 'B'
       % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
-      disp('Case BB not yet implemented');
+      disp('Synthetic Experiment BB not yet implemented');
     case 'C'
       % Use actual noise from dom1 (eg Greenland) to recover dom2 (eg Iceland)
       % (unless this is currently implemented to do something else?)
       % (I don't have SyntheticCaseC script ...)
-      allslopes = SyntheticCaseC(Clmlmp,thedates,Ls,thebuffers,truncations);
+      % allslopes = SyntheticCaseC(Clmlmp,thedates,Ls,thebuffers,truncations);
+      disp('Synthetic Experiment C not yet integrated into this codebase');
     case 'D'
       disp('Case D not yet implemented');
     otherwise
@@ -79,12 +80,12 @@ disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 
 
 %%%
-% PLOTTING
+% PLOTTING - need to define allslopes for following code to do anything
 %%%
 
-% i=thebuffers;
-% j=Ls;
-% allslopes2=reshape(allslopes{5},length(i),length(j));
+% i = thebuffers;
+% j = Ls;
+% allslopes2 = reshape(allslopes{5},length(i),length(j));
 % figure
 % contour(j,i,allslopes2,-1*[150 160 170 180 190 200 210 220])
 % colorbar
@@ -95,23 +96,20 @@ disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
   
 % Save relevant data for use in something like GMT
 
-for h = 1:length(truncations)
-   mydata = reshape(allslopes{h},length(i),length(j));
+% for h = 1:length(truncations)
+%    mydata = reshape(allslopes{h},length(i),length(j));
     
-   [m,n] = size(mydata);
+%    [m,n] = size(mydata);
 
-   theL = repmat(j,m,1);
-   theXYBuf = repmat(i,1,n);
-   theL = reshape(theL,m*n,1);
-   theXYBuf = reshape(theXYBuf,m*n,1);
-   mydata = reshape(mydata,m*n,1);
+%    theL = repmat(j,m,1);
+%    theXYBuf = repmat(i,1,n);
+%    theL = reshape(theL,m*n,1);
+%    theXYBuf = reshape(theXYBuf,m*n,1);
+%    mydata = reshape(mydata,m*n,1);
 
-   tosave1 = [theL theXYBuf mydata]';
-   fp1 = fopen(['figures/figdata/SyntheticSignalContourCASE' myCase ...
-               '_N' num2str(truncations(h),'%+i') '.dat'],'wt');
-   fprintf(fp1,'%.5f %.5f %.5e\n',tosave1);
-   fclose(fp1);
-
-end
-
-
+%    tosave1 = [theL theXYBuf mydata]';
+%    fp1 = fopen(['figures/figdata/SyntheticSignalContourCASE' myCase ...
+%                '_N' num2str(truncations(h),'%+i') '.dat'],'wt');
+%    fprintf(fp1,'%.5f %.5f %.5e\n',tosave1);
+%    fclose(fp1);
+% end
