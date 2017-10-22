@@ -22,9 +22,9 @@ function varargout=SyntheticExperiments(myCase, dom)
 % INITIALIZE
 %%%
 
-defval('myCase','C');
+defval('myCase','A');
 defval('xver',0);
-defval('TH','greenland');
+defval('dom','greenland');
 defval('THS','greenland');
 defval('Pcenter','CSR');
 defval('Rlevel','RL05');
@@ -36,18 +36,20 @@ defval('Ls',[60]);
 defval('thebuffers',[0.5]);
 defval('truncations',[0]);
 
-% Get data
-[potcoffs,cal_errors,thedates] = grace2plmt(Pcenter,Rlevel,'SD',1);
-nmonths = length(thedates);
-% Find the noise
-[ESTresid] = plmt2resid(potcoffs,thedates,[1 1 365.0],cal_errors);
-% Find the noise covariance
+% Get the original data
+[potcoffs,calerrors,thedates]=grace2plmt(Pcenter,Rlevel,'SD',0);
+% Get the fitted results
+[ESTresid,thedates,ESTsignal,~,~,varet]=plmt2resid(potcoffs(:,:,1:4),thedates,[1 1 181.0 365.0]);
+% Use both to make a plot
+clf
+resid2plot(ESTresid,thedates,ESTsignal,20,20,varet,calerrors);
 [Clmlmp,Clmlmpr,Clmlmpd,EL,EM] = plmresid2cov(ESTresid,Ldata,[]);
-% The critical line that is returning []
 T = cholcov(Clmlmp);
 if isempty(T)
   disp('Empty covariance matrix, something is wrong.');
   return
+else
+  disp('NOT EMPTY THANK GOD')
 end
 
 %%%
@@ -57,7 +59,7 @@ tic;
 switch myCase
     case 'A'
       % Geoboxcap for dom (eg Iceland), run recovery, see what we get
-      allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations);
+      allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom);
     case 'AA'
       % A but with synthetic noise
       disp('Synthetic Experiment AA not yet implemented');

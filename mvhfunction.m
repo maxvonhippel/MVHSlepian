@@ -144,7 +144,7 @@ colorbar('location', 'Manual', 'position', [0.93 0.1 0.02 0.81]);
 fprintf('\nGetting & Processing GRACE Data (Step 4/6)\n');
 
 % Now get the monthly grace data
-[potcoffs, cal_errors, thedates] = grace2plmt(Pcenter, 'RL05', 'POT', 1);  
+[potcoffs, calerrors, thedates] = grace2plmt(Pcenter, 'RL05', 'SD', 0);  
 
 % Number of months our data looks at
 defval('nmonths', length(thedates));
@@ -169,7 +169,7 @@ N=max(round((L+1)^2*spharea(TH)),1);
                      CC(1:round(N)), TH);
 
 % -------------------------- Chart GRACE Data ------------------------
-fprintf('\nCharting GRACE Data (Step 5/6)\n');
+fprintf('\nCharting GRACE Data (Step 5)\n');
 
 % Because acceleration is twice the coefficient value:
 fgls_coeff(2) = fgls_coeff(2) * 2;
@@ -232,60 +232,6 @@ text(datenum('01-Jan-2003'), -1800, ...
 ylabel('Mass (Gt)');
 title(['Integrated Mass Change (FGLS), L = ' num2str(L) ...
        ', buffer = ' num2str(XYbuffer) ' deg']);            
-
-% ----------------------- Synthetic Experiment A ----------------------
-fprintf('\nGetting & Processing GRACE Data (Step 6/6)\n');
-
-% Find the noise
-[ESTresid] = plmt2resid(potcoffs, thedates, [1 1 365.0], cal_errors);
-% Find the noise covariance
-% Currently broken for some reason, returning:
-% NaNs, 0s, NaNs, EL and EM look OK though
-[Clmlmp, Clmlmpr, Clmlmpd, EL, EM] = plmresid2cov(ESTresid, L, []);
-tic;
-% Decompose the covariance matrix
-disp('Decomposing the covariance...')
-T = cholcov(Clmlmp);
-[n, m] = size(T);
-% Make a synthetic unit signal over Greenland
-[~,~,~,~,~,lmcosiS] = geoboxcap(120, dom, [], [], 1);
-% Convert desired Gt/yr to kg
-factor1 = Signal * 907.1847 * 10^9;
-% Then get an average needed for greenland (area in meters)
-factor1 = factor1 / spharea(dom) / 4 / pi / 6370000^2;
-% So now we have kg/m^2
-% Get relative dates to make a trend
-deltadates = thedates - thedates(1);
-% Preallocate
-lmcosiSSD = zeros(length(thedates), size(lmcosiS, 1), size(lmcosiS, 2));
-fullS = zeros(length(thedates), size(lmcosiS, 1), size(lmcosiS, 2));
-counter = 1;
-
-for k = deltadates
-    % Caltulate the desired trend amount for this month, putting the mean
-    % approximately in the middle (4th year)
-    factor2 = factor1 * 4 - k / 365 * factor1;
-    % Scale the unit signal for this month
-    lmcosiSSD(counter, :, :) = [lmcosiS(:, 1:2) lmcosiS(:, 3:4) * factor2];
-    % Make a synthetic noise realization
-    syntheticnoise = randn(1, n) * T;
-    % Reorder the noise
-    temp1 = ronmosiW(:, 3:4);
-    temp1(ronm) = syntheticnoise(:);
-    syntheticnoise = [ronmosiW(:, 1:2) temp1];
-    % Add this to the signal
-    if wantnoise
-       fullS(counter, :, :) = [ronmosiW(:, 1:2)...
-           squeeze(lmcosiSSD(counter, :, 3:4)) + syntheticnoise(:, 3:4)];
-    else
-       fullS(counter, :, :) = [lmcosiS(:, 1:2) ...
-                               squeeze(lmcosiSSD(counter, :, 3:4))];
-    end
-    counter = counter + 1;
-end
-% fullS holds the combined synthetic signal and synthetic noise
-casetime = toc;
-disp(['Elapsed time for this case was ' num2str(casetime) ' seconds']);
 
 % Prepare outputs
 varns={G,V,ronmosiW,dems,dels,mz,ronm,mzin};
