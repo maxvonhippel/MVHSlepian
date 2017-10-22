@@ -14,7 +14,7 @@ function varargout = mvhfunction(L)
 % that down the line the code can be modified to make them available
 % as arguments, and b) makes it easier to play around with different
 % defaults throughout the script.
-fprintf('\nSetting default values (Step 1/6)\n');
+fprintf('\nSetting default values (Step 1)\n');
 
 % Maximum bandwidth for LWindow.
 defval('L', 60);
@@ -50,7 +50,7 @@ delete(gcp('nocreate'));
 parpool;
 
 % ---------------- CALCULATE SLEPIAN FUNCTIONS ------------------ 
-fprintf('\nCalculating Slepian Functions (Step 2/6)\n');
+fprintf('\nCalculating Slepian Functions (Step 2)\n');
 
 % ronmosiW: Matrix with zeroes where cos/sine coefficients will go.
 % ronmW: Running index into ronmosi(3:4) unwrapping the orders.
@@ -73,7 +73,7 @@ end
 for i=1:J; [r{i}, lon, lat] = plm2xyz(CC{i}, 1); end
 
 % ---------------------- CHART SLEPIAN FUNCTIONS ---------------------- 
-fprintf('\nSharting Slepian Functions (Step 3/6)\n');
+fprintf('\nSharting Slepian Functions (Step 3)\n');
 
 figure
 % Make 9 subplots which we will populare with bandwidth values along
@@ -141,7 +141,7 @@ kelicol
 colorbar('location', 'Manual', 'position', [0.93 0.1 0.02 0.81]);
 
 % ----------------------- Get, Process GRACE Data ---------------------
-fprintf('\nGetting & Processing GRACE Data (Step 4/6)\n');
+fprintf('\nGetting & Processing GRACE Data (Step 4)\n');
 
 % Now get the monthly grace data
 [potcoffs, calerrors, thedates] = grace2plmt(Pcenter, 'RL05', 'SD', 0);  
