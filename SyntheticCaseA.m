@@ -38,6 +38,8 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 % INITIALIZE
 %%%
 
+disp('Initializing values for Synthetic Case A');   % <--   
+
 defval('xver',0);
 defval('dom','greenland');
 defval('Ldata',60);
@@ -47,6 +49,8 @@ defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
 defval('truncations',[-2 -1 0 1 2]);
+
+disp('Restarting parpool');   % <-- 
 
 % We should run this in parallel to make it faster.  The parallel part here
 % is done in plm2avgp where we calculate Slepian function integrals.
@@ -67,6 +71,9 @@ if xver
     Clmlmp(1:10,1:10);
     SYNClmlmp(1:10,1:10);
 end
+
+disp('Finding bandlimit data info over region');   % <-- 
+
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata] = addmon(Ldata);
 % Make a synthetic unit signal over the region
@@ -77,12 +84,16 @@ factor1 = Signal*907.1847*10^9;
 factor1 = factor1/spharea(dom)/4/pi/6370000^2;
 % So now we have kg/m^2
 
+disp('Finding dates and preallocating null or 0 arrays');   % <-- 
+
 % Get relative dates to make a trend
 deltadates = thedates-thedates(1);
 % Preallocate
 lmcosiSSD = zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 fullS = zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 % fullS holds the combined synthetic signal and synthetic noise
+
+disp('Iterating through building signal, noise');   % <-- 
 
 counter = 1;
 for k = deltadates
@@ -115,6 +126,8 @@ end
 %%%
 % PROCESS THE BASES
 %%%
+
+disp('Processing the bases');
 
 counter = 1;
 for L = Ls
@@ -157,14 +170,18 @@ for L = Ls
             falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:) = falpha;
         end
-                   
+        
         for h = 1:length(truncations)
+            disp(h)
            if numfun(h) > 0
-              % Estimate the total mass change 
+               
+%  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
+              % Estimate the total mass change
               [ESTsignal,ESTresid,ftests,extravalues,total,...
                alphavarall,totalparams,totalparamerrors,totalfit,...
                functionintegrals,alphavar] = slept2resid(slept,thedates,...
                 [1 365.0],[],[],CC,TH,numfun(h));
+%  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
                
               allslopes{h}(counter) = totalparams(2)*365;
            else
@@ -198,6 +215,8 @@ for L = Ls
         end       
     end
 end
+
+disp('Closing the parpool');   % <--
 
 % Close the parpool
 delete(gcp('nocreate'));

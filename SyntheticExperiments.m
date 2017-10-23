@@ -1,4 +1,4 @@
-function varargout=SyntheticExperiments(myCase, dom)
+function varargout=SyntheticExperiments(myCase, dom, Ls)
 % []=SYNTHETICEXPERIMENTS(Case)
 %
 % This function runs one of several synthetic experiments to recover a 
@@ -9,7 +9,9 @@ function varargout=SyntheticExperiments(myCase, dom)
 % Case    Which case you want to run.
 %           A - 
 %           B - 
-%           C -  
+%           C -
+% Dom     The region
+% Ls      The L values eg [60]
 %
 % OUTPUT: none
 % 
@@ -24,8 +26,8 @@ function varargout=SyntheticExperiments(myCase, dom)
 
 defval('myCase','A');
 defval('xver',0);
-defval('dom','greenland');
-defval('THS','greenland');
+defval('dom','iceland');
+defval('THS','iceland');
 defval('Pcenter','CSR');
 defval('Rlevel','RL05');
 defval('Ldata',60);
@@ -37,19 +39,20 @@ defval('thebuffers',[0.5]);
 defval('truncations',[0]);
 
 % Get the original data
-[potcoffs,calerrors,thedates]=grace2plmt(Pcenter,Rlevel,'SD',0);
+[potcoffs,calerrors,thedates] = grace2plmt(Pcenter,Rlevel,'SD',0);
 % Get the fitted results
-[ESTresid,thedates,ESTsignal,~,~,varet]=plmt2resid(potcoffs(:,:,1:4),thedates,[1 1 181.0 365.0]);
+[ESTresid,thedates,ESTsignal,~,~,varet] = plmt2resid(potcoffs(:,:,1:4),...
+    thedates,[1 1 181.0 365.0]);
+
 % Use both to make a plot
-clf
-resid2plot(ESTresid,thedates,ESTsignal,20,20,varet,calerrors);
+% clf
+% resid2plot(ESTresid,thedates,ESTsignal,20,20,varet,calerrors);
+
 [Clmlmp,Clmlmpr,Clmlmpd,EL,EM] = plmresid2cov(ESTresid,Ldata,[]);
 T = cholcov(Clmlmp);
 if isempty(T)
   disp('Empty covariance matrix, something is wrong.');
   return
-else
-  disp('NOT EMPTY THANK GOD')
 end
 
 %%%
@@ -59,13 +62,14 @@ tic;
 switch myCase
     case 'A'
       % Geoboxcap for dom (eg Iceland), run recovery, see what we get
+      disp('Synthetic Experiment A running now.');
       allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom);
     case 'AA'
       % A but with synthetic noise
-      disp('Synthetic Experiment AA not yet implemented');
+      disp('Synthetic Experiment AA not yet implemented.');
     case 'B'
       % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
-      disp('Synthetic Experiment BB not yet implemented');
+      disp('Synthetic Experiment BB not yet implemented.');
     case 'C'
       % Use actual noise from dom1 (eg Greenland) to recover dom2 (eg Iceland)
       % (unless this is currently implemented to do something else?)
