@@ -87,7 +87,7 @@ for k = deltadates
     disp(size(temp1(ronmdata)))
     disp(size(syntheticnoise))
     disp(size(syntheticnoise(:)))
-    temp1(ronmdata) = syntheticnoise(:);
+    temp1(ronmdata) = syntheticnoise();
     syntheticnoise = [lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
