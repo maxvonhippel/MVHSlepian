@@ -93,7 +93,6 @@ for k = deltadates
     else
        fullS(counter,:,:) = [lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
     end
-    
     counter = counter+1;
 end
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
