@@ -109,7 +109,8 @@ delete(gcp('nocreate'));
 % disp(slopessize)
 % allslopes2 = reshape(allslopes{5},length(i),length(j));
 figure
-contour(j,i,real(allslopes),-1*[150 160 170 180 190 200 210 220])
+realslopes=real(allslopes)
+contour(j,i,realslopes,-1*[150 160 170 180 190 200 210 220])
 colorbar
 xlabel('Bandlimit L')
 ylabel('Region buffer, in degrees')
