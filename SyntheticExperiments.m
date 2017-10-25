@@ -58,6 +58,15 @@ end
 %%%
 % RUN THE CASES
 %%%
+
+disp('Restarting parpool');   % <-- 
+
+% We should run this in parallel to make it faster.  The parallel part here
+% is done in plm2avgp where we calculate Slepian function integrals.
+% Delete any existing pool before launching a new one to avoid errors.
+delete(gcp('nocreate'));
+parpool;
+
 tic;
 switch myCase
     case 'A'
@@ -66,7 +75,9 @@ switch myCase
       allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom);
     case 'AA'
       % A but with synthetic noise
-      disp('Synthetic Experiment AA not yet implemented.');
+      disp('Synthetic Experiment AA running now.');
+      allslopes = SyntheticCaseAA(Clmlmp,thedates,Ls,thebuffers,truncations,...
+                                  dom);
     case 'B'
       % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
       disp('Synthetic Experiment BB not yet implemented.');
@@ -84,7 +95,9 @@ end
 casetime = toc;
 disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 
-
+disp('Closing parpool.');
+% Close the parpool
+delete(gcp('nocreate'));
 
 %%%
 % PLOTTING - need to define allslopes for following code to do anything

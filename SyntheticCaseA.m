@@ -50,14 +50,6 @@ defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
 defval('truncations',[-2 -1 0 1 2]);
 
-disp('Restarting parpool');   % <-- 
-
-% We should run this in parallel to make it faster.  The parallel part here
-% is done in plm2avgp where we calculate Slepian function integrals.
-% Delete any existing pool before launching a new one to avoid errors.
-delete(gcp('nocreate'));
-parpool;
-
 % Decompose the covariance matrix
 disp('Decomposing the covariance...');
 T = cholcov(Clmlmp);
@@ -215,11 +207,6 @@ for L = Ls
         end       
     end
 end
-
-disp('Closing the parpool');   % <--
-
-% Close the parpool
-delete(gcp('nocreate'));
 
 varns={allslopes};
 varargout=varns(1:nargout);
