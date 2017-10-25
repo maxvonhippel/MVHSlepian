@@ -105,6 +105,8 @@ delete(gcp('nocreate'));
 
 i = thebuffers;
 j = Ls;
+slopessize=size(allslopes)
+disp(slopessize)
 allslopes2 = reshape(allslopes{5},length(i),length(j));
 figure
 contour(j,i,allslopes2,-1*[150 160 170 180 190 200 210 220])
