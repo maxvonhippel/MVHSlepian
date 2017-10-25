@@ -84,7 +84,7 @@ for k = deltadates
     syntheticnoise = randn(squaresize,squaresize);
     % Reorder the noise
     temp1 = lmcosidata(:,3:4);
-    disp(size(ronmdata))
+    disp(size(temp1(ronmdata)))
     disp(size(syntheticnoise))
     disp(size(syntheticnoise(:)))
     temp1(ronmdata) = syntheticnoise(:);
