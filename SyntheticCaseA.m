@@ -164,7 +164,6 @@ for L = Ls
         end
         
         for h = 1:length(truncations)
-            disp(h)
            if numfun(h) > 0
                
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------

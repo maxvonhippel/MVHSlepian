@@ -151,7 +151,6 @@ for L = Ls
         for h = 1:length(truncations)
             disp(h)
            if numfun(h) > 0
-               disp('numfun(h) > 0')
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
               % Estimate the total mass change
               [ESTsignal,ESTresid,ftests,extravalues,total,...
