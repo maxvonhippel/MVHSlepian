@@ -103,13 +103,13 @@ delete(gcp('nocreate'));
 % PLOTTING - need to define allslopes for following code to do anything
 %%%
 
-i = thebuffers
-j = Ls
-slopessize=size(allslopes);
-disp(slopessize)
-allslopes2 = reshape(allslopes{5},length(i),length(j));
+% i = thebuffers
+% j = Ls
+% slopessize=size(allslopes);
+% disp(slopessize)
+% allslopes2 = reshape(allslopes{5},length(i),length(j));
 figure
-contour(j,i,allslopes2,-1*[150 160 170 180 190 200 210 220])
+contour(j,i,allslopes,-1*[150 160 170 180 190 200 210 220])
 colorbar
 xlabel('Bandlimit L')
 ylabel('Region buffer, in degrees')
