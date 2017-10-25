@@ -103,15 +103,15 @@ delete(gcp('nocreate'));
 % PLOTTING - need to define allslopes for following code to do anything
 %%%
 
-% i = thebuffers;
-% j = Ls;
-% allslopes2 = reshape(allslopes{5},length(i),length(j));
-% figure
-% contour(j,i,allslopes2,-1*[150 160 170 180 190 200 210 220])
-% colorbar
-% xlabel('Bandlimit L')
-% ylabel('Region buffer, in degrees')
-% title('Contour of mass loss slope (counter level 10Gt/yr)')
+i = thebuffers;
+j = Ls;
+allslopes2 = reshape(allslopes{5},length(i),length(j));
+figure
+contour(j,i,allslopes2,-1*[150 160 170 180 190 200 210 220])
+colorbar
+xlabel('Bandlimit L')
+ylabel('Region buffer, in degrees')
+title('Contour of mass loss slope (counter level 10Gt/yr)')
 
   
 % Save relevant data for use in something like GMT
