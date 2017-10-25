@@ -157,15 +157,15 @@ for L = Ls
               [ESTsignal,ESTresid,ftests,extravalues,total,...
                alphavarall,totalparams,totalparamerrors,totalfit,...
                functionintegrals,alphavar] = slept2resid(slept,thedates,...
-                [1 3 365.0],[],[],CC,TH,numfun(h));
+                [1 365.0],[],[],CC,TH,numfun(h));
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
-             	disp(h)
-             	disp(counter)
-             	disp(totalparams)
              	disp(size(totalparams))
-             	banana=totalparams(2)*365;
-             	disp('size(totalparams(2)*365): ', banana)
-              allslopes{h}(counter) = totalparams(2)*365;
+             	% I don't understand this part of the code, but it
+             	% was totalparams(2) before and totalparams isn't
+             	% that big for me.  So I'm going to try totalparams(1)
+             	% and ask later if this is correct or otherwise
+             	% what's going on here.
+              allslopes{h}(counter) = totalparams(1)*365;
            else
               allslopes{h}(counter) = NaN;
            end
