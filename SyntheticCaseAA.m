@@ -159,8 +159,8 @@ for L = Ls
                functionintegrals,alphavar] = slept2resid(slept,thedates,...
                 [1 365.0],[],[],CC,TH,numfun(h));
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
-             	disp('h: ', h)
-             	disp('counter: ', counter)
+             	disp(h)
+             	disp(counter)
              	banana=totalparams(2)*365;
              	disp('size(totalparams(2)*365): ', banana)
               allslopes{h}(counter) = totalparams(2)*365;
