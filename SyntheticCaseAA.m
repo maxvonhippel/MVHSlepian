@@ -162,6 +162,7 @@ for L = Ls
              	disp(h)
              	disp(counter)
              	disp(totalparams)
+             	disp(size(totalparams))
              	banana=totalparams(2)*365;
              	disp('size(totalparams(2)*365): ', banana)
               allslopes{h}(counter) = totalparams(2)*365;
