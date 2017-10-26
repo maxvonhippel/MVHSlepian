@@ -159,7 +159,7 @@ for L=Ls
             numfun=N+truncations;
             disp('stuff below')
             banana=size(lmcosi,1)+ronm(1:(L+1)^2);
-            lmcosi(banana(2)-1)
+            lmcosi(banana(1)-1)
             size(lmcosi)
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
