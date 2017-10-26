@@ -167,18 +167,17 @@ for L=Ls
         end
 
         for h=1:length(truncations)
-           if numfun(h) > 0
-              % Estimate the total mass change
-              [ESTsignal,ESTresid,ftests,extravalues,total,...
-               alphavarall,totalparams,totalparamerrors,totalfit,...
-               functionintegrals,alphavar]=slept2resid(slept,thedates,...
-                [3 30 180 365.0],[],[],CC,TH,numfun(h));
-               totalparams
-              allslopes{h}(counter)=totalparams(2)*365;
-              totalparams
-           else
-              allslopes{h}(counter)=NaN;
-           end
+            if numfun(h) > 0
+                % Estimate the total mass change
+                [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
+                 totalparams,totalparamerrors,totalfit,functionintegrals,...
+                 alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
+                                       [],[],CC,TH,numfun(h));
+                slept
+                allslopes{h}(counter)=totalparams(2)*365;
+            else
+                allslopes{h}(counter)=NaN;
+            end
         end
         counter=counter+1;
         
