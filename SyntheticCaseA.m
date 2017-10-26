@@ -180,7 +180,7 @@ for L=Ls
             end
         end
         counter=counter+1;
-        
+        allslopes
         if xver && L==60 && XY_buffer==0.5
             keyboard
             path(path,'~/src/m_map');
