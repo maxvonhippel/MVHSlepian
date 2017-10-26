@@ -69,11 +69,12 @@ disp('Finding bandlimit data info over region');   % <--
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 % Make a synthetic unit signal over the region
-[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom,[],[],1);
+[~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
 factor1=factor1/spharea(dom)/4/pi/6370000^2;
+factor1
 % So now we have kg/m^2
 
 disp('Finding dates and preallocating null or 0 arrays');   % <-- 
@@ -162,7 +163,7 @@ for L=Ls
             % I added the -1 at the end
             % Why does this make it become nonzero?  Is one of my arrays 
             % (lmcosi, perhaps) indexed incorrectly?
-            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2))
+            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:)=falpha;
         end
         for h=1:length(truncations)
