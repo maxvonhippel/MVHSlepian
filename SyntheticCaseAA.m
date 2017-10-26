@@ -79,6 +79,8 @@ for k=deltadates
     % approximately in the middle (4th year)
     factor2=factor1*4 - k/365*factor1;
     % Scale the unit signal for this month
+    size(lmcosiS(:,1:2))
+    size(lmcosiS(:,3:4)*factor2)
     lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
     % Make a synthetic noise realization
     syntheticnoise=randn(squaresize,squaresize);
