@@ -146,12 +146,15 @@ for L = Ls
         
         % Loop over the months
         for k = 1:nmonths
+            disp(fullS)
             lmcosi = squeeze(fullS(k,:,:));
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
             if size(lmcosi,1) < addmup(L)
+                disp('banana')
                lmcosi = [lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
+                disp('hotdog')
                lmcosi=lmcosi(1:addmup(L),:);
             end
   
@@ -160,7 +163,6 @@ for L = Ls
             numfun = N+truncations;
             
             falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            disp(falpha)
             slept(k,:) = falpha;
         end
 
