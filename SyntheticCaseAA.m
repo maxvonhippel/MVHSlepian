@@ -88,6 +88,14 @@ for k=deltadates
     syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
+    	disp('size of lmcosidata(:,1:2) is:')
+    	size(lmcosidata(:,1:2))
+    	disp('size of lmcosiSSD(counter,:,3:4) is:')
+    	size(squeeze(lmcosiSSD(counter,:,3:4)))
+    	disp('size of syntheticnoise(:,3:4) is:')
+    	size(syntheticnoise(:,3:4))
+    	disp('size of fullS(counter,:,:) is:')
+    	size(fullS(counter,:,:))
        fullS(counter,:,:)=[lmcosidata(:,1:2)...
            squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
     else
