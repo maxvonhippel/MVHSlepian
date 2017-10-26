@@ -492,7 +492,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % Make the coefficients with reference to some mean
     % If they already are, then this won't matter
     sleptdelta = slept(1:nmonths,:) - repmat(mean(slept(1:nmonths,:),1),nmonths,1);
-
+    max(slept)
     
     % COMBINE
 
@@ -511,7 +511,6 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % in kilograms.  Then change the units from kg to Gt in METRIC tons
     eigfunINT = eigfunINT*4*pi*6370000^2/10^3/10^9;
     functionintegrals = eigfunINT;
-    sleptdelta
     % Now multiply by the appropriate slepcoffs to get the months
     % This becomes alpha by months
     %functimeseries=repmat(eigfunINT',1,nmonths).*sleptdelta(:,1:N)';
