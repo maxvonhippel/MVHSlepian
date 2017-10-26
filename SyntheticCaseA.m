@@ -160,7 +160,7 @@ for L = Ls
             numfun = N+truncations;
             
             falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            disp(lmcosi)
+            disp(falpha)
             slept(k,:) = falpha;
         end
 
