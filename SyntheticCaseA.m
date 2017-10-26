@@ -168,11 +168,10 @@ for L=Ls
            if numfun(h) > 0
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
               % Estimate the total mass change
-              disp(nmonths)
               [ESTsignal,ESTresid,ftests,extravalues,total,...
                alphavarall,totalparams,totalparamerrors,totalfit,...
                functionintegrals,alphavar]=slept2resid(slept,thedates,...
-                [3 365.0],[],[],CC,TH,numfun(h));
+                [3 30 180 365.0],[],[],CC,TH,numfun(h));
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
                totalparams
               allslopes{h}(counter)=totalparams(2)*365;
