@@ -175,11 +175,11 @@ for L=Ls
                 [3 30 180 365.0],[],[],CC,TH,numfun(h));
                totalparams
               allslopes{h}(counter)=totalparams(2)*365;
+              totalparams
            else
               allslopes{h}(counter)=NaN;
            end
         end
-        
         counter=counter+1;
         
         if xver && L==60 && XY_buffer==0.5
