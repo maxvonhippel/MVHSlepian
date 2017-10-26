@@ -158,11 +158,8 @@ for L=Ls
             % If we want a specific truncation, we limit it here.
             numfun=N+truncations;
             disp('stuff below')
-            banana=2*size(lmcosi,1)+ronm(1:(L+1)^2);
-            lmcosi(banana(1)-1)
-            size(lmcosi)
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
-            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1);
             % falpha is always all zeros - why? What is falfpha?
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
             slept(k,:)=falpha;
