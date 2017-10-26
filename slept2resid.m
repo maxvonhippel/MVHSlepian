@@ -492,8 +492,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % Make the coefficients with reference to some mean
     % If they already are, then this won't matter
     sleptdelta = slept(1:nmonths,:) - repmat(mean(slept(1:nmonths,:),1),nmonths,1);
-    max(slept)
-    
+    slept
     % COMBINE
 
     % We want to take the Slepian functions and combine them to get total mass.
