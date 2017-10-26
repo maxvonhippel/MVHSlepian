@@ -159,7 +159,7 @@ for L=Ls
             numfun=N+truncations;
             disp('stuff below')
             banana=2*size(lmcosi,1)+ronm(1:(L+1)^2);
-            banana(1)
+            lmcosi(133)
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             % falpha is always all zeros - why? What is falfpha?
