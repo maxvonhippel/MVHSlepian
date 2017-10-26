@@ -73,8 +73,9 @@ disp('Finding bandlimit data info over region');   % <--
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
+% Looks like that 6370000 number comes from somewhere, should not be
+% changed: http://bit.ly/2iCrGOw
 factor1=factor1/spharea(dom)/4/pi/6370000^2;
-factor1
 % So now we have kg/m^2
 
 disp('Finding dates and preallocating null or 0 arrays');   % <-- 
