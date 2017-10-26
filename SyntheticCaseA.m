@@ -138,7 +138,7 @@ for L=Ls
         % so use grace2slept to load both
         %[G,V,EL,EM,N]=glmalpha(TH,L,[],0);
         [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,XY_buffer,L,[],[],[],[],'SD');
-        
+        G
         % Get the mapping from LMCOSI into not-block-sorted GLMALPHA
         [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
   
@@ -167,7 +167,6 @@ for L=Ls
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:)=falpha;
         end
-        slept
         for h=1:length(truncations)
             if numfun(h) > 0
                 % Estimate the total mass change
