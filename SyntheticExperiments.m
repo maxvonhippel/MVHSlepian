@@ -108,13 +108,13 @@ delete(gcp('nocreate'));
 % slopessize=size(allslopes);
 % disp(slopessize)
 % allslopes2 = reshape(allslopes{5},length(i),length(j));
-figure
-realslopes=real(allslopes)
-contour(real(j),real(i),allslopes,real(-1*[150 160 170 180 190 200 210 220]))
-colorbar
-xlabel('Bandlimit L')
-ylabel('Region buffer, in degrees')
-title('Contour of mass loss slope (counter level 10Gt/yr)')
+% figure
+% realslopes=real(allslopes)
+% contour(real(j),real(i),allslopes,real(-1*[150 160 170 180 190 200 210 220]))
+% colorbar
+% xlabel('Bandlimit L')
+% ylabel('Region buffer, in degrees')
+% title('Contour of mass loss slope (counter level 10Gt/yr)')
 
   
 % Save relevant data for use in something like GMT
