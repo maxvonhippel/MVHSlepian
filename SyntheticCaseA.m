@@ -159,6 +159,7 @@ for L=Ls
             numfun=N+truncations;
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+            falfpha
             % falpha is always all zeros - why? What is falfpha?
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
             slept(k,:)=falpha;
@@ -166,15 +167,11 @@ for L=Ls
 
         for h=1:length(truncations)
            if numfun(h) > 0
-%  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
               % Estimate the total mass change
-              disp('slept')
-              slept
               [ESTsignal,ESTresid,ftests,extravalues,total,...
                alphavarall,totalparams,totalparamerrors,totalfit,...
                functionintegrals,alphavar]=slept2resid(slept,thedates,...
                 [3 30 180 365.0],[],[],CC,TH,numfun(h));
-%  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
                totalparams
               allslopes{h}(counter)=totalparams(2)*365;
            else
