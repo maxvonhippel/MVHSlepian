@@ -160,10 +160,10 @@ for L = Ls
             numfun = N+truncations;
             
             falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+            disp(lmcosi)
             slept(k,:) = falpha;
         end
-        disp('slept: ')
-        disp(slept)
+
         for h = 1:length(truncations)
            if numfun(h) > 0
                disp('made it here')
