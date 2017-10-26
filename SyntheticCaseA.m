@@ -165,7 +165,6 @@ for L=Ls
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1);
             slept(k,:)=falpha;
         end
-        slept
 
         for h=1:length(truncations)
            if numfun(h) > 0
