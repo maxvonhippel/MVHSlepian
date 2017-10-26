@@ -160,6 +160,7 @@ for L=Ls
             disp('stuff below')
             banana=2*size(lmcosi,1)+ronm(1:(L+1)^2);
             lmcosi(133)
+            size(lmcosi)
 %  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             % falpha is always all zeros - why? What is falfpha?
