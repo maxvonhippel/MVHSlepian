@@ -157,14 +157,13 @@ for L = Ls
             % Perform the expansion of the signal into the Slepian basis
             % If we want a specific truncation, we limit it here.
             numfun = N+truncations;
-            banana=2*size(lmcosi,1)+ronm(1:(L+1)^2) % <---------
+            banana=lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)) % <---------
             falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:) = falpha;
         end
 
         for h = 1:length(truncations)
            if numfun(h) > 0
-               disp('made it here')
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
               % Estimate the total mass change
               [ESTsignal,ESTresid,ftests,extravalues,total,...
