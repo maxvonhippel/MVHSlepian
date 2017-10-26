@@ -164,8 +164,8 @@ for L=Ls
             % (lmcosi, perhaps) indexed incorrectly?
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1);
             slept(k,:)=falpha;
+            falfpha
         end
-
         for h=1:length(truncations)
             if numfun(h) > 0
                 % Estimate the total mass change
@@ -173,10 +173,6 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                % At this point, slept, thedates, CC, TH, and numfun(h)
-                % all see reasonable
-                slept
-                thedates
                 allslopes{h}(counter)=totalparams(2)*365;
             else
                 allslopes{h}(counter)=NaN;
