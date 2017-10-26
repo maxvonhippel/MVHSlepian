@@ -167,6 +167,7 @@ for L=Ls
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:)=falpha;
         end
+        slept
         for h=1:length(truncations)
             if numfun(h) > 0
                 % Estimate the total mass change
@@ -180,7 +181,7 @@ for L=Ls
             end
         end
         counter=counter+1;
-        allslopes
+        
         if xver && L==60 && XY_buffer==0.5
             keyboard
             path(path,'~/src/m_map');
