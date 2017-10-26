@@ -158,13 +158,12 @@ for L = Ls
                functionintegrals,alphavar] = slept2resid(slept,thedates,...
                 [1 365.0],[],[],CC,TH,numfun(h));
 %  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
-             	disp('made it here')
              	% I don't understand this part of the code, but it
              	% was totalparams(2) before and totalparams isn't
              	% that big for me.  So I'm going to try totalparams(1)
              	% and ask later if this is correct or otherwise
              	% what's going on here.
-              allslopes{h}(counter) = totalparams(1)*365;
+              allslopes{h}(counter) = totalparams(1)*365
            else
               allslopes{h}(counter) = NaN;
            end
@@ -196,6 +195,5 @@ for L = Ls
         end       
     end
 end
-disp(allslopes)
 varns={allslopes};
 varargout=varns(1:nargout);
