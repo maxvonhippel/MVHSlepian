@@ -511,7 +511,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % in kilograms.  Then change the units from kg to Gt in METRIC tons
     eigfunINT = eigfunINT*4*pi*6370000^2/10^3/10^9;
     functionintegrals = eigfunINT;
-    sleptdelta(:,1:N)
+    sleptdelta
     % Now multiply by the appropriate slepcoffs to get the months
     % This becomes alpha by months
     %functimeseries=repmat(eigfunINT',1,nmonths).*sleptdelta(:,1:N)';
@@ -534,7 +534,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % that the fitting confidence intervals reflect that  
     
     [fit,delta,params,paramerrors] = timeseriesfit([thedates' total'],alphavarall,1,1);
-    
+
     % Make a matrix for the line, and 95% confidence in the fit
     totalfit = [thedates' fit delta];
 
