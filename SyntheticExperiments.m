@@ -94,9 +94,10 @@ end
 casetime = toc;
 disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 
-disp('Closing parpool.');
+% Is it advantageous to just leave the parpool open?
+% disp('Closing parpool.');
 % Close the parpool
-delete(gcp('nocreate'));
+% delete(gcp('nocreate'));
 
 %%%
 % PLOTTING - need to define allslopes for following code to do anything
