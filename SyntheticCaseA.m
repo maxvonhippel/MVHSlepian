@@ -157,12 +157,15 @@ for L=Ls
             % Perform the expansion of the signal into the Slepian basis
             % If we want a specific truncation, we limit it here.
             numfun=N+truncations;
-%  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
-            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1)
-            % falpha is always all zeros - why? What is falfpha?
-%  -----------   THIS IS A PROBLEMATIC PART OF THE CODE -----------
+            % It was:
+            % falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)
+            % I added the -1 at the end
+            % Why does this make it become nonzero?  Is one of my arrays 
+            % (lmcosi, perhaps) indexed incorrectly?
+            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1);
             slept(k,:)=falpha;
         end
+        slept
 
         for h=1:length(truncations)
            if numfun(h) > 0
