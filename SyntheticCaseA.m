@@ -150,6 +150,8 @@ for L=Ls
             lmcosi=squeeze(fullS(k,:,:))
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
+            size(lmcosi,1)
+            addmup(L)
             if size(lmcosi,1) < addmup(L)
                 disp('this')
                 lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
