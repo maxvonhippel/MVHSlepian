@@ -102,7 +102,7 @@ function varargout=slept2resid(slept,thedates,fitwhat,givenerrors,specialterms,C
 % SEE ALSO:
 %
 % Last modified by charig-at-princeton.edu  6/26/2012
-
+slept
 defval('xver',0)  
 %defval('specialterms',{2 'periodic' 1728.1});
 defval('specialterms',{NaN});
@@ -492,7 +492,6 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % Make the coefficients with reference to some mean
     % If they already are, then this won't matter
     sleptdelta = slept(1:nmonths,:) - repmat(mean(slept(1:nmonths,:),1),nmonths,1);
-    slept
     % COMBINE
 
     % We want to take the Slepian functions and combine them to get total mass.
