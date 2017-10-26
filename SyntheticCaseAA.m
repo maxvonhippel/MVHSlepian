@@ -71,6 +71,8 @@ fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 
 disp('Iterating through building signal, noise');   % <-- 
 
+[a,b]=size(Clmlmp);
+squaresize=max(a,b);
 counter=1;
 for k=deltadates
     % Caltulate the desired trend amount for this month, putting the mean
@@ -79,16 +81,13 @@ for k=deltadates
     % Scale the unit signal for this month
     lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
     % Make a synthetic noise realization
-    syntheticnoise=randn(size(lmcosiSSD));
+    syntheticnoise=randn(squaresize,squaresize);
     % Reorder the noise
     temp1=lmcosidata(:,3:4);
-    size(temp1(ronmdata))
-    size(syntheticnoise(:,3:4))
     temp1(ronmdata)=syntheticnoise(:,1);
     syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
-    	squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)
        fullS(counter,:,:)=[lmcosidata(:,1:2)...
            squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
     else
@@ -158,8 +157,6 @@ for L=Ls
                  functionintegrals,alphavar] = slept2resid(slept,thedates,...
                 										   [1 365.0],[],[],...
                 										   CC,TH,numfun(h));
-              	disp('totalparams: ')
-              	disp(totalparams)
               	allslopes{h}(counter)=totalparams(2)*365
            else
               	allslopes{h}(counter)=NaN;
