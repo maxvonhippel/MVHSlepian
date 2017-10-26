@@ -163,7 +163,7 @@ for L=Ls
             % Why does this make it become nonzero?  Is one of my arrays 
             % (lmcosi, perhaps) indexed incorrectly?
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1);
-            falfpha(1)
+            falpha(1)
             slept(k,:)=falpha;
         end
         for h=1:length(truncations)
