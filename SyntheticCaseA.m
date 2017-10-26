@@ -107,7 +107,6 @@ for k = deltadates
     else
        fullS(counter,:,:) = [lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
     end
-    
     counter = counter+1;
 end
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
@@ -153,13 +152,12 @@ for L = Ls
                lmcosi = [lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
                lmcosi=lmcosi(1:addmup(L),:);
-               disp(lmcosi)
             end
   
             % Perform the expansion of the signal into the Slepian basis
             % If we want a specific truncation, we limit it here.
             numfun = N+truncations;
-            
+            banana=2*size(lmcosi,1)+ronm(1:(L+1)^2) % <---------
             falpha = G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:) = falpha;
         end
