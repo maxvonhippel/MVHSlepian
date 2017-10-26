@@ -147,13 +147,15 @@ for L=Ls
         
         % Loop over the months
         for k=1:nmonths
-            lmcosi=squeeze(fullS(k,:,:));
+            lmcosi=squeeze(fullS(k,:,:))
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
             if size(lmcosi,1) < addmup(L)
-               lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
+                disp('this')
+                lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
-               lmcosi=lmcosi(1:addmup(L),:);
+                disp('that')
+                lmcosi=lmcosi(1:addmup(L),:);
             end
   
             % Perform the expansion of the signal into the Slepian basis
@@ -165,7 +167,6 @@ for L=Ls
             % Why does this make it become nonzero?  Is one of my arrays 
             % (lmcosi, perhaps) indexed incorrectly?
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2))
             slept(k,:)=falpha;
         end
         for h=1:length(truncations)
