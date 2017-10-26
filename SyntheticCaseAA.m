@@ -82,6 +82,8 @@ for k=deltadates
     syntheticnoise=randn(size(lmcosiSSD));
     % Reorder the noise
     temp1=lmcosidata(:,3:4);
+    size(temp1(ronmdata))
+    size(syntheticnoise)
     temp1(ronmdata)=syntheticnoise(:,1);
     syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
