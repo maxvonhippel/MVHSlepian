@@ -157,6 +157,8 @@ for L=Ls
                  functionintegrals,alphavar] = slept2resid(slept,thedates,...
                 										   [1 365.0],[],[],...
                 										   CC,TH,numfun(h));
+              	disp('totalparams: ')
+              	disp(totalparams)
               	allslopes{h}(counter)=totalparams(2)*365
            else
               	allslopes{h}(counter)=NaN;
