@@ -162,10 +162,10 @@ for L=Ls
             % I added the -1 at the end
             % Why does this make it become nonzero?  Is one of my arrays 
             % (lmcosi, perhaps) indexed incorrectly?
-            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1)
+            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)-1);
+            falfpha(1)
             slept(k,:)=falpha;
         end
-        slept
         for h=1:length(truncations)
             if numfun(h) > 0
                 % Estimate the total mass change
