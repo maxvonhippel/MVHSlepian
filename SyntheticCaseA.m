@@ -41,7 +41,7 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 disp('Initializing values for Synthetic Case A');   % <--   
 
 defval('xver',0);
-defval('dom','greenland');
+defval('dom','iceland');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('wantnoise',0);

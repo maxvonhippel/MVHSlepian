@@ -27,7 +27,6 @@ function varargout=SyntheticExperiments(myCase, dom, Ls)
 defval('myCase','A');
 defval('xver',0);
 defval('dom','iceland');
-defval('THS','iceland');
 defval('Pcenter','CSR');
 defval('Rlevel','RL05');
 defval('Ldata',60);
@@ -59,13 +58,13 @@ end
 % RUN THE CASES
 %%%
 
-disp('Restarting parpool');   % <-- 
-
-% We should run this in parallel to make it faster.  The parallel part here
-% is done in plm2avgp where we calculate Slepian function integrals.
-% Delete any existing pool before launching a new one to avoid errors.
-delete(gcp('nocreate'));
-parpool;
+if isempty(getCurrentTask())
+  % We should run this in parallel to make it faster.  The parallel part here
+  % is done in plm2avgp where we calculate Slepian function integrals.
+  % Delete any existing pool before launching a new one to avoid errors.
+  disp('Starting parpool');
+  parpool;
+end
 
 tic;
 switch myCase
