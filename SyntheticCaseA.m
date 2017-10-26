@@ -175,7 +175,8 @@ for L=Ls
                                        [],[],CC,TH,numfun(h));
                 % At this point, slept, thedates, CC, TH, and numfun(h)
                 % all see reasonable
-                numfun(h)
+                slept
+                thedates
                 allslopes{h}(counter)=totalparams(2)*365;
             else
                 allslopes{h}(counter)=NaN;
