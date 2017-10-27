@@ -54,7 +54,6 @@ defval('truncations',[-2 -1 0 1 2]);
 disp('Decomposing the covariance...');
 T=cholcov(Clmlmp);
 [n,m]=size(T);
-Clmlmp
 
 % Check if this is right
 if xver
@@ -71,7 +70,7 @@ disp('Finding bandlimit data info over region');   % <--
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 % Make a synthetic unit signal over the region
 [~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
-plotplm(lmcosis)
+plotplm(lmcosiS)
 keyboard
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
