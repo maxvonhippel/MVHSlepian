@@ -153,8 +153,8 @@ for L=Ls
             if size(lmcosi,1) < addmup(L)
                 lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
-                addmup(L)
                 lmcosi=lmcosi(1:addmup(L),:);
+                size(lmcosi)
             end
   
             % Perform the expansion of the signal into the Slepian basis
