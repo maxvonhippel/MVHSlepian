@@ -54,6 +54,8 @@ defval('truncations',[-2 -1 0 1 2]);
 disp('Decomposing the covariance...');
 T=cholcov(Clmlmp);
 [n,m]=size(T);
+Clmlmp
+keyboard
 
 % Check if this is right
 if xver
