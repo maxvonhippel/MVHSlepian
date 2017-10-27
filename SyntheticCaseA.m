@@ -164,8 +164,17 @@ for L=Ls
             % I added the -1 at the end
             % Why does this make it become nonzero?  Is one of my arrays 
             % (lmcosi, perhaps) indexed incorrectly?
+
+            %  ----------------------------------------------------------
+            %  ----------------------------------------------------------
+            % In terms of debugging what's wrong here (why slept all 0s),
+            % I think this line might be the most important one: 
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            slept(k,:)=falpha
+            lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2))
+            %  ----------------------------------------------------------
+            %  ----------------------------------------------------------
+
+            slept(k,:)=falpha;
         end
         for h=1:length(truncations)
             if numfun(h) > 0
