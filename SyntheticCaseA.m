@@ -147,7 +147,7 @@ for L=Ls
         
         % Loop over the months
         for k=1:nmonths
-            lmcosi=squeeze(fullS(k,:,:))
+            lmcosi=squeeze(fullS(k,:,:));
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
             size(lmcosi,1)
