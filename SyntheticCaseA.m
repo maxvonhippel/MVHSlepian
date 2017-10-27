@@ -86,7 +86,8 @@ deltadates=thedates-thedates(1);
 lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 % fullS holds the combined synthetic signal and synthetic noise
-
+squeeze(fullS(1,:,:))
+keyboard
 disp('Iterating through building signal, noise');   % <-- 
 
 counter=1;
@@ -170,7 +171,6 @@ for L=Ls
             % In terms of debugging what's wrong here (why slept all 0s),
             % I think this line might be the most important one: 
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            lmcosi
             % it says, multiply G' by the [2*#rows in lmcosi+(values 1 through
             % shannon number of L) ]'th value of lmcosi
             % So the bug is likely something with that long expression about
