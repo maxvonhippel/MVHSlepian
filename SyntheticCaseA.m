@@ -165,7 +165,7 @@ for L=Ls
             % Why does this make it become nonzero?  Is one of my arrays 
             % (lmcosi, perhaps) indexed incorrectly?
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            slept(k,:)=falpha;
+            slept(k,:)=falpha
         end
         for h=1:length(truncations)
             if numfun(h) > 0
@@ -174,7 +174,6 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                slept
                 allslopes{h}(counter)=totalparams(2)*365;
             else
                 allslopes{h}(counter)=NaN;
