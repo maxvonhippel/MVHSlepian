@@ -157,7 +157,7 @@ for L=Ls
                 lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
                 disp('that')
-                lmcosi=lmcosi(1:addmup(L),:);
+                lmcosi=lmcosi(1:addmup(L),:)
             end
   
             % Perform the expansion of the signal into the Slepian basis
