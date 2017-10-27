@@ -147,7 +147,7 @@ for L=Ls
         
         % Loop over the months
         for k=1:nmonths
-            global lmcosi=squeeze(fullS(k,:,:));
+            lmcosi=squeeze(fullS(k,:,:));
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
             if size(lmcosi,1) < addmup(L)
@@ -170,6 +170,7 @@ for L=Ls
             % In terms of debugging what's wrong here (why slept all 0s),
             % I think this line might be the most important one: 
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+            lmcosi(1)
             %  ----------------------------------------------------------
             %  ----------------------------------------------------------
 
