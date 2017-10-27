@@ -150,8 +150,6 @@ for L=Ls
             lmcosi=squeeze(fullS(k,:,:));
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
-            size(lmcosi,1)
-            addmup(L)
             if size(lmcosi,1) < addmup(L)
                 lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
@@ -169,6 +167,7 @@ for L=Ls
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:)=falpha;
         end
+        slept
         for h=1:length(truncations)
             if numfun(h) > 0
                 % Estimate the total mass change
