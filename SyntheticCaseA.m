@@ -55,7 +55,6 @@ disp('Decomposing the covariance...');
 T=cholcov(Clmlmp);
 [n,m]=size(T);
 Clmlmp
-keyboard
 
 % Check if this is right
 if xver
@@ -73,6 +72,7 @@ disp('Finding bandlimit data info over region');   % <--
 % Make a synthetic unit signal over the region
 [~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
 plotplm(lmcosis)
+keyboard
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
@@ -114,8 +114,6 @@ for k=deltadates
     counter=counter+1;
 end
 
-squeeze(fullS(1,:,:))
-keyboard
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
