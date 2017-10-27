@@ -86,8 +86,6 @@ deltadates=thedates-thedates(1);
 lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 % fullS holds the combined synthetic signal and synthetic noise
-squeeze(fullS(1,:,:))
-keyboard
 disp('Iterating through building signal, noise');   % <-- 
 
 counter=1;
@@ -112,6 +110,9 @@ for k=deltadates
     end
     counter=counter+1;
 end
+
+squeeze(fullS(1,:,:))
+keyboard
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
