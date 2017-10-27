@@ -170,6 +170,7 @@ for L=Ls
             % In terms of debugging what's wrong here (why slept all 0s),
             % I think this line might be the most important one: 
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+            lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2))
             % it says, multiply G' by the [2*#rows in lmcosi+(values 1 through
             % shannon number of L) ]'th value of lmcosi
             % So the bug is likely something with that long expression about
