@@ -168,6 +168,7 @@ for L=Ls
             slept(k,:)=falpha;
         end
         slept
+        numfun(h)
         for h=1:length(truncations)
             if numfun(h) > 0
                 % Estimate the total mass change
