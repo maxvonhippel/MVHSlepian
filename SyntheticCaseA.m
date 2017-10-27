@@ -169,7 +169,7 @@ for L=Ls
             %  ----------------------------------------------------------
             % In terms of debugging what's wrong here (why slept all 0s),
             % I think this line might be the most important one: 
-            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2),:)
+            falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2))
             %  ----------------------------------------------------------
             %  ----------------------------------------------------------
 
