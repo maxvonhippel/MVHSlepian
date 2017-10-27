@@ -151,7 +151,7 @@ defval('nmonths', length(thedates));
 
 % Project monthly GRACE data into Slepians.
 [slept, ~, thedates, TH, G, CC, V, ~] = grace2slept( ...
-    'CSRRL05', 'iceland', 1, L, 0, 0, 0, J, 'POT', 1);
+    'CSRRL05', 'iceland', 1, L, 0, 0, 0, J, 'SD', 0);
 defval('nmonths',length(thedates));
 
 % Get a shannon number.
