@@ -137,7 +137,7 @@ for L=Ls
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
         %[G,V,EL,EM,N]=glmalpha(TH,L,[],0);
-        [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,XY_buffer,L,[],[],[],[],'SD',0);
+        [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,XY_buffer,L,[],[],[],'N','SD',0);
 
         % Get the mapping from LMCOSI into not-block-sorted GLMALPHA
         [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
