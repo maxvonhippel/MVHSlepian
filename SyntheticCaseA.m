@@ -154,7 +154,6 @@ for L=Ls
                 lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
                 lmcosi=lmcosi(1:addmup(L),:);
-                size(lmcosi)
             end
   
             % Perform the expansion of the signal into the Slepian basis
@@ -175,6 +174,7 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
+                totalparams
                 allslopes{h}(counter)=totalparams(2)*365;
             else
                 allslopes{h}(counter)=NaN;
