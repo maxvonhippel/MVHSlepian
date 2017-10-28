@@ -185,6 +185,7 @@ for L=Ls
             tempplms=[CC{1}(:,1:2) tempplms];
             indeks1 = repmat(XY(1,:), 181, 1);
             indeks2 = repmat(XY(1:181,1)', 1, 181);
+            keyboard
             geoshow(indeks1,indeks2,tempplms(1:181, :),...
                 'DisplayType','texturemap');
             colorbar
