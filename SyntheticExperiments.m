@@ -71,7 +71,7 @@ switch myCase
     case 'A'
       % Geoboxcap for dom (eg Iceland), run recovery, see what we get
       disp('Synthetic Experiment A running now.');
-      allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom);
+      allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom)
     case 'AA'
       % A but with synthetic noise
       disp('Synthetic Experiment AA running now.');
