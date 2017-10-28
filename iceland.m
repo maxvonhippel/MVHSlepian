@@ -27,7 +27,7 @@ defval('buf',0);
 % In degrees, rather than lan lot:
 c11=[335 66.8];
 cmn=[347 54.9];
-xunt=1:453;
+xunt=1:54;
 
 % Inspired by orinoco.m
 % XY=load(fullfile(getenv('IFILES'),'COASTS',regn));
