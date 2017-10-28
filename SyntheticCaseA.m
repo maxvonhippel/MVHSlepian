@@ -100,17 +100,17 @@ for k=deltadates
     % Reorder the noise
     temp1=lmcosidata(:,3:4);
     % temp1(ronmdata)=syntheticnoise(:);
-    syntheticnoise=[lmcosidata(:,1:2) temp1];
+    % syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
-    if wantnoise
-       fullS(counter,:,:)=[lmcosidata(:,1:2)...
-           squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
-    else
-       fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
-    end
+    % if wantnoise
+    fullS(counter,:,:)=[lmcosidata(:,1:2)...
+          squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
+    % else
+    %    fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
+    % end
     counter=counter+1;
 end
-
+keyboard
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
@@ -189,7 +189,6 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                keyboard
                 allslopes{h}(counter)=totalparams(2)*365;
             else
                 allslopes{h}(counter)=NaN;
