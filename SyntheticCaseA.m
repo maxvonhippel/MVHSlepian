@@ -183,8 +183,12 @@ for L=Ls
                 tempplms=tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms=[CC{1}(:,1:2) tempplms];
-            plotplm(tempplms,[],[],4);
+            indeks1 = repmat(XY(1,:), length(1:181), 1);
+            indeks2 = repmat(XY(1:181,1)', 1, length(lon));
+            geoshow(indeks1,indeks2,tempplms(1:181, :),...
+                'DisplayType','texturemap');
             colorbar
+            kelicol
             % [rtotal,lon,lat]=plm2xyz(tempplms,1);
             % figure
             % crange=[-100 25];
