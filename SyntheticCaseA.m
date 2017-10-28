@@ -183,8 +183,8 @@ for L=Ls
                 tempplms=tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms=[CC{1}(:,1:2) tempplms];
-            indeks1 = repmat(XY(1,:), length(1:181), 1);
-            indeks2 = repmat(XY(1:181,1)', 1, length(lon));
+            indeks1 = repmat(XY(1,:), 181, 1);
+            indeks2 = repmat(XY(1:181,1)', 1, 181);
             geoshow(indeks1,indeks2,tempplms(1:181, :),...
                 'DisplayType','texturemap');
             colorbar
