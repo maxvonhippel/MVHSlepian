@@ -22,8 +22,11 @@ regn='iceland';
 defval('res',0);
 defval('buf',0);
 
-c11=[-25.2246 66.861];
-cmn=[-12.9199 63.0748];
+% c11=[-25.2246 66.861];
+% cmn=[-12.9199 63.0748];
+% In degrees, rather than lan lot:
+c11=[335 66.8];
+cmn=[347 54.9];
 xunt=1:453;
 
 % Inspired by orinoco.m
@@ -31,7 +34,7 @@ xunt=1:453;
 % XY=XY.XY;
 
 % Do it! Make it, load it, save it
-XY=regselect([],c11,cmn,xunt,res,buf);
+XY=regselect('iceland',c11,cmn,xunt,res,buf);
 
 
 if nargout==0
