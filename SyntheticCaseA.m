@@ -110,7 +110,6 @@ for k=deltadates
     % end
     counter=counter+1;
 end
-keyboard
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
@@ -171,7 +170,6 @@ for L=Ls
                                        [],[],CC,TH,numfun(h));
                 % allslopes{h}(counter)=totalparams(2)*365;
                 allslopes{h}(counter)=totalparams*365;
-                keyboard
             else
                 allslopes{h}(counter)=NaN;
             end
