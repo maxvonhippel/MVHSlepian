@@ -27,11 +27,11 @@ cmn=[-12.9199 63.0748];
 xunt=1:453;
 
 % Inspired by orinoco.m
-XY=load(fullfile(getenv('IFILES'),'COASTS',regn));
-XY=XY.XY;
+% XY=load(fullfile(getenv('IFILES'),'COASTS',regn));
+% XY=XY.XY;
 
 % Do it! Make it, load it, save it
-XY=regselect(regn,XY(:,1),XY(:,2),xunt,res,buf);
+XY=regselect([],c11,cmn,xunt,res,buf);
 
 
 if nargout==0
