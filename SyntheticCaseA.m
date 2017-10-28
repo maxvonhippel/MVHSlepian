@@ -183,24 +183,9 @@ for L=Ls
                 tempplms=tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms=[CC{1}(:,1:2) tempplms];
-            indeks1 = repmat(XY(1,:), 181, 1);
-            indeks2 = repmat(XY(1:181,1)', 1, 181);
-            keyboard
-            geoshow(indeks1,indeks2,tempplms(1:181, :),...
-                'DisplayType','texturemap');
+            plotplm(tempplms,[],[],5);
             colorbar
             kelicol
-            % [rtotal,lon,lat]=plm2xyz(tempplms,1);
-            % figure
-            % crange=[-100 25];
-            % m_proj('oblique mercator','longitudes',[318 318],'latitudes',...
-            %     [90 50],'aspect',1.0);
-            % % 90 to 10, resolution is 1 degree
-            % m_pcolor(lon,lat(1:80),rtotal(1:80,:));
-            % caxis(crange);
-            % shading flat;
-            % m_grid;
-            % m_coast('color','w');
         end       
     end
 end
