@@ -177,26 +177,24 @@ for L=Ls
         counter=counter+1;
         
         if xver && L==60 && XY_buffer==0.5
-            keyboard
-            path(path,'~/src/m_map');
             mydata=slept(11,:) - slept(1,:);
             tempplms=[zeros(size(CC{1}(:,3:4)))];
             for v=1:N
                 tempplms=tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms=[CC{1}(:,1:2) tempplms];
-            [rtotal,lon,lat]=plm2xyz(tempplms,1);
-            
-            figure
-            crange=[-100 25];
-            m_proj('oblique mercator','longitudes',[318 318],'latitudes',...
-                [90 50],'aspect',1.0);
-            % 90 to 10, resolution is 1 degree
-            m_pcolor(lon,lat(1:80),rtotal(1:80,:));
-            caxis(crange);
-            shading flat;
-            m_grid;
-            m_coast('color','w');
+            plotplm(tempplms)
+            % [rtotal,lon,lat]=plm2xyz(tempplms,1);
+            % figure
+            % crange=[-100 25];
+            % m_proj('oblique mercator','longitudes',[318 318],'latitudes',...
+            %     [90 50],'aspect',1.0);
+            % % 90 to 10, resolution is 1 degree
+            % m_pcolor(lon,lat(1:80),rtotal(1:80,:));
+            % caxis(crange);
+            % shading flat;
+            % m_grid;
+            % m_coast('color','w');
         end       
     end
 end
