@@ -51,18 +51,18 @@ defval('nmonths',length(thedates));
 defval('truncations',[-2 -1 0 1 2]);
 
 % Decompose the covariance matrix
-disp('Decomposing the covariance...');
-T=cholcov(Clmlmp);
-[n,m]=size(T);
+% disp('Decomposing the covariance...');
+% T=cholcov(Clmlmp);
+% [n,m]=size(T);
 
 % Check if this is right
-if xver
+% if xver
     % Generate a lot of data that averages to the correct covariance 
     % (aside from random variation).
-    SYNClmlmp=cov(randn(10000,n)*T);
-    Clmlmp(1:10,1:10);
-    SYNClmlmp(1:10,1:10);
-end
+%     SYNClmlmp=cov(randn(10000,n)*T);
+%     Clmlmp(1:10,1:10);
+%     SYNClmlmp(1:10,1:10);
+% end
 
 disp('Finding bandlimit data info over region');   % <-- 
 
@@ -96,10 +96,10 @@ for k=deltadates
     % Scale the unit signal for this month
     lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
     % Make a synthetic noise realization
-    syntheticnoise=randn(1,n)*T;
+    % syntheticnoise=randn(1,n)*T;
     % Reorder the noise
     temp1=lmcosidata(:,3:4);
-    temp1(ronmdata)=syntheticnoise(:);
+    % temp1(ronmdata)=syntheticnoise(:);
     syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
