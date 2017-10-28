@@ -159,27 +159,7 @@ for L=Ls
             % Perform the expansion of the signal into the Slepian basis
             % If we want a specific truncation, we limit it here.
             numfun=N+truncations;
-            % It was:
-            % falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2)
-            % I added the -1 at the end
-            % Why does this make it become nonzero?  Is one of my arrays 
-            % (lmcosi, perhaps) indexed incorrectly?
-
-            %  ----------------------------------------------------------
-            %  ----------------------------------------------------------
-            % In terms of debugging what's wrong here (why slept all 0s),
-            % I think this line might be the most important one: 
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
-            % it says, multiply G' by the [2*#rows in lmcosi+(values 1 through
-            % shannon number of L) ]'th value of lmcosi
-            % So the bug is likely something with that long expression about
-            % which index in lmcosi to grab, as we really need it to be something
-            % in the first two columns since the rest are zeros.
-            % But I don't get the logic of this line, ergo I am not sure how to
-            % 'fix' it.
-            %  ----------------------------------------------------------
-            %  ----------------------------------------------------------
-
             slept(k,:)=falpha;
         end
         for h=1:length(truncations)
@@ -189,7 +169,9 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                allslopes{h}(counter)=totalparams(2)*365;
+                % allslopes{h}(counter)=totalparams(2)*365;
+                allslopes{h}(counter)=totalparams*365;
+                keyboard
             else
                 allslopes{h}(counter)=NaN;
             end
