@@ -183,29 +183,8 @@ for L=Ls
                 tempplms=tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms=[CC{1}(:,1:2) tempplms];
-            % Iceland specific, for now
-            indeks1=repmat(lon, length(1:181), 1);
-            indeks2=repmat(lat(1:181)', 1, length(lon));
-            icelandBorder=iceland(0, 0);
-            figure;
-            axesm('mercator', 'Origin', [70 318 0], ...
-                      'FLatLimit', [-20 20], 'FLonLimit', [-20 20]);
-            caxis([-max(abs(reshape(peaks, [], 1))) ...
-                max(abs(reshape(peaks, [], 1)))]);
-            geoshow(indeks2, indeks1, tempplms(1:181, :), ...
-                'DisplayType', 'texturemap');
-            geoshow(icelandBorder(:, 2), icelandBorder(:,1), ...
-                'DisplayType', 'line');
-            [~,A,~,XY]=plm2avg(CC{panel}, XY);
-            if XYbuffer ~= 0, linem(XY(:, 1), XY(:, 2), ...
-                'color', 'white', 'linestyle', '--'); end
-            %   Rotate/reshape plot - I think this is to account for projection?
-            P = get(t, 'position');
-            P(2) = (P(2) * 1.05) - 0.02;
-            set(t, 'position', P);
-            pos = get(gca, 'Position');
-            pos(2) = pos(2) - 0.05;
-            set(gca, 'Position', pos);
+            plotplm(tempplms,[],[],4);
+            colorbar
             % [rtotal,lon,lat]=plm2xyz(tempplms,1);
             % figure
             % crange=[-100 25];
