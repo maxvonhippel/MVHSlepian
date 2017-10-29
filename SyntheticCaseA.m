@@ -105,6 +105,7 @@ for k=deltadates
     else
         fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
     end
+    keyboard
     counter=counter+1;
 end
 
