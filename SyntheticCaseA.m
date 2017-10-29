@@ -161,6 +161,7 @@ for L=Ls
         end
         for h=1:length(truncations)
             if numfun(h) > 0
+                disp('banana')
                 % Estimate the total mass change
                 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
