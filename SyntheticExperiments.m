@@ -35,7 +35,8 @@ defval('pars',10);
 defval('wantnoise',0);
 defval('Ls',[60]);
 defval('thebuffers',[0.5]);
-defval('truncations',[0]);
+defval('truncations',[0 1]);
+% [-2 -1 0 1 2]
 
 % Get the original data
 [potcoffs,calerrors,thedates] = grace2plmt(Pcenter,Rlevel,'SD',0);
