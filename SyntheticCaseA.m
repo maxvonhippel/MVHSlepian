@@ -68,7 +68,7 @@ disp('Finding bandlimit data info over region');   % <--
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 % Make a synthetic unit signal over the region
-[~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
+[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom,[],[],1);
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
