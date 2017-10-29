@@ -100,7 +100,8 @@ for k=deltadates
     syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
-       fullS(counter,:,:)=[lmcosidata(:,1:2)...
+        keyboard
+        fullS(counter,:,:)=[lmcosidata(:,1:2)...
            squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
     else
         fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
