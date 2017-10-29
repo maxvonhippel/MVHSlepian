@@ -182,6 +182,6 @@ for L=Ls
         end       
     end
 end
-
+disp('banana')
 varns={allslopes};
 varargout=varns(1:nargout);
