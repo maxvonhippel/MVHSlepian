@@ -97,14 +97,14 @@ for k=deltadates
     % Reorder the noise
     temp1=lmcosidata(:,3:4);
     temp1(ronmdata)=syntheticnoise(:);
-    % syntheticnoise=[lmcosidata(:,1:2) temp1];
+    syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
-    % if wantnoise
-    %   fullS(counter,:,:)=[lmcosidata(:,1:2)...
-    %       squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
-    % else
-    fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
-    % end
+    if wantnoise
+       fullS(counter,:,:)=[lmcosidata(:,1:2)...
+           squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
+    else
+        fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
+    end
     counter=counter+1;
 end
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
