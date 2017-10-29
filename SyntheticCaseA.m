@@ -72,8 +72,6 @@ disp('Finding bandlimit data info over region');   % <--
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
-% Looks like that 6370000 number comes from somewhere, should not be
-% changed: http://bit.ly/2iCrGOw
 factor1=factor1/spharea(dom)/4/pi/6370000^2;
 % So now we have kg/m^2
 
@@ -95,10 +93,10 @@ for k=deltadates
     % Scale the unit signal for this month
     lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
     % Make a synthetic noise realization
-    % syntheticnoise=randn(1,n)*T;
+    syntheticnoise=randn(1,n)*T;
     % Reorder the noise
     temp1=lmcosidata(:,3:4);
-    % temp1(ronmdata)=syntheticnoise(:);
+    temp1(ronmdata)=syntheticnoise(:);
     % syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     % if wantnoise
