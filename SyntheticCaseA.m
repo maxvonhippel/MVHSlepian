@@ -160,8 +160,10 @@ for L=Ls
             slept(k,:)=falpha;
         end
         for h=1:length(truncations)
+            disp('banana')
+            disp(h)
+            disp(numfun(h))
             if numfun(h) > 0
-                disp('banana')
                 % Estimate the total mass change
                 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
