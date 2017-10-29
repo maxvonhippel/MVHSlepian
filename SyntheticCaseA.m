@@ -68,9 +68,9 @@ disp('Finding bandlimit data info over region');   % <--
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 if (wantnoise)
-    boxL=2*Ldata;
-else
     boxL=Ldata;
+else
+    boxL=2*Ldata;
 end
 % Make a synthetic unit signal over the region
 [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom,[],[],1);
