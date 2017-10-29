@@ -3,9 +3,8 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 %
 % This function runs a synthetic experiment to recover a mass loss trend in
 % the presence of noise, estimated from GRACE data, for a variety of 
-% bases, buffer regions, and
-% truncation levels.  The Case A experiment is for a uniform mass change
-% over the region.
+% bases, buffer regions, and truncation levels.  The Case A experiment is 
+% for a uniform mass change over the region.
 %
 % INPUT:
 %
