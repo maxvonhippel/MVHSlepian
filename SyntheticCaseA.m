@@ -43,7 +43,7 @@ defval('xver',1);
 defval('dom','iceland');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
-defval('wantnoise',1);
+defval('wantnoise',0);
 defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
@@ -107,6 +107,7 @@ for k=deltadates
     end
     counter=counter+1;
 end
+keyboard
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
