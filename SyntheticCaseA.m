@@ -161,13 +161,16 @@ for L=Ls
         end
         for h=1:length(truncations)
             if numfun(h) > 0
+                keyboard
                 % Estimate the total mass change
                 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
                 % allslopes{h}(counter)=totalparams(2)*365;
+                keyboard
                 allslopes{h}(counter)=totalparams*365;
+                keyboard
             else
                 allslopes{h}(counter)=NaN;
             end
