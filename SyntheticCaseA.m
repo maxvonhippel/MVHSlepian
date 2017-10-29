@@ -43,7 +43,7 @@ defval('xver',1);
 defval('dom','iceland');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
-defval('wantnoise',0);
+defval('wantnoise',1);
 defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
