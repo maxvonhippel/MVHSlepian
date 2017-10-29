@@ -92,20 +92,19 @@ for k=deltadates
     factor2=factor1*4 - k/365*factor1;
     % Scale the unit signal for this month
     lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
-    % Make a synthetic noise realization
-    syntheticnoise=randn(1,n)*T;
-    % Reorder the noise
-    temp1=lmcosidata(:,3:4);
-    temp1(ronmdata)=syntheticnoise(:);
-    syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
+        % Make a synthetic noise realization
+        syntheticnoise=randn(1,n)*T;
+        % Reorder the noise
+        temp1=lmcosidata(:,3:4);
+        temp1(ronmdata)=syntheticnoise(:);
+        syntheticnoise=[lmcosidata(:,1:2) temp1];
         fullS(counter,:,:)=[lmcosidata(:,1:2)...
            squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
     else
         fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
     end
-    keyboard
     counter=counter+1;
 end
 
