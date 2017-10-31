@@ -160,7 +160,6 @@ for L=Ls
             slept(k,:)=falpha;
         end
         for h=1:length(truncations)
-            keyboard
             if numfun(h) > 0
                 % Estimate the total mass change
                 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
