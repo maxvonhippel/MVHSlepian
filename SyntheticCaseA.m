@@ -161,8 +161,8 @@ for L=Ls
         end
         for h=1:length(truncations)
             if numfun(h) > size(CC(1,:))
-                disp('requested truncation of' truncations(h) ...
-                    'too large for CC');
+                sprintf('requested truncation of %f too large for CC',...
+                    truncations(h))
                 allslopes{h}(counter)=NaN;
             elseif numfun(h) > 0
                 % Estimate the total mass change
