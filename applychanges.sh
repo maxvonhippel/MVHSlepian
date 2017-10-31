@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Copy and paste your script here
 cp mvhfunction.m /Users/maxvonhippel/Slepian/slepian_alpha/mvhfunction.m &&
 cp SyntheticCaseA.m /Users/maxvonhippel/Slepian/SyntheticCaseA.m &&
 cp SyntheticExperiments.m /Users/maxvonhippel/Slepian/SyntheticExperiments.m &&
