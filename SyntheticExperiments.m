@@ -35,7 +35,7 @@ defval('pars',10);
 defval('wantnoise',0);
 defval('Ls',[60]);
 defval('thebuffers',[0.5]);
-defval('truncations',[-2 -1 0]); % Note that currently must be ≤ 0
+defval('truncations',[-2 -1 0 1]); % Note that currently must be ≤ 0
 % [-2 -1 0 1 2]
 
 % Get the original data
@@ -73,7 +73,6 @@ switch myCase
       % Geoboxcap for dom (eg Iceland), run recovery, see what we get
       disp('Synthetic Experiment A running now.');
       allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom)
-      size(allslopes)
     case 'AA'
       % A but with synthetic noise
       disp('Synthetic Experiment AA running now.');
