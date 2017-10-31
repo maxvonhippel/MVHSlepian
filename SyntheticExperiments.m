@@ -35,8 +35,10 @@ defval('pars',10);
 defval('wantnoise',0);
 defval('Ls',[60]);
 defval('thebuffers',[0.5]);
-defval('truncations',[-2 -1 0 1 2]); % Note that currently must be ≤ 0
-% [-2 -1 0 1 2]
+% Current problem to overvome is NaN for non-zero truncations
+% Is this just because Iceland is so small?  Need to test w/
+% Greenland to tell.
+defval('truncations',[0]); % [-2 -1 0 1 2]
 
 % Get the original data
 [potcoffs,calerrors,thedates] = grace2plmt(Pcenter,Rlevel,'SD',0);
