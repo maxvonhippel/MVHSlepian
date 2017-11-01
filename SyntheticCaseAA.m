@@ -5,7 +5,8 @@ function varargout=SyntheticCaseAA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 % the presence of synthetic noise, for a variety of 
 % bases, buffer regions, and
 % truncation levels.  The Case AA experiment is for a uniform mass change
-% over the region.
+% over the region.  It is nearly identical to the Case A experiment, except
+% that the noise is not based on the covariance matrix; it's just random.
 %
 % INPUT:
 %
@@ -36,31 +37,50 @@ function varargout=SyntheticCaseAA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 % INITIALIZE
 %%%
 
-disp('Initializing values for Synthetic Case AA');   % <--   
+disp('Initializing values for Synthetic Case A');   % <--   
 
-defval('xver',0);
-defval('dom','greenland');
+defval('xver',1);
+defval('dom','iceland');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
-defval('wantnoise',1);
+defval('wantnoise',0);
 defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
 defval('truncations',[-2 -1 0 1 2]);
 
+% Decompose the covariance matrix
+disp('Decomposing the covariance...');
+T=cholcov(Clmlmp);
+[n,m]=size(T);
+
+% Check if this is right
+if xver
+    % Generate a lot of data that averages to the correct covariance 
+    % (aside from random variation).
+    SYNClmlmp=cov(randn(10000,n)*T);
+    Clmlmp(1:10,1:10);
+    SYNClmlmp(1:10,1:10);
+end
+
 disp('Finding bandlimit data info over region');   % <-- 
 
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
+if (wantnoise)
+    boxL=Ldata;
+else
+    boxL=2*Ldata;
+end
 % Make a synthetic unit signal over the region
-[~,~,~,~,~,lmcosiS]=geoboxcap(120,dom,[],[],1);
+[~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom,[],[],1);
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
 factor1=factor1/spharea(dom)/4/pi/6370000^2;
 % So now we have kg/m^2
 
-disp('Finding dates and preallocating null or 0 arrays');   % <--
+disp('Finding dates and preallocating null or 0 arrays');   % <-- 
 
 % Get relative dates to make a trend
 deltadates=thedates-thedates(1);
@@ -68,11 +88,8 @@ deltadates=thedates-thedates(1);
 lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 % fullS holds the combined synthetic signal and synthetic noise
-
 disp('Iterating through building signal, noise');   % <-- 
 
-[a,b]=size(Clmlmp);
-squaresize=max(a,b);
 counter=1;
 for k=deltadates
     % Caltulate the desired trend amount for this month, putting the mean
@@ -80,21 +97,22 @@ for k=deltadates
     factor2=factor1*4 - k/365*factor1;
     % Scale the unit signal for this month
     lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
-    % Make a synthetic noise realization
-    syntheticnoise=randn(squaresize,squaresize);
-    % Reorder the noise
-    temp1=lmcosidata(:,3:4);
-    temp1(ronmdata)=syntheticnoise(:,1);
-    syntheticnoise=[lmcosidata(:,1:2) temp1];
     % Add this to the signal
     if wantnoise
-       fullS(counter,:,:)=[lmcosidata(:,1:2)...
+        % Make a synthetic noise realization
+        syntheticnoise=randn(1,n)*ones(n,m);
+        % Reorder the noise
+        temp1=lmcosidata(:,3:4);
+        temp1(ronmdata)=syntheticnoise(:);
+        syntheticnoise=[lmcosidata(:,1:2) temp1];
+        fullS(counter,:,:)=[lmcosidata(:,1:2)...
            squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
     else
-       fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
+        fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
     end
     counter=counter+1;
 end
+
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
@@ -120,72 +138,57 @@ for L=Ls
         
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
-        %[G,V,EL,EM,N]=glmalpha(TH,L,[],0);
-        [~,~,~,XY,G,CC]=grace2slept('CSR',dom,XY_buffer,L,[],[],[],[],'SD');
-        
+        [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,XY_buffer,L,[],[],[],'N','SD',0);
         % Get the mapping from LMCOSI into not-block-sorted GLMALPHA
         [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
-  
         % Preallocate a slept
-        slept=zeros(nmonths,(L+1)^2);
-        
+        slept=zeros(nmonths,(L+1)^2);  
         % Loop over the months
         for k=1:nmonths
             lmcosi=squeeze(fullS(k,:,:));
             % Make sure that the requested L acts as truncation on lmcosi
             % or if we don't have enough, pad with zeros
             if size(lmcosi,1) < addmup(L)
-               lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
+                lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             else
-               lmcosi=lmcosi(1:addmup(L),:);
+                lmcosi=lmcosi(1:addmup(L),:);
             end
   
             % Perform the expansion of the signal into the Slepian basis
             % If we want a specific truncation, we limit it here.
             numfun=N+truncations;
-            
             falpha=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
             slept(k,:)=falpha;
         end
-        
         for h=1:length(truncations)
-           	if numfun(h) > 0
-%  -----------   THIS IS THE PROBLEMATIC PART OF THE CODE -----------
-            	% Estimate the total mass change
-              	[ESTsignal,ESTresid,ftests,extravalues,total,...
-               	 alphavarall,totalparams,totalparamerrors,totalfit,...
-                 functionintegrals,alphavar] = slept2resid(slept,thedates,...
-                										   [1 365.0],[],[],...
-                										   CC,TH,numfun(h));
-              	allslopes{h}(counter)=totalparams(2)*365
-           else
-              	allslopes{h}(counter)=NaN;
-           end
+            if numfun(h) > size(CC(1,:))
+                sprintf('requested truncation of %f too large for CC',...
+                    truncations(h))
+                allslopes{h}(counter)=NaN;
+            elseif numfun(h) > 0
+                % Estimate the total mass change
+                [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
+                 totalparams,totalparamerrors,totalfit,functionintegrals,...
+                 alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
+                                       [],[],CC,TH,numfun(h));
+                % allslopes{h}(counter)=totalparams(2)*365;
+                allslopes{h}(counter)=totalparams*365;
+            else
+                allslopes{h}(counter)=NaN;
+            end
         end
-        
         counter=counter+1;
         
         if xver && L==60 && XY_buffer==0.5
-            keyboard
-            path(path,'~/src/m_map');
             mydata=slept(11,:) - slept(1,:);
             tempplms=[zeros(size(CC{1}(:,3:4)))];
             for v=1:N
                 tempplms=tempplms + CC{v}(:,3:4)*mydata(v);
             end
             tempplms=[CC{1}(:,1:2) tempplms];
-            [rtotal,lon,lat]=plm2xyz(tempplms,1);
-            
-            figure
-            crange=[-100 25];
-            m_proj('oblique mercator','longitudes',[318 318],'latitudes',...
-                   [90 50],'aspect',1.0);
-            % 90 to 10, resolution is 1 degree
-            m_pcolor(lon,lat(1:80),rtotal(1:80,:));
-            caxis(crange);
-            shading flat;
-            m_grid;
-            m_coast('color','w');
+            plotplm(tempplms,[],[],5);
+            colorbar
+            kelicol
         end       
     end
 end
