@@ -30,7 +30,7 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 % SEE ALSO: SYNTHETICEXPERIMENTS
 %
 % Modified by charig-at-princeton.edu on 6/22/2012
-% Last modified by maxvonhippel-at-email.arizon.edu on 10/28/2017
+% Last modified by maxvonhippel-at-email.arizon.edu on 10/31/2017
 
 %%%
 % INITIALIZE
