@@ -43,13 +43,14 @@ defval('truncations',[0]); % [-2 -1 0 1 2]
 % Get the original data
 [potcoffs,calerrors,thedates] = grace2plmt(Pcenter,Rlevel,'SD',0);
 % Get the fitted results
+keyboard
 [ESTresid,thedates,ESTsignal,~,~,varet] = plmt2resid(potcoffs(:,:,1:4),...
     thedates,[1 1 181.0 365.0]);
 
 % Use both to make a plot
 % clf
 % resid2plot(ESTresid,thedates,ESTsignal,20,20,varet,calerrors);
-
+keyboard
 [Clmlmp,Clmlmpr,Clmlmpd,EL,EM] = plmresid2cov(ESTresid,Ldata,[]);
 T = cholcov(Clmlmp);
 if isempty(T)
@@ -68,7 +69,7 @@ if ~isempty(getCurrentTask())
   disp('Starting parpool');
   parpool;
 end
-
+keyboard
 tic;
 switch myCase
     case 'A'
