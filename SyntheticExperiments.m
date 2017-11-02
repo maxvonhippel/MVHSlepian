@@ -88,6 +88,11 @@ switch myCase
       disp('Synthetic Experiment B running now');
       allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
                                  truncations,dom,0,dom2);
+    case 'BB'
+      % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
+      disp('Synthetic Experiment B running now');
+      allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
+                                 truncations,dom,1,dom2);
     case 'C'
       % Use actual noise from dom1 (eg Greenland) to recover dom2 (eg Iceland)
       % (unless this is currently implemented to do something else?)

@@ -39,7 +39,7 @@ function varargout=SyntheticCase(Clmlmp,thedates,Ls,buffers,truncations,...
 % INITIALIZE
 %%%
 
-disp('Initializing values for Synthetic Case A');   % <--   
+disp('Initializing values for Synthetic Case');   % <--   
 
 defval('xver',1);
 defval('dom','iceland');
@@ -76,7 +76,7 @@ else
     boxL=2*Ldata;
 end
 % Make a synthetic unit signal over the region
-[~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom,[],[],1);
+[~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)
