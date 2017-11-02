@@ -1,8 +1,9 @@
-function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
+function varargout=SyntheticCase(Clmlmp,thedates,Ls,buffers,truncations,...
+    dom,dom2,wantnoise)
 % [allslopes]=SYNTHETICCASEA(Clmlmp,thedates,Ls,buffers,truncations)
 %
 % This function runs a synthetic experiment to recover a mass loss trend in
-% the presence of noise, estimated from GRACE data, for a variety of 
+% the (optional) presence of noise, estimated from GRACE data, for a variety of 
 % bases, buffer regions, and truncation levels.  The Case A experiment is 
 % for a uniform mass change over the region.
 %
@@ -22,6 +23,8 @@ function varargout=SyntheticCaseA(Clmlmp,thedates,Ls,buffers,truncations,dom)
 %                will be added to this array to end up with something like 
 %                [N-2 N-1 N N+1 N+2]
 % dom       The region. 
+% dom2      For Case B experiment, in case you want to do uniform mass of 
+%           landmass X and then recover Y
 % 
 % OUTPUT:
 %
@@ -40,6 +43,7 @@ disp('Initializing values for Synthetic Case A');   % <--
 
 defval('xver',1);
 defval('dom','iceland');
+defval('dom2','iceland');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('wantnoise',0);
@@ -47,7 +51,7 @@ defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
 defval('truncations',[-2 -1 0 1 2]);
-keyboard
+
 % Decompose the covariance matrix
 disp('Decomposing the covariance...');
 T=cholcov(Clmlmp);
@@ -63,7 +67,7 @@ if xver
 end
 
 disp('Finding bandlimit data info over region');   % <-- 
-keyboard
+
 % Get info for the data bandlimit
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 if (wantnoise)
@@ -71,7 +75,6 @@ if (wantnoise)
 else
     boxL=2*Ldata;
 end
-keyboard
 % Make a synthetic unit signal over the region
 [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom,[],[],1);
 % Convert desired Gt/yr to kg
@@ -81,7 +84,7 @@ factor1=factor1/spharea(dom)/4/pi/6370000^2;
 % So now we have kg/m^2
 
 disp('Finding dates and preallocating null or 0 arrays');   % <-- 
-keyboard
+
 % Get relative dates to make a trend
 deltadates=thedates-thedates(1);
 % Preallocate
@@ -89,7 +92,7 @@ lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 % fullS holds the combined synthetic signal and synthetic noise
 disp('Iterating through building signal, noise');   % <-- 
-keyboard
+
 counter=1;
 for k=deltadates
     % Caltulate the desired trend amount for this month, putting the mean
@@ -122,7 +125,7 @@ end
 %%%
 
 disp('Processing the bases');
-keyboard
+
 counter=1;
 for L=Ls
     for XY_buffer=buffers
@@ -137,7 +140,6 @@ for L=Ls
         
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
-        keyboard
         [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,XY_buffer,L,[],[],[],'N','SD',0);
         % Get the mapping from LMCOSI into not-block-sorted GLMALPHA
         [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
@@ -166,7 +168,6 @@ for L=Ls
                     truncations(h))
                 allslopes{h}(counter)=NaN;
             elseif numfun(h) > 0
-                keyboard
                 % Estimate the total mass change
                 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
                  totalparams,totalparamerrors,totalfit,functionintegrals,...

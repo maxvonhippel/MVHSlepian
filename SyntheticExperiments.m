@@ -1,4 +1,4 @@
-function varargout=SyntheticExperiments(myCase, dom, Ls)
+function varargout=SyntheticExperiments(myCase, dom, dom2, Ls)
 % []=SYNTHETICEXPERIMENTS(Case)
 %
 % This function runs one of several synthetic experiments to recover a 
@@ -27,6 +27,7 @@ function varargout=SyntheticExperiments(myCase, dom, Ls)
 defval('myCase','A');
 defval('xver',0);
 defval('dom','iceland');
+defval('dom2','greenland');
 defval('Pcenter','CSR');
 defval('Rlevel','RL05');
 defval('Ldata',60);
@@ -75,15 +76,18 @@ switch myCase
     case 'A'
       % Geoboxcap for dom (eg Iceland), run recovery, see what we get
       disp('Synthetic Experiment A running now.');
-      allslopes = SyntheticCaseA(Clmlmp,thedates,Ls,thebuffers,truncations,dom)
+      allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
+                                 truncations,dom,0,[]);
     case 'AA'
       % A but with synthetic noise
       disp('Synthetic Experiment AA running now.');
-      allslopes = SyntheticCaseAA(Clmlmp,thedates,Ls,thebuffers,truncations,...
-                                  dom);
+      allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
+                                 truncations,dom,0,[]);
     case 'B'
       % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
-      disp('Synthetic Experiment BB not yet implemented.');
+      disp('Synthetic Experiment B running now');
+      allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
+                                 truncations,dom,0,dom2);
     case 'C'
       % Use actual noise from dom1 (eg Greenland) to recover dom2 (eg Iceland)
       % (unless this is currently implemented to do something else?)
