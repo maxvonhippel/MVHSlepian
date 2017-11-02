@@ -111,7 +111,7 @@ for k=deltadates
     end
     counter=counter+1;
 end
-
+keyboard
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
