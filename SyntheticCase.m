@@ -75,6 +75,7 @@ if (wantnoise)
 else
     boxL=2*Ldata;
 end
+keyboard
 % Make a synthetic unit signal over the region
 [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
 % Convert desired Gt/yr to kg
