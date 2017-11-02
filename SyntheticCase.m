@@ -77,12 +77,15 @@ else
     boxL=2*Ldata;
 end
 if (wantuniform)
-    % Cases A, AA, B, BB
+    % Cases A, AA, B, & BB
     % Make a synthetic unit signal over the region
     [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
 else
     % Actual Greenland -> Recover Iceland
     disp('Case C not yet implemented');
+    [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
+    % ^^ undo this and replace with actual greenland once I know how I'm
+    % supposed to do that (GRACE data?  If so, projected onto L=Ldata?)
 end
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
