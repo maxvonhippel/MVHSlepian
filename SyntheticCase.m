@@ -1,5 +1,5 @@
 function varargout=SyntheticCase(Clmlmp,thedates,Ls,buffers,truncations,...
-    dom,dom2,wantnoise)
+    dom,dom2,wantnoise,wantuniform)
 % [allslopes]=SYNTHETICCASEA(Clmlmp,thedates,Ls,buffers,truncations)
 %
 % This function runs a synthetic experiment to recover a mass loss trend in
@@ -47,6 +47,7 @@ defval('dom2','iceland');
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('wantnoise',0);
+defval('wantuniform',1);
 defval('Ls',[45 50 55]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
@@ -75,9 +76,14 @@ if (wantnoise)
 else
     boxL=2*Ldata;
 end
-keyboard
-% Make a synthetic unit signal over the region
-[~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
+if (wantuniform)
+    % Cases A, AA, B, BB
+    % Make a synthetic unit signal over the region
+    [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
+else
+    % Actual Greenland -> Recover Iceland
+    disp('Case C not yet implemented');
+end
 % Convert desired Gt/yr to kg
 factor1=Signal*907.1847*10^9;
 % Then get an average needed for the region (area in meters)

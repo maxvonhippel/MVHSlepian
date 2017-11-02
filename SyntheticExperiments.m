@@ -77,30 +77,27 @@ switch myCase
       % Geoboxcap for dom (eg Iceland), run recovery, see what we get
       disp('Synthetic Experiment A running now.');
       allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
-                                 truncations,dom,[],0);
+                                 truncations,dom,[],0,1);
     case 'AA'
       % A but with synthetic noise
       disp('Synthetic Experiment AA running now.');
       allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
-                                 truncations,dom,[],0);
+                                 truncations,dom,[],0,1);
     case 'B'
-      % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
+      % Use uniform mass on dom2 (eg Greenland), recover dom (eg Iceland)
       disp('Synthetic Experiment B running now');
       allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
-                                 truncations,dom,dom2,0);
+                                 truncations,dom,dom2,0,1);
     case 'BB'
-      % Use uniform mass on dom1 (eg Greenland), recover dom2 (eg Iceland)
+      % Use uniform mass on dom2 (eg Greenland), recover dom (eg Iceland)
       disp('Synthetic Experiment B running now');
       allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
-                                 truncations,dom,dom2,1);
+                                 truncations,dom,dom2,1,1);
     case 'C'
-      % Use actual noise from dom1 (eg Greenland) to recover dom2 (eg Iceland)
-      % (unless this is currently implemented to do something else?)
-      % (I don't have SyntheticCaseC script ...)
-      % allslopes = SyntheticCaseC(Clmlmp,thedates,Ls,thebuffers,truncations);
-      disp('Synthetic Experiment C not yet integrated into this codebase');
-    case 'D'
-      disp('Case D not yet implemented');
+      % Use actual mass from dom2 (eg Greenland) to recover dom (eg Iceland)
+      disp('Synthetic Experiment C running now');
+      allslopes = SyntheticCase(Clmlmp,thedates,Ls,thebuffers,...
+                                 truncations,dom,dom2,1,0);
     otherwise
       disp('Invalid case name. Try A, B, C, or D.');
 end
