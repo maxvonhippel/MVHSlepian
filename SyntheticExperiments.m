@@ -113,11 +113,10 @@ disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 % PLOTTING - need to define allslopes for following code to do anything
 %%%
 
-% i = thebuffers
-% j = Ls
-% slopessize=size(allslopes);
-% disp(slopessize)
-% allslopes2 = reshape(allslopes{5},length(i),length(j));
+i=thebuffers;
+j=Ls;
+slopessize=size(allslopes);
+allslopes2 = reshape(allslopes{5},length(i),length(j));
 % figure
 % realslopes=real(allslopes)
 % contour(real(j),real(i),allslopes,real(-1*[150 160 170 180 190 200 210 220]))
