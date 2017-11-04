@@ -178,6 +178,7 @@ for L=Ls
                     truncations(h))
                 allslopes{h}(counter)=NaN;
             elseif numfun(h) > 0
+                keyboard
                 % Estimate the total mass change
                 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
