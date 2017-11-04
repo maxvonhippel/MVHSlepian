@@ -51,8 +51,7 @@ function varargout=slept2resid(slept,thedates,fitwhat,givenerrors,specialterms,C
 % CC           A cell array of the localization Slepian functions
 % TH           The region (proper string or XY coordinates) that you did the
 %               localization on (so we can integrate)
-% N          Number of largest eigenfunctions in which to expand.  By default
-%             rounds to the Shannon number.
+% N             The number of functions
 %            
 % OUTPUT:
 %
@@ -103,7 +102,6 @@ function varargout=slept2resid(slept,thedates,fitwhat,givenerrors,specialterms,C
 % SEE ALSO:
 %
 % Last modified by charig-at-princeton.edu  6/26/2012
-
 defval('xver',0)  
 %defval('specialterms',{2 'periodic' 1728.1});
 defval('specialterms',{NaN});
@@ -305,6 +303,7 @@ for index=1:j
     %%%
     
     % Now repeat that all again with second order polynomial, if we want
+    P2ftest = 0;
     if fitwhat(1) >= 2  
       mL2_2 = (G2w'*G2w)\(G2w'*dw) ;
       if index == specialterms{1}
@@ -350,8 +349,6 @@ for index=1:j
          ESTresid(:,index) = resid2;
          ESTsignal(:,index) = fitfn2';
          if moredates; extravalues(:,index) = extravaluesfn2'; end
-      else
-         P2ftest = 0;
       end
     
     end
@@ -361,6 +358,7 @@ for index=1:j
     %%%
     
     % Now repeat that all again with third order polynomial, if we want
+    P3ftest=0;
     if fitwhat(1) >= 3
       mL2_3 = (G3w'*G3w)\(G3w'*dw) ;
       if index == specialterms{1}
@@ -407,8 +405,6 @@ for index=1:j
          ESTresid(:,index) = resid3;
          ESTsignal(:,index) = fitfn3';
          if moredates; extravalues(:,index) = extravaluesfn3'; end
-      else
-         P3ftest = 0;
       end
       
     end
@@ -490,13 +486,11 @@ if nargout >= 5 && exist('CC') && exist('TH')
        XY=TH;
     end
     % Calculate the Shannon number for this basis
+%     N=round((L+1)^2*spharea(XY)); <----------------------------------
     defval('N',round((L+1)^2*spharea(XY)));
-    
     % Make the coefficients with reference to some mean
     % If they already are, then this won't matter
     sleptdelta = slept(1:nmonths,:) - repmat(mean(slept(1:nmonths,:),1),nmonths,1);
-
-    
     % COMBINE
 
     % We want to take the Slepian functions and combine them to get total mass.
@@ -514,7 +508,6 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % in kilograms.  Then change the units from kg to Gt in METRIC tons
     eigfunINT = eigfunINT*4*pi*6370000^2/10^3/10^9;
     functionintegrals = eigfunINT;
-    
     % Now multiply by the appropriate slepcoffs to get the months
     % This becomes alpha by months
     %functimeseries=repmat(eigfunINT',1,nmonths).*sleptdelta(:,1:N)';
@@ -537,7 +530,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % that the fitting confidence intervals reflect that  
     
     [fit,delta,params,paramerrors] = timeseriesfit([thedates' total'],alphavarall,1,1);
-    
+
     % Make a matrix for the line, and 95% confidence in the fit
     totalfit = [thedates' fit delta];
 
