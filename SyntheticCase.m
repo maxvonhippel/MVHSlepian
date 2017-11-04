@@ -184,7 +184,7 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                allslopes{h}(counter)=totalparams;
+                allslopes{h}(counter)=totalparams; %(2)*365;
             else
                 allslopes{h}(counter)=NaN;
             end
