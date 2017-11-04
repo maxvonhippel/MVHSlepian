@@ -543,6 +543,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
 
     % Make the parameters and error valid for a year
     totalparams = params(2)*365;
+    keyboard
     totalparamerrors = paramerrors*365;
 
     % Collect the expanded output
