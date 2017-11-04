@@ -43,7 +43,7 @@ disp('Initializing values for Synthetic Case');   % <--
 
 defval('xver',1);
 defval('dom','iceland');
-defval('dom2','iceland');
+defval('dom2',dom);
 defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('wantnoise',0);
@@ -80,51 +80,51 @@ if (wantuniform)
     % Cases A, AA, B, & BB
     % Make a synthetic unit signal over the region
     [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
+    % Convert desired Gt/yr to kg
+    factor1=Signal*907.1847*10^9;
+    % Then get an average needed for the region (area in meters)
+    factor1=factor1/spharea(dom)/4/pi/6370000^2;
+    % So now we have kg/m^2
+
+    disp('Finding dates and preallocating null or 0 arrays');   % <-- 
+
+    % Get relative dates to make a trend
+    deltadates=thedates-thedates(1);
+    % Preallocate
+    lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+    fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+    % fullS holds the combined synthetic signal and synthetic noise
+    disp('Iterating through building signal, noise');   % <-- 
+
+    counter=1;
+    for k=deltadates
+        % Caltulate the desired trend amount for this month, putting the mean
+        % approximately in the middle (4th year)
+        factor2=factor1*4 - k/365*factor1;
+        % Scale the unit signal for this month
+        lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
+        % Add this to the signal
+        if wantnoise
+            % Make a synthetic noise realization
+            syntheticnoise=randn(1,n)*T;
+            % Reorder the noise
+            temp1=lmcosidata(:,3:4);
+            temp1(ronmdata)=syntheticnoise(:);
+            syntheticnoise=[lmcosidata(:,1:2) temp1];
+            fullS(counter,:,:)=[lmcosidata(:,1:2)...
+               squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
+        else
+            fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
+        end
+        counter=counter+1;
+    end
 else
     % Actual Greenland -> Recover Iceland
-    disp('Case C not yet implemented');
-    [~,~,~,~,~,lmcosiS]=geoboxcap(boxL,dom2,[],[],1);
-    % ^^ undo this and replace with actual greenland once I know how I'm
-    % supposed to do that (GRACE data?  If so, projected onto L=Ldata?)
+    [slept,~,thedates,TH,G,CC,V,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
+                                               0,0,0,[],'SD',0);
+    fullS=slept(1:end,:)-repmat(mean(slept(1:end,:),1),size(slept,1),1); 
 end
-% Convert desired Gt/yr to kg
-factor1=Signal*907.1847*10^9;
-% Then get an average needed for the region (area in meters)
-factor1=factor1/spharea(dom)/4/pi/6370000^2;
-% So now we have kg/m^2
 
-disp('Finding dates and preallocating null or 0 arrays');   % <-- 
-
-% Get relative dates to make a trend
-deltadates=thedates-thedates(1);
-% Preallocate
-lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
-fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
-% fullS holds the combined synthetic signal and synthetic noise
-disp('Iterating through building signal, noise');   % <-- 
-
-counter=1;
-for k=deltadates
-    % Caltulate the desired trend amount for this month, putting the mean
-    % approximately in the middle (4th year)
-    factor2=factor1*4 - k/365*factor1;
-    % Scale the unit signal for this month
-    lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
-    % Add this to the signal
-    if wantnoise
-        % Make a synthetic noise realization
-        syntheticnoise=randn(1,n)*T;
-        % Reorder the noise
-        temp1=lmcosidata(:,3:4);
-        temp1(ronmdata)=syntheticnoise(:);
-        syntheticnoise=[lmcosidata(:,1:2) temp1];
-        fullS(counter,:,:)=[lmcosidata(:,1:2)...
-           squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
-    else
-        fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
-    end
-    counter=counter+1;
-end
 % So now the first synthetic month should be 4*Signal Gt but expressed as an
 % average kg/m^2 over Greenland
 
@@ -183,8 +183,7 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                % allslopes{h}(counter)=totalparams(2)*365;
-                allslopes{h}(counter)=totalparams*365;
+                allslopes{h}(counter)=totalparams(2)*365;
             else
                 allslopes{h}(counter)=NaN;
             end
