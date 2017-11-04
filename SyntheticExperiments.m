@@ -112,7 +112,7 @@ disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 %%%
 % PLOTTING - need to define allslopes for following code to do anything
 %%%
-
+keyboard
 i=thebuffers;
 j=Ls;
 slopessize=size(allslopes);

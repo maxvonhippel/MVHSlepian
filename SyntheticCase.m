@@ -184,7 +184,7 @@ for L=Ls
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
                 keyboard
-                allslopes{h}(counter)=totalparams; %(2)*365;
+                allslopes{h}(counter)=totalparams(1); %(2)*365;
             else
                 allslopes{h}(counter)=NaN;
             end
