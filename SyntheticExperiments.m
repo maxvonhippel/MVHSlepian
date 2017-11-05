@@ -18,7 +18,7 @@ function varargout=SyntheticExperiments(myCase, dom, dom2, Ls)
 % SEE ALSO: SYNTHETICCASEA
 %
 % Modified by charig-at-princeton.edu on 6/25/2012
-% Last modified by maxvonhippel-at-email.arizona.edu on 21/10/2017
+% Last modified by maxvonhippel-at-email.arizona.edu on 11/04/2017
 
 %%%
 % INITIALIZE
@@ -34,11 +34,8 @@ defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('pars',10);
 defval('wantnoise',0);
-defval('Ls',[60]);
+defval('Ls',[50 55 60 65]);
 defval('thebuffers',[0.5]);
-% Current problem to overvome is NaN for non-zero truncations
-% Is this just because Iceland is so small?  Need to test w/
-% Greenland to tell.
 defval('truncations',[0]); % [-2 -1 0 1 2]
 
 % Get the original data
@@ -53,11 +50,6 @@ defval('truncations',[0]); % [-2 -1 0 1 2]
 % resid2plot(ESTresid,thedates,ESTsignal,20,20,varet,calerrors);
 
 [Clmlmp,Clmlmpr,Clmlmpd,EL,EM] = plmresid2cov(ESTresid,Ldata,[]);
-T = cholcov(Clmlmp);
-if isempty(T)
-  disp('Empty covariance matrix, something is wrong.');
-  return
-end
 
 %%%
 % RUN THE CASES
@@ -112,18 +104,18 @@ disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
 %%%
 % PLOTTING - need to define allslopes for following code to do anything
 %%%
-keyboard
-i=thebuffers;
-j=Ls;
-slopessize=size(allslopes);
-allslopes2 = reshape(allslopes{5},length(i),length(j));
+% keyboard
+% i=thebuffers;
+% j=Ls;
+% slopessize=size(allslopes);
+% allslopes2 = reshape(allslopes{1},length(i),length(j));
 % figure
-% realslopes=real(allslopes)
-% contour(real(j),real(i),allslopes,real(-1*[150 160 170 180 190 200 210 220]))
+% realslopes=real(allslopes{1});
+% contour(real(j),real(i),real(allslopes{:}),real(-1*[150 160 170 180 190 200 210 220]));
 % colorbar
-% xlabel('Bandlimit L')
-% ylabel('Region buffer, in degrees')
-% title('Contour of mass loss slope (counter level 10Gt/yr)')
+% xlabel('Bandlimit L');
+% ylabel('Region buffer, in degrees');
+% title('Contour of mass loss slope (counter level 10Gt/yr)');
 
   
 % Save relevant data for use in something like GMT

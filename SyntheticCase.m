@@ -48,7 +48,7 @@ defval('Ldata',60);
 defval('Signal',200); % Gt/yr
 defval('wantnoise',0);
 defval('wantuniform',1);
-defval('Ls',[45 50 55]);
+defval('Ls',[50 55 60 65]);
 defval('buffers',[0 1 2]);
 defval('nmonths',length(thedates));
 defval('truncations',[-2 -1 0 1 2]);
@@ -57,6 +57,10 @@ defval('truncations',[-2 -1 0 1 2]);
 disp('Decomposing the covariance...');
 T=cholcov(Clmlmp);
 [n,m]=size(T);
+if isempty(T)
+  disp('Empty covariance matrix, something is wrong.');
+  return
+end
 
 % Check if this is right
 if xver
@@ -183,7 +187,6 @@ for L=Ls
                  totalparams,totalparamerrors,totalfit,functionintegrals,...
                  alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
                                        [],[],CC,TH,numfun(h));
-                keyboard
                 allslopes{h}(counter)=totalparams(1); %(2)*365;
             else
                 allslopes{h}(counter)=NaN;
