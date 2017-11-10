@@ -1,4 +1,4 @@
-function varargout=vHSynthetic(Case,dom1,dom2,Ldata,Ls,buffers)
+function varargout=vHSynthetic(Case,dom1,dom2,Signal,Ldata,Ls,buffers)
 % [rate]=VHSYNTHETIC(experiment,dom1,dom2)
 % 
 % This function runs one of several synthetic experiments to recover a 
@@ -18,6 +18,8 @@ function varargout=vHSynthetic(Case,dom1,dom2,Ldata,Ls,buffers)
 % 			[default: 'iceland']
 % dom2		The domain to recover from, for cases B, BB, C, or CC.
 % 			Should be a name, eg 'greenland'.  [default: 'greenland']
+% Signal	The expected Signal back, which we compare to when measuring loss.
+% 			[default: 200]
 % Ldata		The bandwidth of the data we are recovering from. [default: 60]
 % Ls		The bandwidths of the bases that we are looking at, 
 %           e.g. [10 20 30].  [default: [60]]
@@ -49,6 +51,7 @@ slopes=[];
 defval('Case','A');
 defval('dom1','iceland');
 defval('dom2','greenland');
+defval('Signal',200);
 defval('Ldata',60);
 defval('Ls',[60]);
 defval('buffers',[0 1 2]);
