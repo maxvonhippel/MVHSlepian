@@ -144,7 +144,7 @@ keyboard
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 casetime = toc;
-disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
+disp(['Elapsed time for case ' Case ' was ' num2str(casetime) ' seconds']);
 
 varns={slopes};
 varargout=varns(1:nargout);
