@@ -37,8 +37,15 @@ function varargout=vHSynthetic(Case,dom1,dom2,Ldata,Ls,buffers)
 % INITIALIZE
 %%%%%%%%%%%%
 
+% Start timer, because it's interesting to know how slow/fast this is
 tic;
+% Start parpool if none already exists.  Note that we do this explicitly
+% because we can't use dynamically sized for loops in parfor.
+gcp();
+% Initialize our return value to nothing.  This is an unnecesarry step, but
+% I'm keeping it in for now as it makes some of my debugging a little easier.
 slopes=[];
+% Define default values.
 defval('Case','A');
 defval('dom1','iceland');
 defval('dom2','greenland');
@@ -104,7 +111,7 @@ else
 	fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 	% Now we can iterate over the dates
 	counter=1;
-	parfor k=deltadates
+	for k=deltadates
 		% Caltulate the desired trend amount for this month,
 		% putting the mean approximately in the middle (4th year)
 		factor2=factor1*4-k/365*factor1;
