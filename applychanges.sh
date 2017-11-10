@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cp vhsynthetic.m /Users/maxvonhippel/Slepian/vhsynthetic.m &&
 cp mvhfunction.m /Users/maxvonhippel/Slepian/slepian_alpha/mvhfunction.m &&
 cp SyntheticCase.m /Users/maxvonhippel/Slepian/SyntheticCase.m &&
 cp SyntheticExperiments.m /Users/maxvonhippel/Slepian/SyntheticExperiments.m &&
