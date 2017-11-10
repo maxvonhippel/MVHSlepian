@@ -1,4 +1,4 @@
-function varargout=vHSynthetic(Case,dom1,dom2,Ls,buffers)
+function varargout=vHSynthetic(Case,dom1,dom2,Ldata,Ls,buffers)
 % [rate]=VHSYNTHETIC(experiment,dom1,dom2)
 % 
 % This function runs one of several synthetic experiments to recover a 
@@ -18,6 +18,7 @@ function varargout=vHSynthetic(Case,dom1,dom2,Ls,buffers)
 % 			[default: 'iceland']
 % dom2		The domain to recover from, for cases B, BB, C, or CC.
 % 			Should be a name, eg 'greenland'.  [default: 'greenland']
+% Ldata		The bandwidth of the data we are recovering from. [default: 60]
 % Ls		The bandwidths of the bases that we are looking at, 
 %           e.g. [10 20 30].  [default: [60]]
 % buffers	Distances in degrees that the region recovered from will be
@@ -34,11 +35,28 @@ function varargout=vHSynthetic(Case,dom1,dom2,Ls,buffers)
 % INITIALIZE
 %%%%%%%%%%%%
 
+tic;
 defval('Case','A');
 defval('dom1','iceland');
 defval('dom2','greenland');
+defval('Ldata',60);
 defval('Ls',[60]);
 defval('buffers',[0 1 2]);
+
+% If Case is a 2-letter string then it's AA or BB, meaning
+% we want noise.
+wantNoise=logical(strlength(Case)==2);
+% If we want noise we need the covariance matrix
+if wantnoise
+	% Decompose the covariance matrix
+	disp('Decomposing the covariance...');
+	T=cholcov(Clmlmp);
+	[n,m]=size(T);
+	if isempty(T)
+  		disp('Empty covariance matrix, something is wrong.');
+  		return
+	end
+end
 
 % Check that we have valid input
 cases=["A","AA","B","BB","C"];
@@ -48,19 +66,69 @@ if ~ismember(Case,cases)
 		Case, strjoin(cases,', '))
 	return
 end
-% For each L (bandwidth) value in Ls
-for L=Ls
-	% For each b (buffer) value in buffers
-	for b=buffers
-		% Get the region to recover from
-		if Case(1)=='C'
-			% In this case use GRACE data
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PART 1: Get the data to be recovered from
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Get the original data
+[potcoffs,calerrors,thedates]=grace2plmt('CSR','RL05','SD',0);
+[~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(LData);
+% Get the region to recover from
+if Case(1)=='C'
+	% In this case use GRACE data
+	[slept,~,thedates,TH,G,CC,V,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
+		0,0,0,[],'SD',0);
+	fullS=slept(1:end,:)-repmat(mean(slept(1:end,:),1),size(slept,1),1);
+else
+	% In this case use uniform mass over a region
+	if Case(1)=='A'
+		% Set dom2=dom1 so we can proceed as in B or BB
+		dom2=dom1;
+	end
+	% Make a synthetic unit signal over the region
+	[~,~,~,~,~,lmcosiS]=geoboxcap(L,dom2,[],[],1);
+	% Convert desired Gt/yr to kg
+	factor1=Signal*907.1847*10^9;
+	% Then get an average needed for the region (area in meters)
+	factor1=factor1/spharea(dom)/4/pi/6370000^2;
+	% So now we have kg/m^2
+	% Get relative dates to make a trend
+	deltadates=thedates-thedates(1);
+	% lmcosiSSD will be used in the iterative construction of fullS
+	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+	% fullS will hold the combined synthetic signal and synthetic noise
+	fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+	% Now we can iterate over the dates
+	counter=1;
+	parfor k=deltadates
+		% Caltulate the desired trend amount for this month,
+		% putting the mean approximately in the middle (4th year)
+		factor2=factor1*4-k/365*factor1;
+		% Scale the unit signal for this month
+		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
+		% Add this to the signal
+		if wantNoise
+			% Make a synthetic noise realization
+    		syntheticnoise=randn(1,n)*T;
+    		% Reorder the noise
+    		temp1=lmcosidata(:,3:4);
+    		temp1(ronmdata)=syntheticnoise(:);
+    		syntheticnoise=[lmcosidata(:,1:2) temp1];
+    		fullS(counter,:,:)=[lmcosidata(:,1:2)...
+       			squeeze(lmcosiSSD(counter,:,3:4))+...
+       			syntheticnoise(:,3:4)];
 		else
-			if Case(1)=='A'
-				% Set dom2=dom1 so we can proceed as in B or BB
-				dom2=dom1;
-			end
+			fullS(counter,:,:)=[lmcosiS(:,1:2)...
+				squeeze(lmcosiSSD(counter,:,3:4))];
 		end
-		% If we want noise add noise now
-	end 
+		counter=counter+1;
+	end
 end
+keyboard
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PART 2: Recover the mass loss trend
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+casetime = toc;
+disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
