@@ -104,7 +104,7 @@ else
 	% Convert desired Gt/yr to kg
 	factor1=Signal*907.1847*10^9;
 	% Then get an average needed for the region (area in meters)
-	factor1=factor1/spharea(dom)/4/pi/6370000^2;
+	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
 	% So now we have kg/m^2
 	% Get relative dates to make a trend
 	deltadates=thedates-thedates(1);
