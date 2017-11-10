@@ -29,6 +29,8 @@ function varargout=vHSynthetic(Case,dom1,dom2,Ldata,Ls,buffers)
 % slopes	The slopes of the recovered mass loss trends.  This is a
 % 			Ls x buffers size matrix.
 % 
+% EXAMPLE: [rate]=VHSYNTHETIC('A','iceland','greenland',60,[60],[0.5]);
+% 
 % First authored by maxvonhippel-at-email.arizona.edu on 11/10/2017
 
 %%%%%%%%%%%%
@@ -36,6 +38,7 @@ function varargout=vHSynthetic(Case,dom1,dom2,Ldata,Ls,buffers)
 %%%%%%%%%%%%
 
 tic;
+slopes=[];
 defval('Case','A');
 defval('dom1','iceland');
 defval('dom2','greenland');
@@ -132,3 +135,6 @@ keyboard
 
 casetime = toc;
 disp(['Elapsed time for case ' myCase ' was ' num2str(casetime) ' seconds']);
+
+varns={slopes};
+varargout=varns(1:nargout);
