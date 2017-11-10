@@ -83,7 +83,7 @@ end
 
 % Get the original data
 [potcoffs,calerrors,thedates]=grace2plmt('CSR','RL05','SD',0);
-[~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(LData);
+[~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 % Get the region to recover from
 if Case(1)=='C'
 	% In this case use GRACE data
