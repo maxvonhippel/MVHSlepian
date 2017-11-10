@@ -57,7 +57,7 @@ defval('buffers',[0 1 2]);
 % we want noise.
 wantNoise=logical(strlength(Case)==2);
 % If we want noise we need the covariance matrix
-if wantnoise
+if wantNoise
 	% Decompose the covariance matrix
 	disp('Decomposing the covariance...');
 	T=cholcov(Clmlmp);
