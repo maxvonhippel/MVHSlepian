@@ -97,7 +97,7 @@ else
 		dom2=dom1;
 	end
 	% Make a synthetic unit signal over the region
-	[~,~,~,~,~,lmcosiS]=geoboxcap(L,dom2,[],[],1);
+	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],[],1);
 	% Convert desired Gt/yr to kg
 	factor1=Signal*907.1847*10^9;
 	% Then get an average needed for the region (area in meters)
