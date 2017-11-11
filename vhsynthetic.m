@@ -59,17 +59,6 @@ defval('buffers',[0 1 2]);
 % If Case is a 2-letter string then it's AA or BB, meaning
 % we want noise.
 wantNoise=logical(strlength(Case)==2);
-% If we want noise we need the covariance matrix
-if wantNoise
-	% Decompose the covariance matrix
-	disp('Decomposing the covariance...');
-	T=cholcov(Clmlmp);
-	[n,m]=size(T);
-	if isempty(T)
-  		disp('Empty covariance matrix, something is wrong.');
-  		return
-	end
-end
 
 % Check that we have valid input
 cases=["A","AA","B","BB","C"];
@@ -85,14 +74,44 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get the original data
-[potcoffs,calerrors,thedates]=grace2plmt('CSR','RL05','SD',0);
+[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
+% If we want noise we need the covariance matrix
+if wantNoise
+	% Get residuals from plot coefficients from grace data
+	% Need to check: where does [1 1 181.0 365.0] come from?
+	% Is this the array of such values I want?  And does the result
+	% differ if I just use [] to get default?
+	[ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,...
+		[1 1 181.0 365.0]);
+	[ESTresid2,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
+	if ESTresid~=ESTresid2
+		disp('resids nore not equal on line 89, may be problematic')
+		keyboard
+	end
+	[Clmlmp,~,~,~,~]=plmresid2cov(ESTresid,Ldata,[]);
+	% Decompose the covariance matrix
+	disp('Decomposing the covariance...');
+	T=cholcov(Clmlmp);
+	[n,m]=size(T);
+	if isempty(T)
+  		disp('Empty covariance matrix, something is wrong.');
+  		return
+	end
+end
+
 % Get the region to recover from
 if Case(1)=='C'
 	% In this case use GRACE data
 	% First get the grace data projected onto a basis of Slepian coefficients
-	[slept,~,thedates,TH,G,CC,V,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
+	[slept,~,otherdates,TH,G,CC,V,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
 		0,0,0,[],'SD',0);
+	% Not sure if this could be a problem or even could happen, but just in case
+	if otherdates~=thedates
+		disp('Warning: ')
+		disp('otherdates != thedates on line 104.  This might be problematic.')
+		keyboard
+	end
 	% Next get the difference in the data, rather than just a geoid
 	fullS=slept(1:end,:)-repmat(mean(slept(1:end,:),1),size(slept,1),1);
 else
@@ -112,6 +131,7 @@ else
 	% Get relative dates to make a trend
 	deltadates=thedates-thedates(1);
 	% lmcosiSSD will be used in the iterative construction of fullS
+	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 	keyboard
 	% fullS will hold the combined synthetic signal and synthetic noise
