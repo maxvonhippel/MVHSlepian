@@ -133,7 +133,6 @@ else
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
-	keyboard
 	% fullS will hold the combined synthetic signal and synthetic noise
 	fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 	% Now we can iterate over the dates
@@ -158,11 +157,12 @@ else
 		else
 			fullS(counter,:,:)=[lmcosiS(:,1:2)...
 				squeeze(lmcosiSSD(counter,:,3:4))];
+				keyboard
 		end
 		counter=counter+1;
 	end
 end
-keyboard
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
