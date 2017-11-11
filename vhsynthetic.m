@@ -90,11 +90,14 @@ end
 % Get the region to recover from
 if Case(1)=='C'
 	% In this case use GRACE data
+	% First get the grace data projected onto a basis of Slepian coefficients
 	[slept,~,thedates,TH,G,CC,V,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
 		0,0,0,[],'SD',0);
+	% Next get the difference in the data, rather than just a geoid
 	fullS=slept(1:end,:)-repmat(mean(slept(1:end,:),1),size(slept,1),1);
 else
 	% In this case use uniform mass over a region
+	% Case(1) is the first char in Case, so this is triggered for A or AA
 	if Case(1)=='A'
 		% Set dom2=dom1 so we can proceed as in B or BB
 		dom2=dom1;
@@ -110,6 +113,7 @@ else
 	deltadates=thedates-thedates(1);
 	% lmcosiSSD will be used in the iterative construction of fullS
 	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+	keyboard
 	% fullS will hold the combined synthetic signal and synthetic noise
 	fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 	% Now we can iterate over the dates
