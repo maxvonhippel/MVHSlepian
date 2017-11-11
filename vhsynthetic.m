@@ -157,12 +157,11 @@ else
 		else
 			fullS(counter,:,:)=[lmcosiS(:,1:2)...
 				squeeze(lmcosiSSD(counter,:,3:4))];
-				keyboard
 		end
 		counter=counter+1;
 	end
 end
-
+keyboard
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
