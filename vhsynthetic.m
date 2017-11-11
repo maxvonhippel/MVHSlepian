@@ -75,7 +75,7 @@ end
 % the bandwidth?  Am I missing something here?
 for L=Ls
 	if L>Ldata
-		disp('L ' L 'in Ls is > Ldata = ' Ldata '.')
+		sprintf('L %d in Ls is > Ldata = %d.', L, Ldata)
 		disp('This is suboptimal behaviour and will break the code.')
 		return
 	end
