@@ -111,8 +111,7 @@ if Case(1)=='C'
 		0,0,0,[],'SD',0);
 	% Not sure if this could be a problem or even could happen, but just in case
 	if otherdates~=thedates
-		disp('Warning: ')
-		disp('otherdates != thedates on line 104.  This might be problematic.')
+		disp('Warning: otherdates != thedates. This might be problematic.')
 		keyboard
 	end
 	% Next get the difference in the data, rather than just a geoid
@@ -157,6 +156,7 @@ else
     		% Revisit the below code block and rewrite it myself to make sure I
     		% can see why it is how it is (or if it even should be this way)
     		% ----------------------------- I don't understand this part fully -
+    		keyboard
     		temp1=lmcosidata(:,3:4);
     		temp1(ronmdata)=syntheticnoise(:);
     		syntheticnoise=[lmcosidata(:,1:2) temp1];
