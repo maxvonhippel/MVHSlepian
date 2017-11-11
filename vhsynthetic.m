@@ -91,16 +91,7 @@ end
 % If we want noise we need the covariance matrix
 if wantNoise
 	% Get residuals from plot coefficients from grace data
-	% Need to check: where does [1 1 181.0 365.0] come from?
-	% Is this the array of such values I want?  And does the result
-	% differ if I just use [] to get default?
-	[ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,...
-		[1 1 181.0 365.0]);
-	[ESTresid2,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
-	if ESTresid~=ESTresid2
-		disp('resids nore not equal on line 89, may be problematic')
-		keyboard
-	end
+	[ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
 	[Clmlmp,~,~,~,~]=plmresid2cov(ESTresid,Ldata,[]);
 	% Decompose the covariance matrix
 	disp('Decomposing the covariance...');
@@ -116,7 +107,7 @@ end
 if Case(1)=='C'
 	% In this case use GRACE data
 	% First get the grace data projected onto a basis of Slepian coefficients
-	[slept,~,otherdates,TH,G,CC,V,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
+	[slept,~,otherdates,~,~,~,~,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
 		0,0,0,[],'SD',0);
 	% Not sure if this could be a problem or even could happen, but just in case
 	if otherdates~=thedates
