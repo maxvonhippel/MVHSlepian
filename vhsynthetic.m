@@ -35,9 +35,9 @@ function varargout=vHSynthetic(Case,dom1,dom2,Signal,Ldata,Ls,buffers)
 % 
 % First authored by maxvonhippel-at-email.arizona.edu on 11/10/2017
 
-%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INITIALIZE
-%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Start timer, because it's interesting to know how slow/fast this is
 tic;
@@ -67,6 +67,18 @@ if ~ismember(Case,cases)
 	sprintf('%s is not a valid Case. Please try one of: %s', ...
 		Case, strjoin(cases,', '))
 	return
+end
+% Check that we are not attempting to project onto a basis of larger bandwidth
+% than our actual data.  To be clear, the Ls should be truncations (or the
+% trivial trunctation, that is to say, equal to ...) of Ldata, the L bandwidth
+% value of our GRACE data.  Is there a valid reason to want to upscale
+% the bandwidth?  Am I missing something here?
+for L=Ls
+	if L>Ldata
+		disp('L ' L 'in Ls is > Ldata = ' Ldata '.')
+		disp('This is suboptimal behaviour and will break the code.')
+		return
+	end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,6 +141,7 @@ else
 	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
 	% So now we have kg/m^2
 	% Get relative dates to make a trend
+	% How many time units since the start of the data?
 	deltadates=thedates-thedates(1);
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
@@ -148,23 +161,48 @@ else
 			% Make a synthetic noise realization
     		syntheticnoise=randn(1,n)*T;
     		% Reorder the noise
+
+    		% ==================================================================
+    		% Revisit the below code block and rewrite it myself to make sure I
+    		% can see why it is how it is (or if it even should be this way)
+    		% ----------------------------- I don't understand this part fully -
     		temp1=lmcosidata(:,3:4);
     		temp1(ronmdata)=syntheticnoise(:);
     		syntheticnoise=[lmcosidata(:,1:2) temp1];
     		fullS(counter,:,:)=[lmcosidata(:,1:2)...
        			squeeze(lmcosiSSD(counter,:,3:4))+...
        			syntheticnoise(:,3:4)];
-		else
-			fullS(counter,:,:)=[lmcosiS(:,1:2)...
-				squeeze(lmcosiSSD(counter,:,3:4))];
+       		% ------------------------------------------------------------------
+       		% ================================================================== 
 		end
 		counter=counter+1;
 	end
 end
-keyboard
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% If we don't want noise, then fullS == lmcosiSSD already, so let's just rename
+% fullS to lmcosiSSD and that way either way we can operate on fullS in the
+% next step.
+if ~wantNoise
+	fullS=lmcosiSSD
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+for L=Ls
+	for B=buffers
+		% The domain we want to recover, at the current buffer
+		TH={dom1 B};
+        XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
+        % The current Shannon number
+        N=round((L+1)^2*spharea(XY));
+
+	end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONCLUSION: Print time & return slopes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 casetime = toc;
 disp(['Elapsed time for case ' Case ' was ' num2str(casetime) ' seconds']);
