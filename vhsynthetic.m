@@ -148,17 +148,42 @@ else
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
 		% Add this to the signal
 		if wantNoise
+			% ==================================================================
+			% Why * T?  How does covariance work?
 			% Make a synthetic noise realization
     		syntheticnoise=randn(1,n)*T;
     		% Reorder the noise
-
-    		% ==================================================================
     		% Revisit the below code block and rewrite it myself to make sure I
     		% can see why it is how it is (or if it even should be this way)
     		% ----------------------------- I don't understand this part fully -
     		keyboard
-    		temp1=lmcosidata(:,3:4);
-    		temp1(ronmdata)=syntheticnoise(:);
+    		% Get a matrix equivelent to the second two columns of lmcosidata,
+    		% which are all zeros.  We will then fill these zeros will values
+    		% to create a real (non-trivial) lmcosi matrix.
+    		% (This is basically trivial lmcosi(3:4) ).
+    		temp1=zeros(size(lmcosiS,1),2);
+    		% ronmdata is a column which "indexes into lmcosi(3:4), unwrapping
+    		% the orders as in ADDMOUT".  I think I ~50% understand what this
+    		% means, but basically we are saying, "get the cells in lmcosi(3:4)
+    		% which should be nonzero as they correspond to orders of spherical
+    		% harmonics".
+    		% 
+    		% Then we set those cells to contain random noise.
+    		% Note that syntheticnoise(:) takes syntheticnoise and dumps it
+    		% into a single column.
+    		% 
+    		% Where syntheticnoise is of n x m = size(T),
+    		% that means syntheticnoise(:) is of size 1 x (n*m).
+    		% 
+    		% And this makes sense because T=cholcov(Clmlmp) where Clmlmp is the
+    		% first value back from plmresid2cov(ESTresid,Ldata,[]);, ie,
+    		% the spectral covariance matrix.
+    		% 
+    		% (NOTE: working on the logic here.
+    		% Need to figure out next what exactly a spectral covariance matrix
+    		% is?  Haven't learned Spectral Theorem in 413 yet, unfortunately
+    		% ...)
+    		temp1(ronmdata)=syntheticnoise(:);			% <------ here in logic
     		syntheticnoise=[lmcosidata(:,1:2) temp1];
     		fullS(counter,:,:)=[lmcosidata(:,1:2)...
        			squeeze(lmcosiSSD(counter,:,3:4))+...
