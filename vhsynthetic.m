@@ -168,14 +168,13 @@ else
 		end
 		counter=counter+1;
 	end
+	% If we don't want noise, then fullS == lmcosiSSD already, so let's just rename
+	% fullS to lmcosiSSD and that way either way we can operate on fullS in the
+	% next step.
+	if ~wantNoise 
+		fullS=lmcosiSSD
+	end
 end
-% If we don't want noise, then fullS == lmcosiSSD already, so let's just rename
-% fullS to lmcosiSSD and that way either way we can operate on fullS in the
-% next step.
-if ~wantNoise
-	fullS=lmcosiSSD
-end
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
