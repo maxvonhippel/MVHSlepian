@@ -161,7 +161,6 @@ else
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
 		% Add this to the signal
 		if wantNoise
-			keyboard
 			% Generate Additive White Guassian Noise with the same
 			% covariance as Clmlmp
     		syntheticnoise=randn(1,n)*T;
@@ -193,7 +192,6 @@ for L=Ls
         XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
         % The current Shannon number
         N=round((L+1)^2*spharea(XY));
-
 	end
 end
 
