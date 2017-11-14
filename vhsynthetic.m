@@ -183,7 +183,6 @@ else
 	if ~wantNoise 
 		fullS=lmcosiSSD
 	end
-	keyboard
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
