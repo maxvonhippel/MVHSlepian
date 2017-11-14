@@ -127,7 +127,7 @@ else
 	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],[],1);
 	% Convert desired Gt/yr to kg/yr
 	% Note the 907.1847 because we are coming from Gigatons NOT Gigatonnes
-	factor1=Signal*907.1847*10^9;
+	factor1=Signal*10^9;
 	% Then get an average needed for the region (area in meters)
 	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
 	% So now we have (kg/m^2)/yr
@@ -153,6 +153,10 @@ else
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
 		factor2=factor1*middleYear-factor1*(k/365);
+		factor3=factor1*(middleYear-(k/365));
+		if factor2 ~= factor3
+			keyboard
+		end
 		% Why is this differnt in precision from:
 		% factor2=factor1*(middleYear-(k/365));
 		% ???
