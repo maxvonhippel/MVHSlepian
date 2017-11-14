@@ -146,7 +146,7 @@ else
 		% Caltulate the desired trend amount for this month,
 		% putting the mean approximately in the middle (4th year)
 		factor2=factor1*4-k/365*factor1;
-		factor3=factor1*4-factor1*(k/365);
+		factor3=factor1*(4-(k/365));
 		if (factor2 == factor3)
 			disp('BINGO')
 		else
