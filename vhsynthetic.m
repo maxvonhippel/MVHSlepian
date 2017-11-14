@@ -141,7 +141,9 @@ else
 	% How many years pass in deltadates?
 	numYears=numMonths/12;
 	% What is the delta of the middle year in deltadates?
-	middleYear=numYears/2;
+	% centerYear=numYears/2;
+	% Instead let's use year 0 as center year
+	centerYear=0;
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros([numMonths,size(lmcosiS)]);
@@ -152,11 +154,8 @@ else
 	for k=deltadates
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
-		factor2=factor1*middleYear-factor1*(k/365);
-		factor3=factor1*(middleYear-(k/365));
-		if factor2 ~= factor3
-			keyboard
-		end
+		factor2=factor1*(centerYear-(k/365));
+
 		% Why is this differnt in precision from:
 		% factor2=factor1*(middleYear-(k/365));
 		% ???
@@ -184,6 +183,7 @@ else
 	if ~wantNoise 
 		fullS=lmcosiSSD
 	end
+	keyboard
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
