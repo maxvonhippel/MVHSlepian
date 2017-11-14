@@ -184,6 +184,7 @@ else
     		% Need to figure out next what exactly a spectral covariance matrix
     		% is?  Haven't learned Spectral Theorem in 413 yet, unfortunately
     		% ...)
+    		keyboard
     		temp1(ronmdata)=syntheticnoise(:);			% <------ here in logic
     		syntheticnoise=[lmcosidata(:,1:2) temp1];
     		fullS(counter,:,:)=[lmcosidata(:,1:2)...
