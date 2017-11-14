@@ -143,6 +143,7 @@ else
 	middleYear=numYears/2;
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
+	keyboard
 	lmcosiSSD=zeros(numMonths,size(lmcosiS));
 	% fullS will hold the combined synthetic signal and synthetic noise
 	fullS=zeros(numMonths,size(lmcosiS));
