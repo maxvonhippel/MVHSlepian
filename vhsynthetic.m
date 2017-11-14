@@ -145,11 +145,8 @@ else
 	for k=deltadates
 		% Caltulate the desired trend amount for this month,
 		% putting the mean approximately in the middle (4th year)
-		factor2=factor1*4-k/365*factor1;
-		factor3=factor1*(4-k/365);
-		if (factor2 == factor3)
-			disp('BINGO')
-		end
+		factor2=factor1*(4-k/365);
+		keyboard
 		% Scale the unit signal for this month
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
 		% Add this to the signal
@@ -162,7 +159,6 @@ else
     		% Revisit the below code block and rewrite it myself to make sure I
     		% can see why it is how it is (or if it even should be this way)
     		% ----------------------------- I don't understand this part fully -
-    		keyboard
     		% Get a matrix equivelent to the second two columns of lmcosidata,
     		% which are all zeros.  We will then fill these zeros will values
     		% to create a real (non-trivial) lmcosi matrix.
