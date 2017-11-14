@@ -36,7 +36,7 @@ function varargout=vHSynthetic(Case,dom1,dom2,Signal,Ldata,Ls,buffers)
 % First authored by maxvonhippel-at-email.arizona.edu on 11/10/2017
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% INITIALIZE
+% INITIALIZE & VALIDATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Start timer, because it's interesting to know how slow/fast this is
@@ -125,15 +125,16 @@ else
 	end
 	% Make a synthetic unit signal over the region
 	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],[],1);
-	% Convert desired Gt/yr to kg
+	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*907.1847*10^9;
 	% Then get an average needed for the region (area in meters)
 	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
-	% So now we have kg/m^2
+	% So now we have (kg/m^2)/yr
 	% Get relative dates to make a trend
 	% How many time units since the start of the data?
+	% This shifts everything from { x0 = 16 March '17 , ... , xn = 10 June '17 }
+	% ... to { x0 = 00 January '00, ... , xn = 26 March '01 }
 	deltadates=thedates-thedates(1);
-	keyboard
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
@@ -145,6 +146,10 @@ else
 		% Caltulate the desired trend amount for this month,
 		% putting the mean approximately in the middle (4th year)
 		factor2=factor1*4-k/365*factor1;
+		factor3=factor1*(4-k/365);
+		if (factor2 == factor3)
+			disp('BINGO')
+		end
 		% Scale the unit signal for this month
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
 		% Add this to the signal
