@@ -135,17 +135,19 @@ else
 	% This shifts everything from { x0 = 16 March '17 , ... , xn = 10 June '17 }
 	% ... to { x0 = 00 January '00, ... , xn = 26 March '01 }
 	deltadates=thedates-thedates(1);
+	% How many months pass in deltadates?
+	numMonths=length(deltadates);
+	% How many years pass in deltadates?
+	numYears=numMonths/12;
+	% What is the delta of the middle year in deltadates?
+	middleYear=numYears/2;
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
-	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+	lmcosiSSD=zeros(numMonths,size(lmcosiS,1),size(lmcosiS,2));
 	% fullS will hold the combined synthetic signal and synthetic noise
-	fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
+	fullS=zeros(numMonths,size(lmcosiS,1),size(lmcosiS,2));
 	% Now we can iterate over the dates
 	counter=1;
-	numMonths=size(deltadates);
-	numMonths=numMonths(2);
-	numYears=numMonths/12;
-	middleYear=numYears/2;
 	for k=deltadates
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
