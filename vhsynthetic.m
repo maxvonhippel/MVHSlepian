@@ -133,6 +133,7 @@ else
 	% Get relative dates to make a trend
 	% How many time units since the start of the data?
 	deltadates=thedates-thedates(1);
+	keyboard
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
@@ -200,6 +201,7 @@ else
 		fullS=lmcosiSSD
 	end
 end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
