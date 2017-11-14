@@ -164,7 +164,6 @@ else
     		% Revisit the below code block and rewrite it myself to make sure I
     		% can see why it is how it is (or if it even should be this way)
     		% ----------------------------- I don't understand this part fully -
-    		keyboard
     		% Get a matrix equivelent to the second two columns of lmcosidata,
     		% which are all zeros.  We will then fill these zeros will values
     		% to create a real (non-trivial) lmcosi matrix.
