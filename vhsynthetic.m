@@ -142,15 +142,26 @@ else
 	fullS=zeros(length(thedates),size(lmcosiS,1),size(lmcosiS,2));
 	% Now we can iterate over the dates
 	counter=1;
+	numMonths=size(deltadates);
+	numMonths=numMonths(2);
+	numYears=numMonths/12;
+	middleYear=numYears/2;
 	for k=deltadates
 		% Calculate the desired trend amount for this month,
-		% putting the mean approximately in the middle (4th year)
-		factor2=factor1*4-factor1*(k/365);
+		% putting the mean approximately in the middle
+		factor2=factor1*middleYear-factor1*(k/365);
+		% Why is this differnt in precision from:
+		% factor2=factor1*(middleYear-(k/365));
+		% ???
+		% 
 		% Scale the unit signal for this month
+		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
 		% Add this to the signal
 		if wantNoise
 			keyboard
+			% Generate Additive White Guassian Noise with the same
+			% covariance as Clmlmp
     		syntheticnoise=randn(1,n)*T;
     		temp1=zeros(size(lmcosiS,1),2);
     		temp1(ronmdata)=syntheticnoise(:);
