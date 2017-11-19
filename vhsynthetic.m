@@ -188,7 +188,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Preallocate slopes
+slopes=zeros([3 (length(Ls)*length(buffers))]);
+counter=1;
 for L=Ls
 	for B=buffers
 		% The domain we want to recover, at the current buffer
@@ -216,11 +218,11 @@ for L=Ls
 	         alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
 	                               [],[],CC,TH,numfun(h));
 	        % Index allslopes by L and B
-	        slopes{L}{B}=totalparams(2);
+	        slopes(:,counter)=[L B totalparams(2)];
         catch
         	% Error: save NaN to this slot accordingly
         	% (Is this optimal behaviour?)
-        	slopes{L}{B}=NaN;
+        	slopes(:,counter)=[L B NaN];
         end
 	end
 end
