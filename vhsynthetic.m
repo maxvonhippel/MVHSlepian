@@ -81,6 +81,8 @@ for L=Ls
 	end
 end
 
+disp('Completed initialization.  Now constructing data to recover from.');
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 1: Get the data to be recovered from
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -126,7 +128,6 @@ else
 	% Make a synthetic unit signal over the region
 	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],[],1);
 	% Convert desired Gt/yr to kg/yr
-	% Note the 907.1847 because we are coming from Gigatons NOT Gigatonnes
 	factor1=Signal*10^9;
 	% Then get an average needed for the region (area in meters)
 	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
@@ -155,11 +156,6 @@ else
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
 		factor2=factor1*(centerYear-(k/365));
-
-		% Why is this differnt in precision from:
-		% factor2=factor1*(middleYear-(k/365));
-		% ???
-		% 
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
@@ -169,6 +165,10 @@ else
 			% covariance as Clmlmp
     		syntheticnoise=randn(1,n)*T;
     		temp1=zeros(size(lmcosiS,1),2);
+    		% Add that covariance to the existing cos, sin columns of lmcosi
+    		% in fullS, in such a way so that we are adding this White Gaussian
+    		% Noise to the existing data without changing the covariance of
+    		% the data.
     		temp1(ronmdata)=syntheticnoise(:);
     		syntheticnoise=[lmcosidata(:,1:2) temp1];
     		fullS(counter,:,:)=[lmcosidata(:,1:2)...
@@ -185,6 +185,9 @@ else
 	end
 end
 
+disp('Completed construction of data to recover from.');
+disp(' Now recovering mass loss trend.');
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,6 +196,8 @@ slopes=zeros([3 (length(Ls)*length(buffers))]);
 counter=1;
 for L=Ls
 	for B=buffers
+		% These print messages are, IMO, useful for guess-timating % progress
+		sprintf('Recovering mass loss trend for L=%d, B=%d', L, B)
 		% The domain we want to recover, at the current buffer
 		TH={dom1 B};
         XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
@@ -215,7 +220,7 @@ for L=Ls
 	        % Estimate the total mass change
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
-	         alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
+	         alphavar]=slept2resid(slept,thedates,[1 365.0],...
 	                               [],[],CC,TH,numfun(h));
 	        % Index allslopes by L and B
 	        slopes(:,counter)=[L B totalparams(2)];
