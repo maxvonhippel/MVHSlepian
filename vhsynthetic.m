@@ -198,8 +198,8 @@ for L=Ls
         N=round((L+1)^2*spharea(XY));
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
-        [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
         keyboard
+        [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
         [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(L);
         slept=zeros(nmonths,(L+1)^2); 
         for M=1:nmonths
