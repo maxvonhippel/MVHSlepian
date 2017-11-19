@@ -76,7 +76,7 @@ end
 for L=Ls
 	if L>Ldata
 		sprintf('L %d in Ls is > Ldata = %d.', L, Ldata)
-		disp('This is suboptimal behaviour and will break the code.')
+		disp('This is suboptimal behaviour and will break the code.');
 		return
 	end
 end
@@ -111,7 +111,7 @@ if Case(1)=='C'
 		0,0,0,[],'SD',0);
 	% Not sure if this could be a problem or even could happen, but just in case
 	if otherdates~=thedates
-		disp('Warning: otherdates != thedates. This might be problematic.')
+		disp('Warning: otherdates != thedates. This might be problematic.');
 		keyboard
 	end
 	% Next get the difference in the data, rather than just a geoid
@@ -181,7 +181,7 @@ else
 	% fullS to lmcosiSSD and that way either way we can operate on fullS in the
 	% next step.
 	if ~wantNoise 
-		fullS=lmcosiSSD
+		fullS=lmcosiSSD;
 	end
 end
 
@@ -199,6 +199,7 @@ for L=Ls
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
         [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
+        keyboard
         [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(L);
         slept=zeros(nmonths,(L+1)^2); 
         for M=1:nmonths
