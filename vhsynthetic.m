@@ -191,13 +191,14 @@ disp(' Now recovering mass loss trend.');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PART 2: Recover the mass loss trend
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Preallocate slopes
-slopes=zeros([3 (length(Ls)*length(buffers))]);
+% Preallocate slopes: [L, B, Slope]
+slopes=zeros([(length(Ls)*length(buffers)) 3]);
 counter=1;
 for L=Ls
 	for B=buffers
 		% These print messages are, IMO, useful for guess-timating % progress
-		sprintf('Recovering mass loss trend for L=%d, B=%d', L, B)
+		toPrint=sprintf('Recovering mass loss trend for L=%d, B=%d', L, B);
+		disp(toPrint)
 		% The domain we want to recover, at the current buffer
 		TH={dom1 B};
         XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
@@ -223,11 +224,11 @@ for L=Ls
 	         alphavar]=slept2resid(slept,thedates,[1 365.0],...
 	                               [],[],CC,TH,numfun(h));
 	        % Index allslopes by L and B
-	        slopes(:,counter)=[L B totalparams(2)];
+	        slopes(counter,:)=[L B totalparams(2)];
         catch
         	% Error: save NaN to this slot accordingly
         	% (Is this optimal behaviour?)
-        	slopes(:,counter)=[L B NaN];
+        	slopes(counter,:)=[L B NaN];
         end
 	end
 end
