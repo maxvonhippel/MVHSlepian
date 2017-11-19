@@ -222,7 +222,7 @@ for L=Ls
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
 	         alphavar]=slept2resid(slept,thedates,[1 365.0],...
-	                               [],[],CC,TH,numfun(h));
+	                               [],[],CC,TH);
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)];
         catch
@@ -230,6 +230,7 @@ for L=Ls
         	% (Is this optimal behaviour?)
         	slopes(counter,:)=[L B NaN];
         end
+        counter=counter+1;
 	end
 end
 
