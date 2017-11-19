@@ -89,6 +89,7 @@ disp('Completed initialization.  Now constructing data to recover from.');
 
 % Get the original data
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
+nmonths=length(thedates);
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 % If we want noise we need the covariance matrix
 if wantNoise
@@ -216,19 +217,20 @@ for L=Ls
 	        	% account for?
 	        	lmcosi=squeeze(fullS(M,:,:));
 	        	lmcosi=lmcosi(1:addmup(L),:);
-	        	slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+	        	slept(M,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 	        end
 	        % Estimate the total mass change
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
-	         alphavar]=slept2resid(slept,thedates,[1 365.0],...
-	                               [],[],CC,TH);
+	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
 	        % Index allslopes by L and B
+	        keyboard
 	        slopes(counter,:)=[L B totalparams(2)];
-        catch
+        catch e
         	% Error: save NaN to this slot accordingly
         	% (Is this optimal behaviour?)
         	slopes(counter,:)=[L B NaN];
+        	fprintf(1,'Error message: \n%s (%s)',e.message,e.identifier);
         end
         counter=counter+1;
 	end
