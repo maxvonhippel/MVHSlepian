@@ -198,25 +198,30 @@ for L=Ls
         N=round((L+1)^2*spharea(XY));
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
-        keyboard
-        [~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
-        [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(L);
-        slept=zeros(nmonths,(L+1)^2); 
-        for M=1:nmonths
-        	% When would the L requested not form a truncation and thus
-        	% require zero padding?  Is this a use case I should actually
-        	% account for?
-        	lmcosi=squeeze(fullS(M,:,:));
-        	lmcosi=lmcosi(1:addmup(L),:);
-        	slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+        try
+        	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
+	        [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(L);
+	        slept=zeros(nmonths,(L+1)^2); 
+	        for M=1:nmonths
+	        	% When would the L requested not form a truncation and thus
+	        	% require zero padding?  Is this a use case I should actually
+	        	% account for?
+	        	lmcosi=squeeze(fullS(M,:,:));
+	        	lmcosi=lmcosi(1:addmup(L),:);
+	        	slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+	        end
+	        % Estimate the total mass change
+	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
+	         totalparams,totalparamerrors,totalfit,functionintegrals,...
+	         alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
+	                               [],[],CC,TH,numfun(h));
+	        % Index allslopes by L and B
+	        slopes{L}{B}=totalparams(2);
+        catch
+        	% Error: save NaN to this slot accordingly
+        	% (Is this optimal behaviour?)
+        	slopes{L}{B}=NaN;
         end
-        % Estimate the total mass change
-        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
-         totalparams,totalparamerrors,totalfit,functionintegrals,...
-         alphavar]=slept2resid(slept,thedates,[3 30 180 365.0],...
-                               [],[],CC,TH,numfun(h));
-        % Index allslopes by L and B
-        slopes{L}{B}=totalparams(2);
 	end
 end
 
