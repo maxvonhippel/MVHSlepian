@@ -540,7 +540,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % [fit,delta,params,paramerrors] = timeseriesfit([thedates' total'],alphavarall,1,1);
     % Make a matrix for the line, and 95% confidence in the fit
     totalfit = [thedates' fit delta];
-
+    keyboard
     % Make the parameters and error valid for a year
     totalparams = params(2,:)*365;
     % totalparams = params(2)*365;

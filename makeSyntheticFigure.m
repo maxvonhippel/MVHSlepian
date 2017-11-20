@@ -8,3 +8,10 @@ Buffers=[0.0 0.5 1.0 1.5 2.0 2.5 3.0];
 toc
 disp('done processing slopes, ready to chart')
 keyboard
+
+
+[slept,~,thedates,~,~,~,~,~]=grace2slept('CSRRL05','iceland',1,60,0,0,0,[],'SD',0);
+TH={'iceland' 1};
+XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
+[~,~,~,~,~,CC]=grace2slept('CSRRL05',XY,1,60,[],[],[],'N','SD',0);
+[~,~,~,~,~,~,totalparams,~,~,~,~]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
