@@ -209,7 +209,7 @@ for L=Ls
         % so use grace2slept to load both
         try
         	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
-	        [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(L);
+	        [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
 	        slept=zeros(nmonths,(L+1)^2);
 	        keyboard 
 	        for M=1:nmonths
