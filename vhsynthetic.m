@@ -231,7 +231,6 @@ for L=Ls
         	% (Is this optimal behaviour?)
         	slopes(counter,:)=[L B NaN];
         	fprintf(1,'Error message: \n%s (%s)',e.message,e.identifier);
-        	keyboard
         end
         counter=counter+1;
 	end
