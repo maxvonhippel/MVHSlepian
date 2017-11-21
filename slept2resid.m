@@ -305,6 +305,7 @@ for index=1:j
     %%%
     
     % Now repeat that all again with second order polynomial, if we want
+    keyboard
     if fitwhat(1) >= 2  
       mL2_2 = (G2w'*G2w)\(G2w'*dw) ;
       if index == specialterms{1}
