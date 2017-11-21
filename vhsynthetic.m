@@ -211,7 +211,6 @@ for L=Ls
         	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
 	        [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
 	        slept=zeros(nmonths,(L+1)^2);
-	        keyboard 
 	        for M=1:nmonths
 	        	lmcosi=squeeze(fullS(M,:,:));
 	        	if size(lmcosi,1) < addmup(L)
