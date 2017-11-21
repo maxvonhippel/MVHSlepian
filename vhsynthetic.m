@@ -210,7 +210,8 @@ for L=Ls
         try
         	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
 	        [~,~,~,lmcosi,~,~,~,~,~,ronm]=addmon(L);
-	        slept=zeros(nmonths,(L+1)^2); 
+	        slept=zeros(nmonths,(L+1)^2);
+	        keyboard 
 	        for M=1:nmonths
 	        	% When would the L requested not form a truncation and thus
 	        	% require zero padding?  Is this a use case I should actually
@@ -219,7 +220,6 @@ for L=Ls
 	        	lmcosi=lmcosi(1:addmup(L),:);
 	        	slept(M,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 	        end
-	        keyboard
 	        % Estimate the total mass change
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
