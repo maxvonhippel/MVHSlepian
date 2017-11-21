@@ -213,9 +213,6 @@ for L=Ls
 	        slept=zeros(nmonths,(L+1)^2);
 	        keyboard 
 	        for M=1:nmonths
-	        	% When would the L requested not form a truncation and thus
-	        	% require zero padding?  Is this a use case I should actually
-	        	% account for?
 	        	lmcosi=squeeze(fullS(M,:,:));
 	        	if size(lmcosi,1) < addmup(L)
                 	lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
