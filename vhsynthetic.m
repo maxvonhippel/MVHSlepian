@@ -217,7 +217,11 @@ for L=Ls
 	        	% require zero padding?  Is this a use case I should actually
 	        	% account for?
 	        	lmcosi=squeeze(fullS(M,:,:));
-	        	lmcosi=lmcosi(1:addmup(L),:);
+	        	if size(lmcosi,1) < addmup(L)
+                	lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
+            	else
+                	lmcosi=lmcosi(1:addmup(L),:);
+            	end
 	        	slept(M,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 	        end
 	        % Estimate the total mass change
