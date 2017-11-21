@@ -219,6 +219,7 @@ for L=Ls
 	        	lmcosi=lmcosi(1:addmup(L),:);
 	        	slept(M,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 	        end
+	        keyboard
 	        % Estimate the total mass change
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
