@@ -224,8 +224,7 @@ for L=Ls
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
 	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
 	        % Index allslopes by L and B
-	        keyboard
-	        slopes(counter,:)=[L B totalparams(2)];
+	        slopes(counter,:)=[L B totalparams(2)*365];
         catch e
         	% Error: save NaN to this slot accordingly
         	% (Is this optimal behaviour?)
