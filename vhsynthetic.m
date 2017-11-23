@@ -51,7 +51,7 @@ slopes=[];
 defval('Case','A');
 defval('dom1','iceland');
 defval('dom2','greenland');
-defval('Signal',200);
+defval('Signal',2000);
 defval('Ldata',60);
 defval('Ls',[60]);
 defval('buffers',[0 1 2]);
@@ -162,7 +162,6 @@ else
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
-		keyboard
 		% Add this to the signal
 		if wantNoise
 			% Generate Additive White Guassian Noise with the same
@@ -231,9 +230,7 @@ for L=Ls
 	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)*365];
-	        keyboard
         catch e
-        	keyboard
         	% Error: save NaN to this slot accordingly
         	% (Is this optimal behaviour?)
         	slopes(counter,:)=[L B NaN];
