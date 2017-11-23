@@ -137,7 +137,9 @@ else
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
-	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
+	factor1=factor1/spharea(dom2)/4/pi/(6378100^2);
+	factor5=factor1/(sphare(dom2)*4*pi*(6378100^2));
+	keyboard
 	% So now we have (kg/m^2)/yr
 	% Get relative dates to make a trend
 	% How many time units since the start of the data?
