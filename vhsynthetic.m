@@ -140,6 +140,7 @@ else
 	surfaceAreaEarth=4*pi*(6378100^2);
 	[fractionalAreaDom,~]=spharea(dom2);
 	surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
+	keyboard
 	factor1=factor1/surfaceAreaDom;
 	% So now we have (kg/m^2)/yr
 	% Get relative dates to make a trend
