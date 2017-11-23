@@ -137,10 +137,9 @@ else
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
-	surfaceAreaEarth=4*pi*(6378100^2);
+	surfaceAreaEarth=4*pi*(6371000^2);
 	[fractionalAreaDom,~]=spharea(dom2);
 	surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
-	keyboard
 	factor1=factor1/surfaceAreaDom;
 	% So now we have (kg/m^2)/yr
 	% Get relative dates to make a trend
