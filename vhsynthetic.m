@@ -156,6 +156,7 @@ else
 	for k=deltadates
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
+		keyboard
 		factor2=factor1*(centerYear-(k/365));
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
@@ -208,12 +209,14 @@ for L=Ls
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
         try
-        	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],'N','SD',0);
+        	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],[],'SD',0);
 	        [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
 	        slept=zeros(nmonths,(L+1)^2);
 	        for M=1:nmonths
 	        	lmcosi=squeeze(fullS(M,:,:));
 	        	if size(lmcosi,1) < addmup(L)
+	        		% Happens when we have Ldata < max{Ls}
+	        		% Not a case I am running, but probably good to support it
                 	lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
             	else
                 	lmcosi=lmcosi(1:addmup(L),:);
