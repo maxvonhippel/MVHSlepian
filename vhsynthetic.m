@@ -139,7 +139,7 @@ else
 	% ... to { x0 = 00 January '00, ... , xn = 26 March '01 }
 	deltadates=thedates-thedates(1);
 	% How many months pass in deltadates?
-	% numMonths=length(deltadates);
+	numMonths=length(deltadates);
 	% How many years pass in deltadates?
 	% numYears=numMonths/12;
 	% What is the delta of the middle year in deltadates?
