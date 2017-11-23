@@ -157,6 +157,7 @@ else
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
 		% factor2=factor1*(centerYear-(k/365));
+		keyboard
 		factor2=factor1*(k/365);
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
