@@ -139,13 +139,13 @@ else
 	% ... to { x0 = 00 January '00, ... , xn = 26 March '01 }
 	deltadates=thedates-thedates(1);
 	% How many months pass in deltadates?
-	numMonths=length(deltadates);
+	% numMonths=length(deltadates);
 	% How many years pass in deltadates?
-	numYears=numMonths/12;
+	% numYears=numMonths/12;
 	% What is the delta of the middle year in deltadates?
 	% centerYear=numYears/2;
 	% Instead let's use year 0 as center year
-	centerYear=0;
+	% centerYear=0;
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros([numMonths,size(lmcosiS)]);
@@ -156,8 +156,8 @@ else
 	for k=deltadates
 		% Calculate the desired trend amount for this month,
 		% putting the mean approximately in the middle
-		keyboard
-		factor2=factor1*(centerYear-(k/365));
+		% factor2=factor1*(centerYear-(k/365));
+		factor2=factor1*(k/365);
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
