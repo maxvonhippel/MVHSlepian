@@ -520,15 +520,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % This becomes alpha by months
     %functimeseries=repmat(eigfunINT',1,nmonths).*sleptdelta(:,1:N)';
     %functimeseries = sleptdelta(:,1:N)';
-
-
-    % Put error message here for when rounded N too small
-    % Either I am not applying signal correctly or I am not scaling result
-    % To check signal, try case A and see if I get zeros
-    % Plot Estsignal for a case
-    % Try plotplm of CC{1} * alpha of 1
-    % And try plm2avg of the above result
-    % ALso possibly worth plotting N vs L for Iceland
+    
     % Here do the total sum of the data
     total=eigfunINT*sleptdelta(:,1:N)';
 

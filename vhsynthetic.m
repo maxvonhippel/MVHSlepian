@@ -35,6 +35,16 @@ function varargout=vHSynthetic(Case,dom1,dom2,Signal,Ldata,Ls,buffers)
 % 
 % First authored by maxvonhippel-at-email.arizona.edu on 11/10/2017
 
+
+% TODO:
+% Put error message here for when rounded N too small
+% Either I am not applying signal correctly or I am not scaling result
+% To check signal, try case A and see if I get zeros
+% Plot Estsignal for a case
+% Try plotplm of CC{1} * alpha of 1
+% And try plm2avg of the above result
+% ALso possibly worth plotting N vs L for Iceland
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INITIALIZE & VALIDATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,7 +61,7 @@ slopes=[];
 defval('Case','A');
 defval('dom1','iceland');
 defval('dom2','greenland');
-defval('Signal',2000);
+defval('Signal',200);
 defval('Ldata',60);
 defval('Ls',[60]);
 defval('buffers',[0 1 2]);
@@ -68,11 +78,7 @@ if ~ismember(Case,cases)
 		Case, strjoin(cases,', '))
 	return
 end
-% Check that we are not attempting to project onto a basis of larger bandwidth
-% than our actual data.  To be clear, the Ls should be truncations (or the
-% trivial trunctation, that is to say, equal to ...) of Ldata, the L bandwidth
-% value of our GRACE data.  Is there a valid reason to want to upscale
-% the bandwidth?  Am I missing something here?
+
 for L=Ls
 	if L>Ldata
 		sprintf('L %d in Ls is > Ldata = %d.', L, Ldata)
@@ -128,9 +134,8 @@ else
 	end
 	% Make a synthetic unit signal over the region
 	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],1);
-	% [~,~,~,~,~,lmcosiS]=geoboxcap(60,'iceland',[],1);
 	% Convert desired Gt/yr to kg/yr
-	factor1=Signal*10^9;
+	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
 	factor1=factor1/spharea(dom2)/4/pi/6370000^2;
 	% So now we have (kg/m^2)/yr
@@ -141,12 +146,6 @@ else
 	deltadates=thedates-thedates(1);
 	% How many months pass in deltadates?
 	numMonths=length(deltadates);
-	% How many years pass in deltadates?
-	% numYears=numMonths/12;
-	% What is the delta of the middle year in deltadates?
-	% centerYear=numYears/2;
-	% Instead let's use year 0 as center year
-	% centerYear=0;
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
 	lmcosiSSD=zeros([numMonths,size(lmcosiS)]);
@@ -155,9 +154,8 @@ else
 	% Now we can iterate over the dates
 	counter=1;
 	for k=deltadates
-		% Calculate the desired trend amount for this month,
-		% putting the mean approximately in the middle
-		% factor2=factor1*(centerYear-(k/365));
+		% Calculate the desired trend amount for this month
+		% How do we want to shift this around toward first month? Not sure
 		factor2=factor1*(k/365);
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
