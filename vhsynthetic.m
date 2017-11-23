@@ -138,7 +138,8 @@ else
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
 	surfaceAreaEarth=4*pi*(6378100^2);
-	surfaceAreaDom=spharea(dom2)*surfaceAreaEarth;
+	[fractionalAreaDom,~]=spharea(dom2);
+	surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
 	factor1=factor1/surfaceAreaDom;
 	% So now we have (kg/m^2)/yr
 	% Get relative dates to make a trend
