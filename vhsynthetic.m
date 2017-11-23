@@ -231,6 +231,7 @@ for L=Ls
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)*365];
         catch e
+        	keyboard
         	% Error: save NaN to this slot accordingly
         	% (Is this optimal behaviour?)
         	slopes(counter,:)=[L B NaN];
