@@ -133,7 +133,7 @@ else
 		dom2=dom1;
 	end
 	% Make a synthetic unit signal over the region
-	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],1);
+	[~,~,~,~,~,lmcosiS]=geoboxcap(2*Ldata,dom2,[],1);
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
@@ -159,7 +159,7 @@ else
 	for k=deltadates
 		% Calculate the desired trend amount for this month
 		% How do we want to shift this around toward first month? Not sure
-		factor2=factor1*(k/365);
+		factor2=factor1*k/365;
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
