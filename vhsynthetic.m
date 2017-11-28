@@ -35,15 +35,10 @@ function varargout=vHSynthetic(Case,dom1,dom2,Signal,Ldata,Ls,buffers)
 % 
 % First authored by maxvonhippel-at-email.arizona.edu on 11/10/2017
 
-
 % TODO:
-% Put error message here for when rounded N too small
-% Either I am not applying signal correctly or I am not scaling result
-% To check signal, try case A and see if I get zeros
 % Plot Estsignal for a case
 % Try plotplm of CC{1} * alpha of 1
 % And try plm2avg of the above result
-% ALso possibly worth plotting N vs L for Iceland
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INITIALIZE & VALIDATE
@@ -133,7 +128,7 @@ else
 		dom2=dom1;
 	end
 	% Make a synthetic unit signal over the region
-	[~,~,~,~,~,lmcosiS]=geoboxcap(2*Ldata,dom2,[],1);
+	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],1);
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
@@ -141,7 +136,7 @@ else
 	[fractionalAreaDom,~]=spharea(dom2);
 	surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
 	factor1=factor1/surfaceAreaDom;
-	% So now we have (kg/m^2)/yr
+	% So now we have (kg/yr/m^2)
 	% Get relative dates to make a trend
 	% How many time units since the start of the data?
 	% This shifts everything from { x0 = 16 March '17 , ... , xn = 10 June '17 }
@@ -228,7 +223,7 @@ for L=Ls
 	        % Estimate the total mass change
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
-	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
+	         alphavar]=slept2resid(slept,thedates,[1 1 365.0],[],[],CC,TH);
 	        keyboard
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)*365];

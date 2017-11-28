@@ -231,7 +231,27 @@ text(datenum('01-Jan-2003'), -1800, ...
      num2str(fgls_2sigma(2)) ' Gt/yr']);
 ylabel('Mass (Gt)');
 title(['Integrated Mass Change (FGLS), L = ' num2str(L) ...
-       ', buffer = ' num2str(XYbuffer) ' deg']);            
+       ', buffer = ' num2str(XYbuffer) ' deg']);   
+
+
+
+% ALso possibly worth plotting N vs L for Iceland
+TH1={'greenland' 0};
+TH2={'iceland' 0};
+XY1=eval(sprintf('%s(%i,%f)',TH1{1},10,TH1{2}));
+XY2=eval(sprintf('%s(%i,%f)',TH2{1},10,TH2{2}));
+L=linspace(0,120,5);
+NGreenland=round((L+1).^2*spharea(XY1));
+NIceland=round((L+1).^2*spharea(XY2));
+figure;
+scatter(L,NGreenland);
+title('Greenland & Iceland - N vs L');
+hold on
+scatter(L,NIceland);
+xlabel('L');
+ylabel('Shannon Number N')
+legend('y = Greenland','y = Iceland')
+hold off         
 
 % Prepare outputs
 varns={G,V,ronmosiW,dems,dels,mz,ronm,mzin};
