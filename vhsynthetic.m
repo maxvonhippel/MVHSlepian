@@ -158,6 +158,7 @@ else
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
+		keyboard
 		% Add this to the signal
 		if wantNoise
 			% Generate Additive White Guassian Noise with the same
@@ -209,8 +210,8 @@ for L=Ls
         	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],[],'SD',0);
 	        [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
 	        slept=zeros(nmonths,(L+1)^2);
-	        for M=1:nmonths
-	        	lmcosi=squeeze(fullS(M,:,:));
+	        for k=1:nmonths
+	        	lmcosi=squeeze(fullS(k,:,:));
 	        	if size(lmcosi,1) < addmup(L)
 	        		% Happens when we have Ldata < max{Ls}
 	        		% Not a case I am running, but probably good to support it
@@ -218,13 +219,12 @@ for L=Ls
             	else
                 	lmcosi=lmcosi(1:addmup(L),:);
             	end
-	        	slept(M,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+	        	slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 	        end
 	        % Estimate the total mass change
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
-	         alphavar]=slept2resid(slept,thedates,[1 1 365.0],[],[],CC,TH);
-	        keyboard
+	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)*365];
         catch e
