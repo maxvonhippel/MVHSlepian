@@ -89,7 +89,7 @@ disp('Completed initialization.  Now constructing data to recover from.');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get the original data
-[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',1);
+[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
 nmonths=length(thedates);
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata,~]=addmon(Ldata);
 % If we want noise we need the covariance matrix
@@ -128,7 +128,7 @@ else
 		dom2=dom1;
 	end
 	% Make a synthetic unit signal over the region
-	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],1);
+	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2);
 	% [~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,N,degres,act,lonc,latc)
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
