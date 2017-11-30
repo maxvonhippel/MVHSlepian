@@ -89,7 +89,7 @@ disp('Completed initialization.  Now constructing data to recover from.');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get the original data
-[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',1);
+[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
 nmonths=length(thedates);
 [~,~,~,lmcosidata,~,~,~,~,~,ronmdata,~]=addmon(Ldata);
 % If we want noise we need the covariance matrix
