@@ -221,6 +221,7 @@ for L=Ls
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
 	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
+	        keyboard
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)*365];
         catch e
