@@ -91,11 +91,11 @@ disp('Completed initialization.  Now constructing data to recover from.');
 % Get the original data
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
 nmonths=length(thedates);
-[~,~,~,lmcosidata,~,~,~,~,~,ronmdata,~]=addmon(Ldata);
+[~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(Ldata);
 % If we want noise we need the covariance matrix
 if wantNoise
 	% Get residuals from plot coefficients from grace data
-	[ESTresid,~,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
+	[ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
 	[Clmlmp,~,~,~,~]=plmresid2cov(ESTresid,Ldata,[]);
 	% Decompose the covariance matrix
 	disp('Decomposing the covariance...');
@@ -128,7 +128,7 @@ else
 		dom2=dom1;
 	end
 	% Make a synthetic unit signal over the region
-	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2);
+	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],1);
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
