@@ -158,7 +158,6 @@ else
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
-		keyboard
 		% Add this to the signal
 		if wantNoise
 			% Generate Additive White Guassian Noise with the same
