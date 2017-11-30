@@ -264,7 +264,8 @@ for S=Signals
   Values(counter)=ret;
   counter=counter+1;
 end
-f=figure('visible','off');
+% f=figure('visible','off');
+figure
 hold on
 scatter(Signals,Values);
 title({'Signal Applied vs Retrieved w/ Noise',...
@@ -274,6 +275,44 @@ xlabel('Signal applied in gigatonnes per year');
 ylabel('Signal recovered in gigatonnes per year');
 hold off
 hgexport(f,'IcelandRecoveredWithNoise.jpg',hgexport('factorystyle'),'Format','jpeg');
+
+
+results=zeros([1 nmonths]);
+for x=1:nmonths
+  lmcosi=squeeze(fullS(x,:,:));
+  [~,A,~,~]=plm2avg(lmcosi,'iceland');
+  if x~=1
+    A=A-results(x-1);
+  else
+    A=A;
+  end
+  results(x)=A;
+end
+x=deltadates;
+y=results;
+figure
+hold on
+scatter(x,y);
+title('Delta PLM2AVG for L=60,B=0.5,dom=iceland');
+xlabel('days');
+ylabel('difference in PLM2AVG since last month');
+hold off
+
+results=zeros([1 nmonths]);
+for x=1:nmonths
+  lmcosi=squeeze(fullS(x,:,:));
+  [~,A,~,~]=plm2avg(lmcosi,'iceland');
+  results(x)=A;
+end
+x=deltadates;
+y=results;
+figure
+hold on
+scatter(x,y);
+title('PLM2AVG for L=60,B=0.5,dom=iceland');
+xlabel('days');
+ylabel('PLM2AVG');
+hold off
 
 % Prepare outputs
 varns={G,V,ronmosiW,dems,dels,mz,ronm,mzin};
