@@ -255,11 +255,11 @@ hold off
 
 
 Signals=[1 10 100 150 200 250 300 350 400];
-dom2='australia';
+dom2='iceland';
 Values=zeros(size(Signals));
 counter=1;
 for S=Signals
-  ret=getfield(vhsynthetic('A',dom2,dom2,S,60,[60],[0.5]),{3});
+  ret=getfield(vhsynthetic('AA',dom2,dom2,S,60,[60],[0.5]),{3});
   % Values(counter)=100*ret/S;
   Values(counter)=ret;
   counter=counter+1;
@@ -267,13 +267,13 @@ end
 f=figure('visible','off');
 hold on
 scatter(Signals,Values);
-title({'Signal Applied vs Retrieved',...
-        'Dom=Australia, L=60, B=0.5'});
+title({'Signal Applied vs Retrieved w/ Noise',...
+        'Dom=Iceland, L=60, B=0.5'});
 xlabel('Signal applied in gigatonnes per year');
 % ylabel('% Signal recovered in gigatonnes per year');
 ylabel('Signal recovered in gigatonnes per year');
 hold off
-hgexport(f,'AustraliaRecovered.jpg',hgexport('factorystyle'),'Format','jpeg');
+hgexport(f,'IcelandRecoveredWithNoise.jpg',hgexport('factorystyle'),'Format','jpeg');
 
 % Prepare outputs
 varns={G,V,ronmosiW,dems,dels,mz,ronm,mzin};
