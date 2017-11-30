@@ -128,7 +128,7 @@ else
 		dom2=dom1;
 	end
 	% Make a synthetic unit signal over the region
-	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],3);
+	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,[],2.9);
 	% [~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,N,degres,act,lonc,latc)
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
