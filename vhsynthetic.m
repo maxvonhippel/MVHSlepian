@@ -175,6 +175,7 @@ else
 		end
 		counter=counter+1;
 	end
+	keyboard
 	% If we don't want noise, then fullS == lmcosiSSD already, so let's just rename
 	% fullS to lmcosiSSD and that way either way we can operate on fullS in the
 	% next step.
