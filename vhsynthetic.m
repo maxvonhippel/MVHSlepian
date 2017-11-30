@@ -197,8 +197,7 @@ counter=1;
 for L=Ls
 	for B=buffers
 		% These print messages are, IMO, useful for guess-timating % progress
-		toPrint=sprintf('Recovering mass loss trend for L=%d, B=%d', L, B);
-		disp(toPrint)
+		sprintf('Recovering mass loss trend for L=%d, B=%d', L, B)
 		% The domain we want to recover, at the current buffer
 		TH={dom1 B};
         XY=eval(sprintf('%s(%i,%f)',TH{1},10,TH{2}));
@@ -225,7 +224,6 @@ for L=Ls
 	        [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,...
 	         totalparams,totalparamerrors,totalfit,functionintegrals,...
 	         alphavar]=slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
-	         keyboard
 	        % Index allslopes by L and B
 	        slopes(counter,:)=[L B totalparams(2)*365];
         catch e
