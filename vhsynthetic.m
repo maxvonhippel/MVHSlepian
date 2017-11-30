@@ -95,7 +95,7 @@ nmonths=length(thedates);
 % If we want noise we need the covariance matrix
 if wantNoise
 	% Get residuals from plot coefficients from grace data
-	[ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
+	[ESTresid,~,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[]);
 	[Clmlmp,~,~,~,~]=plmresid2cov(ESTresid,Ldata,[]);
 	% Decompose the covariance matrix
 	disp('Decomposing the covariance...');
