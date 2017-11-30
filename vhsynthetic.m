@@ -112,7 +112,7 @@ if Case(1)=='C'
 	% In this case use GRACE data
 	% First get the grace data projected onto a basis of Slepian coefficients
 	[slept,~,otherdates,~,~,~,~,~]=grace2slept('CSRRL05',dom2,1,Ldata,...
-		0,0,0,[],'SD',0);
+		0,0,0,[],'SD',1);
 	% Not sure if this could be a problem or even could happen, but just in case
 	if otherdates~=thedates
 		disp('Warning: otherdates != thedates. This might be problematic.');
@@ -142,13 +142,11 @@ else
 	% This shifts everything from { x0 = 16 March '17 , ... , xn = 10 June '17 }
 	% ... to { x0 = 00 January '00, ... , xn = 26 March '01 }
 	deltadates=thedates-thedates(1);
-	% How many months pass in deltadates?
-	numMonths=length(deltadates);
 	% lmcosiSSD will be used in the iterative construction of fullS
 	% If we don't want noise, then lmcosiSSD actually is fullS
-	lmcosiSSD=zeros([numMonths,size(lmcosiS)]);
+	lmcosiSSD=zeros([nmonths,size(lmcosiS)]);
 	% fullS will hold the combined synthetic signal and synthetic noise
-	fullS=lmcosiSSD;
+	fullS=zeros([nmonths,size(lmcosiS)]);
 	% Now we can iterate over the dates
 	counter=1;
 	for k=deltadates
@@ -205,7 +203,7 @@ for L=Ls
         % We want the G from glmalpha, but we also want the eigenfunctions,
         % so use grace2slept to load both
         try
-        	[~,~,~,XY,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],[],'SD',0);
+        	[~,~,~,~,G,CC]=grace2slept('CSRRL05',XY,B,L,[],[],[],[],'SD',1);
 	        [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
 	        slept=zeros(nmonths,(L+1)^2);
 	        for k=1:nmonths
