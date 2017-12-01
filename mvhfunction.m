@@ -254,65 +254,61 @@ legend('y = Greenland','y = Iceland')
 hold off 
 
 
-Signals=[1 10 100 150 200 250 300 350 400];
-dom2='iceland';
-Values=zeros(size(Signals));
+dom='greenland';
+Signal=200;
+L=60;
+[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
+nmonths=length(thedates);
+[~,~,~,~,~,lmcosiS]=geoboxcap(L,dom);
+factor1=Signal*10^12;
+factor1=factor1/spharea(dom);
+deltadates=thedates-thedates(1);
+lmcosiSSD=zeros([nmonths,size(lmcosiS)]);
 counter=1;
-for S=Signals
-  ret=getfield(vhsynthetic('AA',dom2,dom2,S,60,[60],[0.5]),{3});
-  % Values(counter)=100*ret/S;
-  Values(counter)=ret;
+for k=deltadates
+  factor2=(factor1*k)/365;
+  lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
   counter=counter+1;
 end
-% f=figure('visible','off');
-figure
-hold on
-scatter(Signals,Values);
-title({'Signal Applied vs Retrieved w/ Noise',...
-        'Dom=Iceland, L=60, B=0.5'});
-xlabel('Signal applied in gigatonnes per year');
-% ylabel('% Signal recovered in gigatonnes per year');
-ylabel('Signal recovered in gigatonnes per year');
-hold off
-hgexport(f,'IcelandRecoveredWithNoise.jpg',hgexport('factorystyle'),'Format','jpeg');
-
-
 results=zeros([1 nmonths]);
+surfaceAreaEarth=4*pi*(6371000^2);
+[fractionalAreaDom,~]=spharea(dom);
+surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
 for x=1:nmonths
-  lmcosi=squeeze(fullS(x,:,:));
-  [~,A,~,~]=plm2avg(lmcosi,'iceland');
-  if x~=1
-    A=A-results(x-1);
-  else
-    A=A;
-  end
-  results(x)=A;
-end
-x=deltadates;
-y=results;
-figure
-hold on
-scatter(x,y);
-title('Delta PLM2AVG for L=60,B=0.5,dom=iceland');
-xlabel('days');
-ylabel('difference in PLM2AVG since last month');
-hold off
-
-results=zeros([1 nmonths]);
-for x=1:nmonths
-  lmcosi=squeeze(fullS(x,:,:));
-  [Int,A,~,~]=plm2avg(lmcosi,dom2);
+  lmcosi=squeeze(lmcosiSSD(x,:,:));
+  [Int,~,~,~]=plm2avg(lmcosi,dom);
   results(x)=Int;
 end
 x=deltadates;
 y=results;
-figure
-hold on
 scatter(x,y);
-title('PLM2AVG for L=60,B=0.5,dom=iceland');
-xlabel('days');
-ylabel('PLM2AVG');
-hold off
+
+
+
+% ----------------------------------------
+dom='iceland';
+L=55;
+Signal=200; % Gt/year
+[~,~,thedates]=grace2plmt('CSR','RL05','SD',0);
+nmonths=length(thedates);
+[~,~,~,~,~,lmcosiS]=geoboxcap(L,dom);
+factor1=Signal/spharea(dom); % Gt/unit sphere
+deltadates=thedates-thedates(1);
+lmcosiSSD=zeros([nmonths,size(lmcosiS)]);
+
+dom='greenland';
+L=60;
+Signal=200; % Gt/year
+b=0.5;
+[~,~,~,~,~,lmcosiS]=geoboxcap(L,dom);
+factor1=Signal/spharea(dom);
+[Int1,~,~,~]=plm2avg([lmcosiS(:,1:2) lmcosiS(:,3:4)*0],dom);
+[Int12,~,~,~]=plm2avg([lmcosiS(:,1:2) lmcosiS(:,3:4)*factor1],dom);
+Int12-Int1
+% x=deltadates;
+% y=results;
+% plot(x,y);
+% ----------------------------------------
 
 % Prepare outputs
 varns={G,V,ronmosiW,dems,dels,mz,ronm,mzin};

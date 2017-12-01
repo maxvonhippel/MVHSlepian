@@ -133,10 +133,11 @@ else
 	% Convert desired Gt/yr to kg/yr
 	factor1=Signal*10^12;
 	% Then get an average needed for the region (area in meters)
-	surfaceAreaEarth=4*pi*(6371000^2);
-	[fractionalAreaDom,~]=spharea(dom2);
-	surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
-	factor1=factor1/surfaceAreaDom;
+	% surfaceAreaEarth=4*pi*(6371000^2);
+	% [fractionalAreaDom,~]=spharea(dom2);
+	% surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
+	% factor1=factor1/surfaceAreaDom;
+	factor1=factor1/spharea(dom2);
 	% So now we have (kg/yr/m^2)
 	% Get relative dates to make a trend
 	% How many time units since the start of the data?
@@ -154,7 +155,6 @@ else
 		% Calculate the desired trend amount for this month
 		% How do we want to shift this around toward first month? Not sure
 		factor2=(factor1*k)/365;
-		keyboard
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
@@ -182,7 +182,6 @@ else
 	if ~wantNoise 
 		fullS=lmcosiSSD;
 	end
-	keyboard
 end
 
 disp('Completed construction of data to recover from.');
