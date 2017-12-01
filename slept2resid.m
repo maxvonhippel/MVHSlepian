@@ -509,7 +509,7 @@ if nargout >= 5 && exist('CC') && exist('TH')
     % get the monthly values.  This is much faster.
 
     [eigfunINT] = integratebasis(CC,TH,N);
-    
+    keyboard
     % Since Int should have units of (fn * m^2), need to go from fractional
     % sphere area to real area.  If the fn is surface density, this output is
     % in kilograms.  Then change the units from kg to Gt in METRIC tons
