@@ -301,8 +301,8 @@ hold off
 results=zeros([1 nmonths]);
 for x=1:nmonths
   lmcosi=squeeze(fullS(x,:,:));
-  [Int,~,~,~]=plm2avg(lmcosi,'iceland');
-  results(x)=Int/10^12;
+  [Int,A,~,~]=plm2avg(lmcosi,dom2);
+  results(x)=Int;
 end
 x=deltadates;
 y=results;

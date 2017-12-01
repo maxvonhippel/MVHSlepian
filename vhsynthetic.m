@@ -153,7 +153,8 @@ else
 	for k=deltadates
 		% Calculate the desired trend amount for this month
 		% How do we want to shift this around toward first month? Not sure
-		factor2=factor1*k/365;
+		factor2=(factor1*k)/365;
+		keyboard
 		% Scale the unit signal for this month
 		% In this case we scale the second 2 columns (cos sin) by factor2
 		lmcosiSSD(counter,:,:)=[lmcosiS(:,1:2) lmcosiS(:,3:4)*factor2];
