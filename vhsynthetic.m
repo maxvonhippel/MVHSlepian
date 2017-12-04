@@ -131,13 +131,13 @@ else
 	[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2);
 	% [~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,dom2,N,degres,act,lonc,latc)
 	% Convert desired Gt/yr to kg/yr
-	factor1=Signal*10^12;
+	% factor1=Signal;
 	% Then get an average needed for the region (area in meters)
 	% surfaceAreaEarth=4*pi*(6371000^2);
 	% [fractionalAreaDom,~]=spharea(dom2);
 	% surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
 	% factor1=factor1/surfaceAreaDom;
-	factor1=factor1/spharea(dom2);
+	factor1=Signal/spharea(dom2);
 	% So now we have (kg/yr/m^2)
 	% Get relative dates to make a trend
 	% How many time units since the start of the data?
