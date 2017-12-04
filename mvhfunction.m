@@ -271,9 +271,6 @@ for k=deltadates
   counter=counter+1;
 end
 results=zeros([1 nmonths]);
-surfaceAreaEarth=4*pi*(6371000^2);
-[fractionalAreaDom,~]=spharea(dom);
-surfaceAreaDom=fractionalAreaDom*surfaceAreaEarth;
 for x=1:nmonths
   lmcosi=squeeze(lmcosiSSD(x,:,:));
   [Int,~,~,~]=plm2avg(lmcosi,dom);
