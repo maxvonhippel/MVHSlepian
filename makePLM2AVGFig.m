@@ -27,10 +27,6 @@ for L=Ls
     % so use grace2slept to load both
     [slepcoffs,~,~,TH,G,CC,~,~]=grace2slept('CSRRL05',dom,B,L,[],[],[],[],'SD',1);
 
-    % ------------ experiment in plm2avg -------------------
-    keyboard
-    
-
     % keyboard, send CC to eigfunINT, compare 0.5 to 0 degree buffer results
     % 0.5 deg ones should be ~10% larger for CC{1}
     % compare CC{1} with plotplm to CC{1} from other buffer (0.5 vs 0)
@@ -59,20 +55,15 @@ for L=Ls
   end
 end
 
-% slopes =
 
-%                         45                         0          164.241764286433
-%                         45                       0.5           9.7589000826311
-%                         45                         1           20.063257124219
-%                         50                         0          164.020750768261
-%                         50                       0.5          7.13458714018997
-%                         50                         1          17.2629745475065
-%                         55                         0          172.058937882016
-%                         55                       0.5          4.32042902322509
-%                         55                         1          18.8023427582291
-%                         60                         0          178.130334722536
-%                         60                       0.5          4.38841535376908
-%                         60                         1          17.0645164456699
+% L     B     recovered            percent      expected
+% ______________________________________________________
+% 50    0     170.948370045596     85.47%       ~ 86 ish
+% 50    0.5   190.339992955744     95.17%       ~ 95 ish
+% 55    0     172.957943872825     86.48%       ~ 88 ish
+% 55    0.5   194.831637127521     97.42%       ~ 96 ish
+% 60    0     177.973770329032     88.99%       ~ 92 ish
+% 60    0.5   197.527703564053     98.76%       ~ 99 ish
 
 
 % figure stuff with plm 2 avg
