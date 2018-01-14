@@ -2,8 +2,8 @@ function hs12syntheticrecovery
 % 
 % Here we plot the contour of recovered trends from synthetic experiments
 % 
-% Authored by maxvonhippel at email.arizona.edu on 01/11/18
-% Last modified by maxvonhippel at email.arizona.edu on 01/14/18
+% Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
+% Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
 
 defval('domSignal','greenland');
 defval('wantnoise',1);

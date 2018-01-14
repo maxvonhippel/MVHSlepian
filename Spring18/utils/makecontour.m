@@ -1,3 +1,10 @@
+function makecontour
+% 
+% Here we plot the contour of a 3 col (X, Y, Z) matrix
+% 
+% Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
+% Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
+
 % demo data for chart
 slopes = [50 0 170.948370045596;...
 		  50 0.5 190.339992955744;...
@@ -5,14 +12,15 @@ slopes = [50 0 170.948370045596;...
 		  55 0.5 194.831637127521;...
 		  60 0 177.973770329032;... 
 		  60 0.5 197.527703564053;];
+defval('xyz',slopes);
 % solution adapted from: https://stackoverflow.com/a/19560522/1586231
 % define the axes
-Ls = slopes(:,1);
-buffers = slopes(:,2);
+Ls = xyz(:,1);
+buffers = xyz(:,2);
 % divide by 200 (total unit signal applied) to get fraction
 % then multiply by 100 to get percent
 % hence * 1/2
-recovered = slopes(:,3)/2;
+recovered = xyz(:,3)/2;
 % round to 2 digits for nice labels
 recovered = round(recovered, 2);
 % ranges of axes

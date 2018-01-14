@@ -1,8 +1,12 @@
 title
+authors
+doi
 link
 notes
 --------------------------------------------------------------------------------
 A model computation of the temporal changes of surface gravity and geoidal signal induced by the evolving Greenland ice sheet
 Emmanuel Le Meur and Philippe Huybrechts
+10.1046/j.1365-246x.2001.01442.x
+http://onlinelibrary.wiley.com/doi/10.1046/j.1365-246x.2001.01442.x/abstract
 I need this for the elastic response correction. (TODO)
 --------------------------------------------------------------------------------

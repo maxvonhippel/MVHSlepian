@@ -1,9 +1,0 @@
-========== CORRECTIONS ==========
-* GIA (TODO)
-* Instantaneous Elastic Response (TODO)
-* Solid Earth (TODO)
-============= TESTS =============
-In all tests below I use 200Gt/yr synthetic noise
-Synthetic Noise | Signal on | Recover   | Corrections
-YES             | Greenland | Greenland | NO
-YES             | Greenland | Iceland   | NO

@@ -1,0 +1,23 @@
+========== CORRECTIONS ==========
+* GIA (TODO)
+* Instantaneous Elastic Response (TODO)
+	- Description: This is the change in gravity in response to elastic changes
+				in the earth over time caused mostly by the cooling of the 
+				Little Ice Age, although also partially by other climatic 
+				events.
+	- Reference: See 10.1046/j.1365-246x.2001.01442.x in references.txt
+	- Question: Do we have a way to do this for anything other than Greenland?
+				The paper seems Greenland specific - do models exist elsewhere, 
+				and if so, where can I find them?
+	- Question: Do I need to apply the phenomenon I am correcting for, and then
+				correct for it (basically do and undo the effect) in order to 
+				truly simulate having a boxcap 200 Gt/yr mass loss trend over 
+				the region?  If so, how do I do this realistically, without 
+				clearly circular logic?
+* Solid Earth (TODO)
+
+============= TESTS =============
+In all tests below I use 200Gt/yr synthetic noise
+Synthetic Noise | Signal on | Recover   | Corrections | Folder
+YES             | Greenland | Greenland | NO          | GG_with_noise
+YES             | Greenland | Iceland   | NO          | GI_with_noise
