@@ -1,0 +1,11 @@
+Made with: hs12realrecovery.m
+Git hash: e9d673298a752fa83b8e52c06002b991d2e91e4a
+Date: 15 January 2018
+Made by: maxvonhippel-at-email.arizona.edu
+
+In this figure I recover Iceland from the real GRACE data for Greenland.
+The figure is in Gt/yr, not % recovered, since I do not know what the divisor
+should be in any percent calculation (in other words, I'm not sure out of what
+to calculate the percentage).
+I do not use any corrections (GIA, Elastic Response, Solid Earth, etc.).
+Ellsemere Island is not accounted for.  Data spans April 2002 - June 2017.
