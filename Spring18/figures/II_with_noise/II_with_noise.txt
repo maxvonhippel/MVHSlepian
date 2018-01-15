@@ -1,8 +1,9 @@
 Made with: hs12syntheticrecovery.m
-Git hash: 7b85e0af8134859cb9afb8f799b7d4a1e63703eb
+Git hash: 03f89d55ba7eed8ce342c943363a7d3c856ca666
 Date: 14 January 2018
 Made by: maxvonhippel-at-email.arizona.edu
 
 In this figure I apply 200 Gt/yr signal to Iceland, apply random Gaussian
 noise with covariance matching that of the signal, and then recover Iceland.
 I do not use any corrections (GIA, Elastic Response, Solid Earth, etc.).
+Ellsemere Island is not accounted for.  Data spans April 2002 - June 2017.
