@@ -6,8 +6,8 @@ function hs12syntheticrecovery
 % Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
 
 defval('domSignal','iceland');
-defval('wantnoise',1);
-defval('domRecover','greenland')
+defval('wantnoise',0);
+defval('domRecover','iceland')
 defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
@@ -52,8 +52,6 @@ for k=deltadates
     syntheticnoise=[lmcosidata(:,1:2) temp1];
     fullS(counter,:,:)=[lmcosidata(:,1:2)...
        squeeze(lmcosiSSD(counter,:,3:4))+syntheticnoise(:,3:4)];
-  else
-    fullS(counter,:,:)=[lmcosiS(:,1:2) squeeze(lmcosiSSD(counter,:,3:4))];
   end
   counter=counter+1;
 end
