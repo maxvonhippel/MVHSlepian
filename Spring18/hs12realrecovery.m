@@ -6,7 +6,6 @@ function hs12realrecovery
 
 defval('domSignal','greenland');
 defval('domRecover','iceland')
-defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
 defval('Ldata',60);
