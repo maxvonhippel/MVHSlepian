@@ -5,9 +5,9 @@ function hs12syntheticrecovery
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
 
-% defval('domSignal',iceland(0,0.5));
-defval('domSignal','iceland');
-defval('wantnoise',0);
+defval('domSignal',iceland(0,0.5));
+% defval('domSignal','iceland');
+defval('wantnoise',1);
 defval('domRecover','iceland')
 defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
@@ -128,9 +128,9 @@ ylabel('buffer extent (degrees)');
 %%%
 
 % Save relevant data for use in something like GMT
-fp2=fopen([domSignal domRecover ...
-    datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
-% fp2=fopen('II_b0.5.dat','wt');
+% fp2=fopen([domSignal domRecover ...
+    % datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
+fp2=fopen('II_b0.5.dat','wt');
 fprintf(fp2,'L buffer Gt/yr\n');
 for row=1:size(slopes,1)
 	fprintf(fp2,'%.4f %.4f %.4f\n',slopes(row,:));
