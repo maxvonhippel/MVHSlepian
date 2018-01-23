@@ -32,7 +32,9 @@ if isempty(T)
 end
 
 % Apply a unit signal over the domain
-[~,~,~,~,~,lmcosiS]=geoboxcap(Ldata,domSignal);
+% Oversample so that lmcosiS isn't all 0
+[~,~,~,~,~,lmcosiS]=geoboxcap(2*Ldata,domSignal);
+
 % * 10^12 converts Gt / unit sphere to kg / unit sphere / day
 % / [spharea(domSignal) * 4 * pi * 6370000^2] divides by area in m^2 of the
 % domain domSignal, putting us into units of kg / m^2 / day
@@ -76,6 +78,7 @@ for L=Ls
       slept=zeros(nmonths,(L+1)^2);
       for k=1:nmonths
       	lmcosi=squeeze(fullS(k,:,:));
+        % Truncation happens here, hence why oversampling isn't problematic
         if size(lmcosi,1) < addmup(L)
         	lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
         else
