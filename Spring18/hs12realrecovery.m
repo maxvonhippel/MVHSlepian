@@ -17,8 +17,6 @@ numberTests=numel(Ls)*numel(buffers);
 nmonths=length(thedates);
 fullS=fullS(:,:,1:4);
 
-% [thedates,GIAt,CIAtU,GIAtL,trend]=correct4gia(thedates(1:150),'Paulson07',{'greenland' 0.5});
-
 % Recover the signal from the recovery domain
 slopes=zeros([(length(Ls)*length(buffers)) 3]);
 overallCount=1;
@@ -43,8 +41,13 @@ for L=Ls
         end
         slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
       end
+      % Do GIA correction, since CSR GRACE data doesn't do it by default
+      % Note that JPL data does, so if you are using JPL data then you
+      % need to comment this out, or reverse their correction yourself.
+      [~,GIAt,~,~,~]=correct4gia(thedates,'Paulson07',TH,L);
+      slept=slept-GIAt;
       % Estimate the total mass change
-      [~,~,~,~,~,~,totalparams,~,~,~,~]=...
+      [~,~,~,~,total,~,totalparams,~,~,~,~]=...
         slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
       % Index allslopes by L and B
       format long g;

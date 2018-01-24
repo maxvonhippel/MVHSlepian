@@ -52,6 +52,15 @@ for k=1:nmonths
   sleptAgg(k,:)=GAgg'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 end
 
+% Correct for GIA.  Note that this is valid for CSR data, but JPL data comes
+% pre-corrected, so this should be commented out if you are using JPL data.
+[~,GIAtA,~,~,~]=correct4gia(thedates,'Paulson07',THA,L);
+[~,GIAtB,~,~,~]=correct4gia(thedates,'Paulson07',THB,L);
+[~,GIAtAgg,~,~,~]=correct4gia(thedates,'Paulson07',THAgg,L);
+sleptA=sleptA-GIAtA;
+sleptB=sleptB-GIAtB;
+sleptAgg=sleptAgg-GIAtAgg;
+
 % Estimate the total mass changes
 [~,~,~,~,~,~,totalparamsA,~,~,~,~]=slept2resid(sleptA,thedates,[1 365.0],...
   [],[],CCA,THA);
@@ -66,18 +75,6 @@ regionABtrend=regionAtrend+regionBtrend;
   [],[],CCAgg,THAgg);
 regionAggtrend=totalparamsAgg(2)*365;
 
-regionDiff=regionABtrend-regionAggtrend;
-
-% Print messages
-format long g
-% Print messages
-format long g
-disp(sprintf('Shannon Number, Region, Trend\n%f, %s, %f',...
-  round((L+1)^2*spharea(regionA)),regionA,regionAtrend));
-disp(sprintf('%f, %s, %f',...
-  round((L+1)^2*spharea(regionB)),regionB,regionBtrend));
-disp(sprintf('(Sum of trends: %f)',regionABtrend));
-disp(sprintf('%f, Combined Region, %f',...
-  round((L+1)^2*spharea(regionAgg)),regionAtrend));
-disp(sprintf('(Difference: Sum of trends - Combined trend = %f\n)',...
-  regionDiff));
+disp(sprintf('aggregate region trend: %f\n', regionAggtrend));
+disp(sprintf('sum of region trends: %f\n', regionABtrend));
+disp(sprintf('difference (agg - sum): %f\n', regionAggtrend - regionABtrend));
