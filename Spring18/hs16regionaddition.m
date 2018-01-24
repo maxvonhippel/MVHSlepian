@@ -67,13 +67,17 @@ regionABtrend=regionAtrend+regionBtrend;
 regionAggtrend=totalparamsAgg(2)*365;
 
 regionDiff=regionABtrend-regionAggtrend;
-diffPercent=regionAggtrend/regionABtrend;
 
 % Print messages
 format long g
-disp(sprintf('%s: %f Gt/yr\n%s: %f Gt/yr\nSum of trends: %f Gt/yr\n',...
-  regionA,regionAtrend,regionB,regionBtrend,regionABtrend));
-disp(sprintf('Aggregate region (%s + %s): %f Gt/yr\n',regionA,regionB,...
-  regionAggtrend));
-disp(sprintf('Difference in estimate of %f Gt, or %f percent',regionDiff,...
-  diffPercent));
+% Print messages
+format long g
+disp(sprintf('Shannon Number, Region, Trend\n%f, %s, %f',...
+  round((L+1)^2*spharea(regionA)),regionA,regionAtrend));
+disp(sprintf('%f, %s, %f',...
+  round((L+1)^2*spharea(regionB)),regionB,regionBtrend));
+disp(sprintf('(Sum of trends: %f)',regionABtrend));
+disp(sprintf('%f, Combined Region, %f',...
+  round((L+1)^2*spharea(regionAgg)),regionAtrend));
+disp(sprintf('(Difference: Sum of trends - Combined trend = %f\n)',...
+  regionDiff));

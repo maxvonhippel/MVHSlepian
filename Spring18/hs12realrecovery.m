@@ -5,7 +5,7 @@ function hs12realrecovery
 % Authored by maxvonhippel-at-email.arizona.edu on 01/15/18
 
 defval('domSignal','greenland');
-defval('domRecover','iceland')
+defval('domRecover','greenland')
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
 defval('Ldata',60);
@@ -16,6 +16,8 @@ numberTests=numel(Ls)*numel(buffers);
 [fullS,~,thedates]=grace2plmt('CSR','RL05','SD',0);
 nmonths=length(thedates);
 fullS=fullS(:,:,1:4);
+
+% [thedates,GIAt,CIAtU,GIAtL,trend]=correct4gia(thedates(1:150),'Paulson07',{'greenland' 0.5});
 
 % Recover the signal from the recovery domain
 slopes=zeros([(length(Ls)*length(buffers)) 3]);
