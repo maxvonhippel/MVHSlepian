@@ -1,0 +1,11 @@
+Made with: hs12realrecovery.m
+Git hash: 649aff7f15ae4643da178420a4ac49ed076ffa34
+Date: 24 January 2018
+Made by: maxvonhippel-at-email.arizona.edu
+
+In this figure I recover Greenland from the real GRACE data for Greenland.
+The figure is in Gt/yr.  That said, it is probably wrong - I think I am not dividing by something (maybe surface area of the earth or something like that) which I am supposed to be dividing by.  So I suspect the pattern is write but the numbers are probably way off right now.
+should be in any percent calculation (in other words, I'm not sure out of what
+to calculate the percentage).
+I use the Paulson07 correction for GIA.
+Ellsemere Island is not accounted for.  Data spans April 2002 - December 2016.
