@@ -5,7 +5,7 @@ function hs12syntheticrecovery
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
 
-defval('domSignal','greenland');
+defval('domSignal','iceland');
 defval('wantnoise',1);
 defval('domRecover','iceland')
 defval('Signal',200);
@@ -124,10 +124,18 @@ buffersRange=min(buffers):(max(buffers)-min(buffers))/200:max(buffers);
 [LsRange, buffersRange]=meshgrid(LsRange,buffersRange);
 percentRecovered=griddata(Ls,buffers,recovered,LsRange,buffersRange);
 % Chart it
-contour(LsRange,buffersRange,percentRecovered,5,'ShowText','On');
+hold on;
+% contour(LsRange,buffersRange,percentRecovered,linspace(20,150,11),'ShowText','On',...
+%   'LineColor','Black','LineWidth',1);
+contour(LsRange,buffersRange,percentRecovered,10,'ShowText','On',...
+  'LineColor','Black','LineWidth',1);
+contour(LsRange,buffersRange,percentRecovered,[100,100],'ShowText','On',...
+   'LineColor','Green','LineWidth',2);
 title('Synthetic recovered trend');
 xlabel('bandwidth L');
 ylabel('buffer extent (degrees)');
+box on;
+hold off;
 
 %%%
 % OUTPUT
@@ -136,7 +144,7 @@ ylabel('buffer extent (degrees)');
 % Save relevant data for use in something like GMT
 % fp2=fopen([domSignal domRecover ...
     % datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
-fp2=fopen('GG_with_noise.dat','wt');
+fp2=fopen('II_with_noise.dat','wt');
 fprintf(fp2,'L buffer Gt/yr\n');
 for row=1:size(slopes,1)
 	fprintf(fp2,'%.4f %.4f %.4f\n',slopes(row,:));
