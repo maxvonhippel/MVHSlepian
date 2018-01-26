@@ -3,7 +3,7 @@ Git hash: 7b1893213398ccab995b6ae1361e0930d9b098c9
 Date: 25 January 2018
 Made by: maxvonhippel-at-email.arizona.edu
 
-In this figure I apply 200 Gt/yr signal to Iceland, apply random Gaussian
+In this figure I apply 200 Gt/yr signal to Greenland, apply random Gaussian
 noise with covariance matching that of the signal, and then recover Iceland.
 I do not use any corrections (GIA, Elastic Response, Solid Earth, etc.).
 Ellsemere Island is not accounted for.  Data spans 17 April 2002 - 26 Nov 2016.

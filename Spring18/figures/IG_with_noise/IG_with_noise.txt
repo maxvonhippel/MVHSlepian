@@ -4,6 +4,6 @@ Date: 25 January 2018
 Made by: maxvonhippel-at-email.arizona.edu
 
 In this figure I apply 200 Gt/yr signal to Iceland, apply random Gaussian
-noise with covariance matching that of the signal, and then recover Iceland.
+noise with covariance matching that of the signal, and then recover Greenland.
 I do not use any corrections (GIA, Elastic Response, Solid Earth, etc.).
 Ellsemere Island is not accounted for.  Data spans 17 April 2002 - 26 Nov 2016.
