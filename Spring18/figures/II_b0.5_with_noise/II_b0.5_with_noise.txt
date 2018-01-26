@@ -1,8 +1,0 @@
-Made with: hs12syntheticrecovery.m
-Git hash: 16ea6b90899631eb797e0574ec51aa2be1e0afc8
-Date: 18 January 2018
-Made by: maxvonhippel-at-email.arizona.edu
-
-In this figure I apply 200 Gt/yr signal to Iceland with a buffer of 0.5 and Guassian noise and then recover Iceland at a variety of different buffers.
-I do not use any corrections (GIA, Elastic Response, Solid Earth, etc.).
-Ellsemere Island is not accounted for.  Data spans April 2002 - June 2017.

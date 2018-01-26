@@ -5,8 +5,7 @@ function hs12syntheticrecovery
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
 
-defval('domSignal',iceland(0,0.5));
-% defval('domSignal','iceland');
+defval('domSignal','greenland');
 defval('wantnoise',1);
 defval('domRecover','iceland')
 defval('Signal',200);
@@ -34,6 +33,10 @@ end
 % Apply a unit signal over the domain
 % Oversample so that lmcosiS isn't all 0
 [~,~,~,~,~,lmcosiS]=geoboxcap(2*Ldata,domSignal);
+% Then truncate
+if size(lmcosiS,1) > addmup(Ldata)
+  lmcosiS=lmcosiS(1:addmup(Ldata),:);
+end
 
 % * 10^12 converts Gt / unit sphere to kg / unit sphere / day
 % / [spharea(domSignal) * 4 * pi * 6370000^2] divides by area in m^2 of the
@@ -133,7 +136,7 @@ ylabel('buffer extent (degrees)');
 % Save relevant data for use in something like GMT
 % fp2=fopen([domSignal domRecover ...
     % datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
-fp2=fopen('II_b0.5_with_noise.dat','wt');
+fp2=fopen('GG_with_noise.dat','wt');
 fprintf(fp2,'L buffer Gt/yr\n');
 for row=1:size(slopes,1)
 	fprintf(fp2,'%.4f %.4f %.4f\n',slopes(row,:));

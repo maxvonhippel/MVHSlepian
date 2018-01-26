@@ -1,12 +1,44 @@
-title
-authors
-doi
-link
-notes
 --------------------------------------------------------------------------------
 A model computation of the temporal changes of surface gravity and geoidal signal induced by the evolving Greenland ice sheet
 Emmanuel Le Meur and Philippe Huybrechts
 10.1046/j.1365-246x.2001.01442.x
 http://onlinelibrary.wiley.com/doi/10.1046/j.1365-246x.2001.01442.x/abstract
 I need this for the elastic response correction. (TODO)
+--------------------------------------------------------------------------------
+Harig, C., and F. J. Simons (2016), Ice mass loss in Greenland, the Gulf of Alaska, and the Canadian Archipelago: Seasonal cycles and decadal trends, Geophys. Res. Lett., 43, 3150–3159, doi:10.1002/2016GL067759.
+https://polarice.geo.arizona.edu/papers/Harig.Simons.ArcticAlaskaGreenlandGRACE.GRL.2016.pdf
+I am reproducing and elaborating on parts of this experiment.
+--------------------------------------------------------------------------------
+Simons, F. J., and F. A. Dahlen (2006), Spherical Slepian functions and the polar gap in geodesy, Geophys. J. Int., 166(3), 1039–1061,
+doi:10.1111/j.1365-246X.2006.03065.x.
+This is the method I use (Slepian functions)
+--------------------------------------------------------------------------------
+Paulson, A., S. Zhong, and J. Wahr (2007), Inference of mantle viscosity from GRACE and relative sea level data, Geophys. J. Int., 171(2),
+497–508, doi:10.1111/j.1365–246X.2007.03556.x.
+This is the paper which established the GIA correction model I used (Paulson07)
+in correct4gia.
+--------------------------------------------------------------------------------
+Simons, F. J., F. A. Dahlen, and M. A. Wieczorek (2006), Spatiospectral concentration on a sphere, SIAM Rev., 48(3), 504–536, doi:10.1137/S0036144504445765.
+This paper establishes the math for the eigenvector decomposition onto Slepian
+functions of the GRACE data which I do.  (See p2 Methods of the 
+ActicAlaskaGreenlandCanada Harig & Simons paper.)
+--------------------------------------------------------------------------------
+Rowlands, D. D., S. B. Luthcke, S. M. Klosko, F. G. R. Lemoine, D. S. Chinn, J. J. McCarthy, C. M. Cox, and O. B. Anderson (2005), Resolving
+mass flux at high spatial and temporal resolution using GRACE intersatellite measurements, Geophys. Res. Lett., 32, L04310,
+doi:10.1029/2004GL021908.
+Not sure if I need this, this paper establishes the smallest OK resolution of
+GRACE data.
+--------------------------------------------------------------------------------
+Kennedy, R. A., and P. Sadeghi (2013), Hilbert Space Methods in Signal Processing, Cambridge Univ. Press, Cambridge, U. K.
+Not sure if I need this, relates to the consequence and utility of the Shannon
+Number.
+--------------------------------------------------------------------------------
+!!!
+Velicogna, I., and J. M. Wahr (2006), Acceleration of Greenland ice mass loss in spring 2004, Nature, 443, 329 – 331, doi:10.1038/nature.05168.
+A synthetic experiment to compare my experiment to.
+--------------------------------------------------------------------------------
+!!!
+Harig, C., and F. J. Simons (2012), Mapping Greenland’s mass loss in space and time, Proc. Natl. Acad. Sci., 109(49), 19,934–19,937,
+doi:10.1073/pnas.1206785109.
+A synthetic experiment to compare my experiment to.
 --------------------------------------------------------------------------------
