@@ -23,12 +23,14 @@ This paper establishes the math for the eigenvector decomposition onto Slepian
 functions of the GRACE data which I do.  (See p2 Methods of the 
 ActicAlaskaGreenlandCanada Harig & Simons paper.)
 --------------------------------------------------------------------------------
+???
 Rowlands, D. D., S. B. Luthcke, S. M. Klosko, F. G. R. Lemoine, D. S. Chinn, J. J. McCarthy, C. M. Cox, and O. B. Anderson (2005), Resolving
 mass flux at high spatial and temporal resolution using GRACE intersatellite measurements, Geophys. Res. Lett., 32, L04310,
 doi:10.1029/2004GL021908.
 Not sure if I need this, this paper establishes the smallest OK resolution of
 GRACE data.
 --------------------------------------------------------------------------------
+???
 Kennedy, R. A., and P. Sadeghi (2013), Hilbert Space Methods in Signal Processing, Cambridge Univ. Press, Cambridge, U. K.
 Not sure if I need this, relates to the consequence and utility of the Shannon
 Number.
@@ -41,4 +43,8 @@ A synthetic experiment to compare my experiment to.
 Harig, C., and F. J. Simons (2012), Mapping Greenland’s mass loss in space and time, Proc. Natl. Acad. Sci., 109(49), 19,934–19,937,
 doi:10.1073/pnas.1206785109.
 A synthetic experiment to compare my experiment to.
+--------------------------------------------------------------------------------
+Louise Sandberg Sørensen, Alexander H. Jarosch, Guðfinna Aðalgeirsdóttir, Valentina R. Barletta, René Forsberg, Finnur Pálsson, Helgi Björnsson, Tómas Jóhannesson; The effect of signal leakage and glacial isostatic rebound on GRACE-derived ice mass changes in Iceland, Geophysical Journal International, Volume 209, Issue 1, 1 April 2017, Pages 226–233, https://doi.org/10.1093/gji/ggx008
+
+^^ This is the paper which I am responding to.
 --------------------------------------------------------------------------------

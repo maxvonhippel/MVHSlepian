@@ -1,12 +1,19 @@
-function hs12syntheticrecovery
+function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
+  Signal,Ls,buffers,Ldata,filename)
+% Example: 
+% [slopes]=hs12syntheticrecovery('iceland','iceland',1,[],[],[],[],'II')
 % 
 % Here we plot the contour of recovered trends from synthetic experiments
 % 
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
 
+defval('filename','II');
 defval('domSignal','iceland');
 defval('wantnoise',1);
+if wantnoise
+  filename=sprintf('%s_WITH_NOISE', filename);
+end
 defval('domRecover','iceland')
 defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
@@ -125,10 +132,16 @@ buffersRange=min(buffers):(max(buffers)-min(buffers))/200:max(buffers);
 percentRecovered=griddata(Ls,buffers,recovered,LsRange,buffersRange);
 % Chart it
 hold on;
-% contour(LsRange,buffersRange,percentRecovered,linspace(20,150,11),'ShowText','On',...
+labeled=linspace(0,150,16);
+alllines=linspace(0,150,31);
+unlabeled=setdiff(alllines,labeled);
+contour(LsRange,buffersRange,percentRecovered,unlabeled,'ShowText','Off',...
+   'LineColor','Black','LineWidth',1);
+labeled=setdiff(labeled,[100]);
+contour(LsRange,buffersRange,percentRecovered,labeled,'ShowText','On',...
+   'LineColor','Black','LineWidth',1);
+% contour(LsRange,buffersRange,percentRecovered,10,'ShowText','On',...
 %   'LineColor','Black','LineWidth',1);
-contour(LsRange,buffersRange,percentRecovered,10,'ShowText','On',...
-  'LineColor','Black','LineWidth',1);
 contour(LsRange,buffersRange,percentRecovered,[100,100],'ShowText','On',...
    'LineColor','Green','LineWidth',2);
 title('Synthetic recovered trend');
@@ -144,9 +157,12 @@ hold off;
 % Save relevant data for use in something like GMT
 % fp2=fopen([domSignal domRecover ...
     % datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
-fp2=fopen('II_with_noise.dat','wt');
+fp2=fopen(sprintf('%s.dat', filename),'wt');
 fprintf(fp2,'L buffer Gt/yr\n');
 for row=1:size(slopes,1)
 	fprintf(fp2,'%.4f %.4f %.4f\n',slopes(row,:));
 end
 fclose(fp2);
+
+varns={slopes};
+varargout=varns(1:nargout);
