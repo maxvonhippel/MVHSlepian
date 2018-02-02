@@ -48,3 +48,53 @@ Louise Sandberg Sørensen, Alexander H. Jarosch, Guðfinna Aðalgeirsdóttir, Va
 
 ^^ This is the paper which I am responding to.
 --------------------------------------------------------------------------------
+Here is the article: http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7938690
+
+Efficient Computation of Slepian Functions for Arbitrary Regions on the Sphere
+Alice P. Bates, Member, IEEE, Zubair Khalid, Member, IEEE, and Rodney A. Kennedy, Fellow, IEEE
+
+The relevant quotes are the following:
+
+“B. Slepian Functions on the Sphere
+4) Regions on the Sphere: We use R to denote an arbitrary closed region of the sphere with area A = R (integral) ds(xˆ). R can be irregular in shape and does not need to be convex, it can also be a union of unconnected subregions, with R = R1 ∪ R2 ∪ . . . [17], [28].
+[…]
+The eigenvalue associated with each eigenvector (or eigenfunction) is a measure of concentration of eigenfunction within the spatial region R. Consequently, the eigenfunction h1(xˆ) is the most concentrated in R, while hL2 (xˆ) is most concentrated in the complement region S2 \R.  Since, by definition, K is Hermitian symmetric and positive semi-definite the eigenvalues are real and non-negative and the eigenvectors can be taken as orthogonal (orthonormal due to normalization in (7) [17], [28]).  Such orthogonality, in conjunction with (11), implies ( some math stuff ), that is, the eigenfunctions are orthonormal on the sphere and orthogonal over the region R.”
+
+I **THINK** this means I get orthogonality when I combine my regions even if they
+don't touch, which would be awesome.  Simmons and others seem to anecdotally
+support this claim but I've been having trouble finding real hard evidence
+that anyone has actually mathematically proven it.
+
+--------------------------------------------------------------------------------
+Potentially useful: https://www.jstor.org/stable/pdf/20520738.pdf?refreqid=excelsior%3A09b95443581879e9ff71aaedfb906373
+
+Also related and potentially useful: http://www.ams.org/journals/proc/2007-135-07/S0002-9939-07-08739-4/S0002-9939-07-08739-4.pdf
+
+Here is my reasoning:
+If I understand the math (if!), then Slepian functions are a particular case of
+solutions to Bergman's equation.  In this case Slepian functions operate on Joran
+domains.  So any statement about properties of Slepian functions on certain domains
+R pertain to any Jordan domain R - not just to any simple closed connected yada 
+yada as a geographer might (reasonably) assume.
+--------------------------------------------------------------------------------
+https://academic.oup.com/gji/article/181/3/1428/602836
+Error distribution in regional inversion of potential field data 
+Geophysical Journal International, Volume 181, Issue 3, 1 June 2010, Pages 1428–1440, https://doi.org/10.1111/j.1365-246X.2010.04598.x
+
+^^ Need to read this when I am not tired, and see if it applies to my paper.
+--------------------------------------------------------------------------------
+FURTHER JUSTIFICATION:
+http://nora.nerc.ac.uk/id/eprint/500079/1/Beggan_et_al_2013_NORA.pdf
+
+"These eigenfunctions are all orthogonal to each other over the region R, which can have
+91 an arbitrarily complex shape, and they are furthermore also orthogonal over the entire globe Ω.
+92 The eigenvalues embody the level to which the energy of the spatial functions is confined to the
+93 region of interest R. Well-concentrated functions are ‘large’ within the region and have eigen-
+94 values close to one. These can be used to approximate bandlimited signals inside the region of
+95 interest. The rest of the set consists of poorly-concentrated, nearly-zero-eigenvalue functions that
+96 are ‘small’ within R but large in the complementary region Ω \ R. Those functions are suitable for
+97 approximating bandlimited signals outside the spatial region of primary interest."
+
+Spectral and spatial decomposition of lithospheric magnetic field models using spherical Slepian functions
+Ciara ́n D. Beggan1, Jarno Saarima ̈ki2⋆, Kathyrn A. Whaler2 and Frederik J. Simons3 1British Geological Survey, Murchison House, West Mains Road, Edinburgh EH9 3LA, UK. Email: ciar@bgs.ac.uk
+2School of GeoSciences, University of Edinburgh, West Mains Road, Edinburgh EH9 3JW, UK. 3Department of Geosciences, Princeton University, Guyot Hall, Princeton NJ 08544, USA.
