@@ -72,7 +72,7 @@ Also related and potentially useful: http://www.ams.org/journals/proc/2007-135-0
 
 Here is my reasoning:
 If I understand the math (if!), then Slepian functions are a particular case of
-solutions to Bergman's equation.  In this case Slepian functions operate on Joran
+solutions to Bergman's equation.  In this case Slepian functions operate on Jordan
 domains.  So any statement about properties of Slepian functions on certain domains
 R pertain to any Jordan domain R - not just to any simple closed connected yada 
 yada as a geographer might (reasonably) assume.

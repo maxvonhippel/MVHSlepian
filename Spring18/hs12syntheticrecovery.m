@@ -114,6 +114,20 @@ for L=Ls
 end
 
 %%%
+% OUTPUT
+%%%
+
+% Save relevant data for use in something like GMT
+% fp2=fopen([domSignal domRecover ...
+    % datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
+fp2=fopen(sprintf('%s.dat', filename),'wt');
+fprintf(fp2,'L buffer Gt/yr\n');
+for row=1:size(slopes,1)
+  fprintf(fp2,'%.4f %.4f %.4f\n',slopes(row,:));
+end
+fclose(fp2);
+
+%%%
 % PLOTTING
 %%%
 
@@ -132,16 +146,14 @@ buffersRange=min(buffers):(max(buffers)-min(buffers))/200:max(buffers);
 percentRecovered=griddata(Ls,buffers,recovered,LsRange,buffersRange);
 % Chart it
 hold on;
-labeled=linspace(0,150,16);
-alllines=linspace(0,150,31);
+labeled=linspace(0,200,21);
+alllines=linspace(0,200,41);
 unlabeled=setdiff(alllines,labeled);
 contour(LsRange,buffersRange,percentRecovered,unlabeled,'ShowText','Off',...
    'LineColor','Black','LineWidth',1);
 labeled=setdiff(labeled,[100]);
 contour(LsRange,buffersRange,percentRecovered,labeled,'ShowText','On',...
    'LineColor','Black','LineWidth',1);
-% contour(LsRange,buffersRange,percentRecovered,10,'ShowText','On',...
-%   'LineColor','Black','LineWidth',1);
 contour(LsRange,buffersRange,percentRecovered,[100,100],'ShowText','On',...
    'LineColor','Green','LineWidth',2);
 title('Synthetic recovered trend');
@@ -149,20 +161,6 @@ xlabel('bandwidth L');
 ylabel('buffer extent (degrees)');
 box on;
 hold off;
-
-%%%
-% OUTPUT
-%%%
-
-% Save relevant data for use in something like GMT
-% fp2=fopen([domSignal domRecover ...
-    % datestr(thedates(1),28) datestr(thedates(end),28) '.dat'],'wt');
-fp2=fopen(sprintf('%s.dat', filename),'wt');
-fprintf(fp2,'L buffer Gt/yr\n');
-for row=1:size(slopes,1)
-	fprintf(fp2,'%.4f %.4f %.4f\n',slopes(row,:));
-end
-fclose(fp2);
 
 varns={slopes};
 varargout=varns(1:nargout);

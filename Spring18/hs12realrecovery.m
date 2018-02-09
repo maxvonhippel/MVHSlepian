@@ -43,11 +43,11 @@ for L=Ls
       end
       % Do GIA correction, since CSR GRACE data doesn't do it by default
       % Note that JPL data does, so if you are using JPL data then you
-      % need to comment this out, or reverse their correction yourself.
+      % need to comment this out.
       [~,GIAt,~,~,~]=correct4gia(thedates,'Paulson07',TH,L);
       slept=slept-GIAt;
       % Estimate the total mass change
-      [~,~,~,~,total,~,totalparams,~,~,~,~]=...
+      [~,~,~,~,~,~,totalparams,~,~,~,~]=...
         slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
       % Index allslopes by L and B
       format long g;
