@@ -16,7 +16,7 @@ defval('L',60);
 defval('b',0.5);
 defval('res',10);
 
-[fullS,~,thedates]=grace2plmt('CSR','RL05','SD',0);
+[fullS,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',1);
 fullS=fullS(:,:,1:4);
 nmonths=length(thedates);
 

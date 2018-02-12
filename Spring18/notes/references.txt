@@ -98,3 +98,13 @@ http://nora.nerc.ac.uk/id/eprint/500079/1/Beggan_et_al_2013_NORA.pdf
 Spectral and spatial decomposition of lithospheric magnetic field models using spherical Slepian functions
 Ciara ́n D. Beggan1, Jarno Saarima ̈ki2⋆, Kathyrn A. Whaler2 and Frederik J. Simons3 1British Geological Survey, Murchison House, West Mains Road, Edinburgh EH9 3LA, UK. Email: ciar@bgs.ac.uk
 2School of GeoSciences, University of Edinburgh, West Mains Road, Edinburgh EH9 3JW, UK. 3Department of Geosciences, Princeton University, Guyot Hall, Princeton NJ 08544, USA.
+--------------------------------------------------------------------------------
+Measurements of Time-Variable Gravity Show Mass Loss in Antarctica
+Isabella Velicogna1,2,*, John Wahr1,* ...
+Science  24 Mar 2006:
+Vol. 311, Issue 5768, pp. 1754-1756
+DOI: 10.1126/science.1123785
+http://science.sciencemag.org/content/311/5768/1754.full
+
+Another example of synthetic modeling, which I can compare to in my methods section
+--------------------------------------------------------------------------------

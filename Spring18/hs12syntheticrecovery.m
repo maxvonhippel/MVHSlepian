@@ -6,15 +6,15 @@ function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
 % Here we plot the contour of recovered trends from synthetic experiments
 % 
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
-% Last modified by maxvonhippel-at-email.arizona.edu on 01/14/18
+% Last modified by maxvonhippel-at-email.arizona.edu on 02/11/18
 
 defval('filename','II');
-defval('domSignal','iceland');
+defval('domSignal','greenland');
 defval('wantnoise',1);
 if wantnoise
   filename=sprintf('%s_WITH_NOISE', filename);
 end
-defval('domRecover','iceland')
+defval('domRecover','greenland')
 defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
@@ -98,7 +98,7 @@ for L=Ls
       end
       % Estimate the total mass change
       [~,~,~,~,~,~,totalparams,~,~,~,~]=...
-        slept2resid(slept,thedates,[1 365.0],[],[],CC,TH);
+        slept2resid(slept,thedates,[1 181.0 365.0],[],[],CC,TH);
       % Index allslopes by L and B
       format long g;
       result=[L B totalparams(2)*365];
