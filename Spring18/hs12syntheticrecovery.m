@@ -1,5 +1,5 @@
 function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
-  Signal,Ls,buffers,Ldata,filename)
+  forcenew,Signal,Ls,buffers,Ldata,filename)
 % Example: 
 % [slopes]=hs12syntheticrecovery('iceland','iceland',1,[],[],[],[],'II')
 % 
@@ -8,9 +8,10 @@ function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 02/11/18
 
-defval('filename','II');
-defval('domSignal','greenland');
-defval('wantnoise',1);
+defval('filename','IG');
+defval('domSignal','iceland');
+defval('wantnoise',0);
+defval('forcenew',1);
 if wantnoise
   filename=sprintf('%s_WITH_NOISE', filename);
 end
@@ -23,7 +24,7 @@ defval('Ldata',60);
 numberTests=numel(Ls)*numel(buffers);
 
 % Get the original data
-[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',0);
+[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
 nmonths=length(thedates);
 % Get the fitted results
 [ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[1 1 181.0 365.0]);
@@ -83,7 +84,7 @@ for L=Ls
       % We want the G from glmalpha, but we also want the eigenfunctions,
       % so use grace2slept to load both
       [slepcoffs,~,~,TH,G,CC,~,~]=grace2slept('CSRRL05',domRecover,B,L,...
-      	[],[],[],[],'SD',1);
+      	[],[],[],[],'SD',forcenew);
       [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
       slept=zeros(nmonths,(L+1)^2);
       for k=1:nmonths

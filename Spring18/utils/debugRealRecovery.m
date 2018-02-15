@@ -1,6 +1,6 @@
 L=60;
 b=0.5;
-forceNew=1;
+forceNew=0;
 TH={'greenland' b};
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',forceNew);
 fullS=potcoffs(:,:,1:4);
