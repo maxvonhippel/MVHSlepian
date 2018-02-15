@@ -1,5 +1,7 @@
 function varargout=hs12realrecovery(domSignal,domRecover,...
   forcenew,Ls,buffers,Ldata,filename,bDivide,LDivide)
+% Example:
+% [slopes]=hs12realrecovery('greenland','greenland',1,[],[],[],'GG',0,0);
 % 
 % Here we plot the contour of recovered trends from real data
 % 
@@ -12,7 +14,7 @@ defval('forcenew',1);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
 defval('Ldata',60);
-defval('filename', 'GG');
+defval('filename','GG');
 numberTests=numel(Ls)*numel(buffers);
 
 % Get the original data
@@ -41,7 +43,7 @@ for L=Ls
       % We want the G from glmalpha, but we also want the eigenfunctions,
       % so use grace2slept to load both
       [slepcoffs,~,~,TH,G,CC,~,~]=grace2slept('CSRRL05',domRecover,B,L,...
-        [],[],[],[],'SD',);
+        [],[],[],[],'SD',forcenew);
       [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
       slept=zeros(nmonths,(L+1)^2);
       for k=1:nmonths
