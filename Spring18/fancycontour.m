@@ -28,7 +28,7 @@ reald=data{1};
 % Next, synthetic data.
 synthd=fopen(syntheticFile,'r');
 data=textscan(synthd,'%f%f%f','HeaderLines',1,'Collect',1);
-fclose(reald);
+fclose(synthd);
 synthd=data{1};
 
 % Next, we want to draw the real recovery figure.
@@ -42,16 +42,23 @@ buffersRange=min(buffers):(max(buffers)-min(buffers))/200:max(buffers);
 [LsRange, buffersRange]=meshgrid(LsRange,buffersRange);
 recoveredTrends=griddata(Ls,buffers,recovered,LsRange,buffersRange);
 % Chart it
-contour(LsRange,buffersRange,recoveredTrends,5,'ShowText','On');
-% Next, we want to add the 100% contour from the synthetic data
+figure;
+hold on;
+% First, we want to add the 100% contour from the synthetic data
 LsSynthetic=synthd(:,1);
 buffersSynthetic=synthd(:,2);
 recoveredSynthetic=synthd(:,3);
+labeled=linspace(-300,-100,11);
 percentRecovered=griddata(LsSynthetic,buffersSynthetic,recoveredSynthetic,...
 	LsRange,buffersRange);
-contour(LsRange,buffersRange,percentRecovered,[100,100],'ShowText','Off',...
-   'LineColor','Green','LineWidth',2);
+contour(LsRange,buffersRange,percentRecovered/200,[1,1],'ShowText','Off',...
+   'LineColor','Green');
+% Then contour the actual data
+contour(LsRange,buffersRange,recoveredTrends,labeled,'ShowText','On',...
+	'LineColor','Black');
 % Add title and axes
 title(sprintf('GRACE data trend (Gt/yr) over %s',regionName));
 xlabel('bandwidth L');
 ylabel('buffer extent (degrees)');
+box on;
+hold off;
