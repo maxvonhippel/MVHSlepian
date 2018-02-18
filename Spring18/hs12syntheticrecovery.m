@@ -8,9 +8,9 @@ function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 02/11/18
 
-defval('filename','IG');
-defval('domSignal','iceland');
-defval('wantnoise',0);
+defval('filename','GG');
+defval('domSignal','greenland');
+defval('wantnoise',1);
 defval('forcenew',1);
 if wantnoise
   filename=sprintf('%s_WITH_NOISE', filename);
@@ -25,6 +25,10 @@ numberTests=numel(Ls)*numel(buffers);
 
 % Get the original data
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
+% If you only want 2003 - 2010 ---------------------------------
+% thedates=thedates(8:91);
+% potcoffs=potcoffs(8:91,:,:);
+% --------------------------------------------------------------
 nmonths=length(thedates);
 % Get the fitted results
 [ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[1 1 181.0 365.0]);

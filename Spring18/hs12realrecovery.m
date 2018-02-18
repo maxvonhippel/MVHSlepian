@@ -1,5 +1,5 @@
 function varargout=hs12realrecovery(domSignal,domRecover,...
-  forcenew,Ls,buffers,Ldata,filename,bDivide,LDivide)
+  forcenew,Ls,buffers,Ldata,filename,bDivide,LDivide,GIAmodel)
 % Example:
 % [slopes]=hs12realrecovery('greenland','greenland',1,[],[],[],'GG',0,0);
 % 
@@ -35,6 +35,8 @@ divideBy=1;
 defval('bDivide',0);
 defval('LDivide',0);
 
+defval('GIAmodel','Paulson07');
+
 for L=Ls
   for B=buffers
     try
@@ -58,7 +60,7 @@ for L=Ls
       % Do GIA correction, since CSR GRACE data doesn't do it by default
       % Note that JPL data does, so if you are using JPL data then you
       % need to comment this out.
-      [~,GIAt,~,~,~]=correct4gia(thedates,'Paulson07',TH,L);
+      [~,GIAt,~,~,giaMagnitude]=correct4gia(thedates,GIAmodel,TH,L);
       slept=slept-GIAt;
       % Estimate the total mass change
       [~,~,~,~,~,~,totalparams,~,~,~,~]=...
