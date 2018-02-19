@@ -1,3 +1,14 @@
+http://onlinelibrary.wiley.com/store/10.1002/grl.50278/asset/grl50278.pdf?v=1&t=jdtob5sb&s=bc63743787b688f12b7787961e2c762093ae748a
+
+Contribution of Icelandic ice caps to sea level rise: Trends and variability since the Little Ice Age
+Helgi Björnsson,1 Finnur Pálsson,1 Sverrir Gudmundsson,1 Eyjólfur Magnússon,1 Gudfinna Adalgeirsdóttir,1 Tómas Jóhannesson,2 Etienne Berthier,3
+Oddur Sigurdsson,2 and Thorsteinn Thorsteinsson2
+Received 12 November 2012; revised 19 February 2013; accepted 20 February 2013; published 29 April 2013.
+
+GEOPHYSICAL RESEARCH LETTERS, VOL. 40, 1546–1550, doi:10.1002/grl.50278, 2013
+
+Quote: "Over the last 16 years, the mass loss of all Icelandic glaciers has been 9.5  ̇1.5 Gt a–1, contributing  0.03 mm a–1 to sea level rise"
+This very closely aligns with my calculation with Paulson model of GIA (see figures/real/ICELAND/2003 to 2010)
 --------------------------------------------------------------------------------
 A model computation of the temporal changes of surface gravity and geoidal signal induced by the evolving Greenland ice sheet
 Emmanuel Le Meur and Philippe Huybrechts

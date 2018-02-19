@@ -8,14 +8,14 @@ function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 02/11/18
 
-defval('filename','GG');
-defval('domSignal','greenland');
+defval('filename','II');
+defval('domSignal','iceland');
 defval('wantnoise',1);
 defval('forcenew',1);
 if wantnoise
   filename=sprintf('%s_WITH_NOISE', filename);
 end
-defval('domRecover','greenland')
+defval('domRecover','iceland')
 defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
@@ -26,6 +26,7 @@ numberTests=numel(Ls)*numel(buffers);
 % Get the original data
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
 % If you only want 2003 - 2010 ---------------------------------
+% Volcano erruption was April 2010 - these dayes end Jan 2010, before then
 % thedates=thedates(8:91);
 % potcoffs=potcoffs(8:91,:,:);
 % --------------------------------------------------------------
