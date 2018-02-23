@@ -8,14 +8,14 @@ function varargout=hs12syntheticrecovery(domSignal,domRecover,wantnoise,...
 % Authored by maxvonhippel-at-email.arizona.edu on 01/11/18
 % Last modified by maxvonhippel-at-email.arizona.edu on 02/11/18
 
-defval('filename','II');
-defval('domSignal','iceland');
+defval('filename','GG');
+defval('domSignal','greenland');
 defval('wantnoise',1);
 defval('forcenew',1);
 if wantnoise
   filename=sprintf('%s_WITH_NOISE', filename);
 end
-defval('domRecover','iceland')
+defval('domRecover','greenland')
 defval('Signal',200);
 defval('Ls',[20 25 30 35 40 45 50 55 60]);
 defval('buffers',[0 0.5 1 1.5 2 2.5 3]);
