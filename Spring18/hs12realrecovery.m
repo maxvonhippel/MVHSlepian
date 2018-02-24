@@ -94,6 +94,10 @@ end
 % if divideBy is 0 then you made a terrible choice of 100% (L, b) tuple, so
 % the error will lead you to read this comment in the code and re-evaluate
 % the synthetic experiments you ran to choose that (L, b) tuple.
+
+% This is unnecessary if you use the fancycontour.m routine (in which case
+% you should skip straight to the .dat output creation)
+
 Ls=slopes(:,1)/divideBy;
 buffers=slopes(:,2);
 recovered=slopes(:,3);
