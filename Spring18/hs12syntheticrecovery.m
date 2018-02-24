@@ -25,10 +25,9 @@ numberTests=numel(Ls)*numel(buffers);
 
 % Get the original data
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
-% If you only want 2003 - 2010 ---------------------------------
-% Volcano erruption was April 2010 - these dayes end Jan 2010, before then
-% thedates=thedates(8:91);
-% potcoffs=potcoffs(8:91,:,:);
+% If you only want Jan 2003 - Feb 2010 -------------------------
+% thedates=thedates(8:92);
+% potcoffs=potcoffs(8:92,:,:);
 % --------------------------------------------------------------
 nmonths=length(thedates);
 % Get the fitted results
