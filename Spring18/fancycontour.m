@@ -27,6 +27,8 @@ end
 
 if not(exist('realFile','var')) & exist('syntheticFile','var')
 	% In this case we are doing percents, so 0 through 200
+	% If you want to do Iceland, a better choice would be 
+	% union(linspace(0,50,6),linspace(55,200,30))
 	defval('labeled',linspace(0,200,41));
 elseif (exist('realFile','var'))
 	% These are the contours to label in the chart

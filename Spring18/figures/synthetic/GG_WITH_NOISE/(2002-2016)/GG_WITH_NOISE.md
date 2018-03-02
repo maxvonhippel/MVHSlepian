@@ -1,4 +1,4 @@
-## GG_WITH_NOISE.md
+## `GG_WITH_NOISE.md`
 
 In this experiment I create a synthetic boxcap signal of 200 Gt/year distributed uniformly across Greenland.  Next, I apply white gaussian noise to the signal, matching the covariance of the synthetic data.  I then recover Greenland's mass loss trend from that synthetic signal, at varying bandwidths (L) and buffer sizes (b).  Finally, I create a contour chart representing the percent signal recovered (of the initial 200) for each tested buffer and bandwidth pair.
 
