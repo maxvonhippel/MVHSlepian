@@ -17,20 +17,23 @@ defval('b',0.5);
 defval('res',10);
 
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
-fullS=fullS(:,:,1:4);
+% Modify thedates to get only the dates we want
+% thedates=thedates(1:157);
+% fullS=potcoffs(1:157,:,1:4);
+fullS=potcoffs(:,:,1:4);
 nmonths=length(thedates);
 
 % Seperate regions
-[slepcoffsA,~,~,THA,GA,CCA,~,~]=grace2slept('CSRRL05',regionA,...
+[slepcoffsA,~,~,THA,GA,CCA,~,NA]=grace2slept('CSRRL05',regionA,...
   b,L,[],[],[],[],'SD',1);
-[slepcoffsB,~,~,THB,GB,CCB,~,~]=grace2slept('CSRRL05',regionB,...
+[slepcoffsB,~,~,THB,GB,CCB,~,NB]=grace2slept('CSRRL05',regionB,...
   b,L,[],[],[],[],'SD',1);
 
 % Aggregate region
 regionAgg=[eval(sprintf('%s(%i,%f)',regionA,res,b));
            NaN NaN;
            eval(sprintf('%s(%i,%f)',regionB,res,b))];
-[slepcoffsAgg,~,~,THAgg,GAgg,CCAgg,~,~]=grace2slept('CSRRL05',regionAgg,...
+[slepcoffsAgg,~,~,THAgg,GAgg,CCAgg,~,NAgg]=grace2slept('CSRRL05',regionAgg,...
   b,L,[],[],[],[],'SD',1);
 
 % Recover trends
@@ -62,19 +65,17 @@ sleptB=sleptB-GIAtB;
 sleptAgg=sleptAgg-GIAtAgg;
 
 % Estimate the total mass changes
-[~,~,~,~,~,~,totalparamsA,~,~,~,~]=slept2resid(sleptA,thedates,[1 365.0],...
-  [],[],CCA,THA);
-[~,~,~,~,~,~,totalparamsB,~,~,~,~]=slept2resid(sleptB,thedates,[1 365.0],...
-  [],[],CCB,THB);
+[~,~,~,~,~,~,totalparamsA,totalparamerrorsA,~,~,~]=...
+  slept2resid(sleptA,thedates,[1 365.0 182.5],[],[],CCA,THA);
+[~,~,~,~,~,~,totalparamsB,totalparamerrorsB,~,~,~]=...
+  slept2resid(sleptB,thedates,[1 365.0 182.5],[],[],CCB,THB);
 regionAtrend=totalparamsA(2)*365;
 regionBtrend=totalparamsB(2)*365;
 regionABtrend=regionAtrend+regionBtrend;
 
 % Estimate the aggregate mass change
-[~,~,~,~,~,~,totalparamsAgg,~,~,~,~]=slept2resid(sleptAgg,thedates,[1 365.0],...
-  [],[],CCAgg,THAgg);
+[~,~,~,~,~,~,totalparamsAgg,totalparamerrorsAgg,~,~,~]=...
+  slept2resid(sleptAgg,thedates,[1 365.0 182.5],[],[],CCAgg,THAgg);
 regionAggtrend=totalparamsAgg(2)*365;
 
-disp(sprintf('aggregate region trend: %f\n', regionAggtrend));
-disp(sprintf('sum of region trends: %f\n', regionABtrend));
-disp(sprintf('difference (agg - sum): %f\n', regionAggtrend - regionABtrend));
+keyboard
