@@ -1,0 +1,3 @@
+Columns in icelandL60b1.dat are:
+thedates	total	alphavarall
+I think I'm supposed to use something else for the uncertainty though, this is too big.  Look into this later when I get a chance.
