@@ -29,12 +29,37 @@ fclose(fp);
 % Make the slepian functions map
 [slept,~,thedates,TH,G,CC,V,N]=grace2slept(...
 	'CSRRL05','iceland',1.0,60,[],[],[],[],'SD',1);
+% sort
+[V,vi]=sort(V,'descend');
+% set dates
 thedates=thedates(1:157);
 slept=slept(1:157,:);
-[thedates,PGRt]=correct4gia(thedates,'Paulson07',{'iceland' 1.0},60);
+[thedates,PGRt]=correct4gia(thedates,'Paulson07',TH,60);
 sleptcorrected=slept-PGRt;
+% get total fit
+[ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,totalparams,...
+	totalparamerrors,totalfit,functionintegrals,alphavar]...
+	=slept2resid(slept,thedates,[1 181.0 365.0],[],[],CC,TH);
 % get the delta
-sleptdelta=squeeze(slept(157,:)-slept(1,:));
-% TODO: multiply by corresponding Slepian functions
-% TODO: then add them up
-% TODO: then expand using plm2xyz
+ESTsignalDelta=ESTsignal(157,:)-ESTsignal(1,:);
+% get the average mass difference
+% note that this covers 5337 total days
+ESTsignalAvgDiff=ESTsignalDelta/(5337/365.24);
+totalmap=CC{1}(:,3:4)*ESTsignalAvgDiff(1)/10;
+% Note: why do we divide by 10 here? ^^
+N=round(N);
+for j=2:N
+   totalmap=totalmap+CC{j}(:,3:4)*ESTsignalAvgDiff(j)/10;
+end
+% Expand the maps into space so we can plot them
+totalmap=[CC{1}(:,1:2) totalmap];
+[rtotal,lon,lat]=plm2xyz(totalmap,1);
+% Write the file for us to map in GMT
+fp=fopen('iceland_total_mass_change.dat','wt');
+fprintf(fp,'lon lat total\n');
+for lo=1:numel(lon)
+	for la=1:numel(lat)
+		fprintf(fp,'%.4f %.4f %.4f\n',lon(lo),lat(la),rtotal(la,lo));
+	end
+end
+fclose(fp);
