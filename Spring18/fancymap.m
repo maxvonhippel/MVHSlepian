@@ -58,8 +58,8 @@ totalmap=[CC{1}(:,1:2) totalmap];
 fp=fopen('iceland_total_mass_change.dat','wt');
 fprintf(fp,'lon lat total\n');
 for lo=1:numel(lon)
-	for la=1:numel(lat)
-		fprintf(fp,'%.4f %.4f %.4f\n',lon(lo),lat(la),rtotal(la,lo));
-	end
+for la=1:numel(lat)
+fprintf(fp,'%.4f %.4f %.4f\n',lon(lo),lat(la),rtotal(la,lo));
+end
 end
 fclose(fp);
