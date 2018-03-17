@@ -54,6 +54,13 @@ end
 % Expand the maps into space so we can plot them
 totalmap=[CC{1}(:,1:2) totalmap];
 [rtotal,lon,lat]=plm2xyz(totalmap,1);
+% Adjust rtotal scale to be from 0 to 1
+rmin=min(min(rtotal));
+rmax=max(max(rtotal));
+rnorm=abs(rmax-rmin);
+rtotal=rtotal/rnorm;
+rmax=max(max(rtotal));
+rtotal=rtotal-rmax;
 % Write the file for us to map in GMT
 fp=fopen('iceland_total_mass_change.dat','wt');
 fprintf(fp,'lon lat total\n');
