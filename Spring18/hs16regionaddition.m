@@ -13,7 +13,8 @@ function hs16regionaddition
 defval('regionA','iceland');
 defval('regionB','greenland');
 defval('L',60);
-defval('b',0.5);
+defval('bA',1.0);
+defval('bB',0.5);
 defval('res',10);
 
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
@@ -25,16 +26,16 @@ nmonths=length(thedates);
 
 % Seperate regions
 [slepcoffsA,~,~,THA,GA,CCA,~,NA]=grace2slept('CSRRL05',regionA,...
-  b,L,[],[],[],[],'SD',1);
+  bA,L,[],[],[],[],'SD',1);
 [slepcoffsB,~,~,THB,GB,CCB,~,NB]=grace2slept('CSRRL05',regionB,...
-  b,L,[],[],[],[],'SD',1);
+  bB,L,[],[],[],[],'SD',1);
 
 % Aggregate region
-regionAgg=[eval(sprintf('%s(%i,%f)',regionA,res,b));
+regionAgg=[eval(sprintf('%s(%i,%f)',regionA,res,bA));
            NaN NaN;
-           eval(sprintf('%s(%i,%f)',regionB,res,b))];
+           eval(sprintf('%s(%i,%f)',regionB,res,bB))];
 [slepcoffsAgg,~,~,THAgg,GAgg,CCAgg,~,NAgg]=grace2slept('CSRRL05',regionAgg,...
-  b,L,[],[],[],[],'SD',1);
+  0,L,[],[],[],[],'SD',1);
 
 % Recover trends
 [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
