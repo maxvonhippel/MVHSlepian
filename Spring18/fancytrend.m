@@ -15,9 +15,14 @@ xl=xlabel('Date')
 hold off
 % At this point I manually wrote a Latex textbox with slope and
 % acceleration, and I manually edited the title in Latex
-set(tl,'FontSize',10);
-set(xl,'FontSize',10);
-set(yl,'FontSize',10);
+set(tl,'FontSize',12);
+set(xl,'FontSize',12);
+set(yl,'FontSize',12);
 
 fig.PaperUnits = 'centimeters';
 fig.PaperPosition = [0 0 20 20];
+
+slope=totalparams(2,2)*365;
+slopeerror=totalparamerror(2,2);
+acceleration=totalparams(3,2)*365*365*2;
+accelerationerror=totalparamerror(3,2)*365*2;
