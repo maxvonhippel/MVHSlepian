@@ -47,8 +47,8 @@ end
 fclose(fp);
 
 % Make the slepian functions map
-dom='iceland';
-b=1.0;
+dom='greenland';
+b=0.5;
 [slept,~,thedates,TH,G,CC,V,N]=grace2slept(...
 	'CSRRL05',dom,b,60,[],[],[],[],'SD',1);
 % sort
@@ -61,17 +61,20 @@ sleptcorrected=slept-PGRt;
 % get total fit
 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,totalparams,...
 	totalparamerrors,totalfit,functionintegrals,alphavar]...
-	=slept2resid(slept,thedates,[1 181.0 365.0],[],[],CC,TH);
+	=slept2resid(slept,thedates,[3 182.625 365.25],[],[],CC,TH);
 % get the delta
 ESTsignalDelta=ESTsignal(157,:)-ESTsignal(1,:);
 % get the average mass difference
 % note that this covers 5337 total days
-ESTsignalAvgDiff=ESTsignalDelta/(5337/365.24);
-totalmap=CC{1}(:,3:4)*ESTsignalAvgDiff(1)/10;
-% Note: why do we divide by 10 here? ^^
+% ESTsignalAvgDiff=ESTsignalDelta/(5337/365.25);
+totalmap=CC{1}(:,3:4)*ESTsignalDelta(1)/10;
+% http://www.antarcticglaciers.org/glaciers-and-climate/
+% estimating-glacier-contribution-to-sea-level-rise/
+% 1 mm water = 10^-12 Gt water = 1 kg water (over a meter)
+% 1/10 cm water / m = 1 kg water / m
 N=round(N);
 for j=2:N
-   totalmap=totalmap+CC{j}(:,3:4)*ESTsignalAvgDiff(j)/10;
+   totalmap=totalmap+CC{j}(:,3:4)*ESTsignalDelta(j)/10;
 end
 % Expand the maps into space so we can plot them
 totalmap=[CC{1}(:,1:2) totalmap];

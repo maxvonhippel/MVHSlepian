@@ -34,7 +34,7 @@ elseif (exist('realFile','var'))
 	% These are the contours to label in the chart
 	% This choice is good for Greenland but not for Iceland
 	% If you want to do Iceland, a the contour will go from about -21 to 1
-	% In this case a better choice would be linspace(-21,1,11)
+	% In this case a better choice would be linspace(-20,-2,10)
 	defval('labeled',linspace(-300,-100,11));
 	% Read in the input files
 	% Solution adapted from: 
@@ -95,7 +95,7 @@ elseif exist('realFile','var')
 	percentRecovered=griddata(LsSynthetic,buffersSynthetic,recoveredSynthetic,...
 		LsRange,buffersRange);
 	contour(LsRange,buffersRange,percentRecovered/200,[1,1],'ShowText','Off',...
-	   'LineColor','Green');
+	   'LineColor','Green','LineWidth',1.5);
 	% Then contour the actual data
 	contour(LsRange,buffersRange,recoveredTrends,labeled,'ShowText','On',...
 		'LineColor','Black');
@@ -110,9 +110,9 @@ box on;
 hold off;
 
 % Next, we want to format the figure for export
-set(tl,'FontSize',10);
-set(xl,'FontSize',10);
-set(yl,'FontSize',10);
+set(tl,'FontSize',13);
+set(xl,'FontSize',13);
+set(yl,'FontSize',13);
 
 fig.PaperUnits = 'centimeters';
 fig.PaperPosition = [0 0 20 20];
