@@ -19,9 +19,9 @@ defval('res',10);
 
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
 % Modify thedates to get only the dates we want
-% thedates=thedates(1:157);
-% fullS=potcoffs(1:157,:,1:4);
-fullS=potcoffs(:,:,1:4);
+thedates=thedates(1:157);
+fullS=potcoffs(1:157,:,1:4);
+% fullS=potcoffs(:,:,1:4);
 nmonths=length(thedates);
 
 % Seperate regions
@@ -58,25 +58,25 @@ end
 
 % Correct for GIA.  Note that this is valid for CSR data, but JPL data comes
 % pre-corrected, so this should be commented out if you are using JPL data.
-[~,GIAtA,~,~,~]=correct4gia(thedates,'Paulson07',THA,L);
-[~,GIAtB,~,~,~]=correct4gia(thedates,'Paulson07',THB,L);
-[~,GIAtAgg,~,~,~]=correct4gia(thedates,'Paulson07',THAgg,L);
-sleptA=sleptA-GIAtA;
-sleptB=sleptB-GIAtB;
-sleptAgg=sleptAgg-GIAtAgg;
+% [~,GIAtA,~,~,~]=correct4gia(thedates,'Paulson07',THA,L);
+% [~,GIAtB,~,~,~]=correct4gia(thedates,'Paulson07',THB,L);
+% [~,GIAtAgg,~,~,~]=correct4gia(thedates,'Paulson07',THAgg,L);
+% sleptA=sleptA-GIAtA;
+% sleptB=sleptB-GIAtB;
+% sleptAgg=sleptAgg-GIAtAgg;
 
 % Estimate the total mass changes
 [~,~,~,~,~,~,totalparamsA,totalparamerrorsA,~,~,~]=...
-  slept2resid(sleptA,thedates,[1 365.0 182.5],[],[],CCA,THA);
+  slept2resid(sleptA,thedates,[3 182.625 365.25],[],[],CCA,THA);
 [~,~,~,~,~,~,totalparamsB,totalparamerrorsB,~,~,~]=...
-  slept2resid(sleptB,thedates,[1 365.0 182.5],[],[],CCB,THB);
-regionAtrend=totalparamsA(2)*365;
-regionBtrend=totalparamsB(2)*365;
+  slept2resid(sleptB,thedates,[3 182.625 365.25],[],[],CCB,THB);
+regionAtrend=totalparamsA(2,2)*365;
+regionBtrend=totalparamsB(2,2)*365;
 regionABtrend=regionAtrend+regionBtrend;
 
 % Estimate the aggregate mass change
 [~,~,~,~,~,~,totalparamsAgg,totalparamerrorsAgg,~,~,~]=...
-  slept2resid(sleptAgg,thedates,[1 365.0 182.5],[],[],CCAgg,THAgg);
-regionAggtrend=totalparamsAgg(2)*365;
+  slept2resid(sleptAgg,thedates,[3 182.625 365.25],[],[],CCAgg,THAgg);
+regionAggtrend=totalparamsAgg(2,2)*365;
 
 keyboard

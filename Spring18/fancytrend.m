@@ -1,6 +1,9 @@
 dom='iceland';
 b=1.0;
 L=60;
+% GIAmodel='Paulson07';
+% Wangetal08
+GIAmodel='Wangetal08';
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
 thedates=thedates(1:157);
 fullS=potcoffs(1:157,:,1:4);
@@ -18,7 +21,7 @@ for k=1:nmonths
   end
   slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 end
-[~,GIAt,~,~,~]=correct4gia(thedates,'Paulson07',TH,L);
+[~,GIAt,~,~,~]=correct4gia(thedates,GIAmodel,TH,L);
 slept=slept-GIAt;
 % Estimate the total mass changes
 [~,~,~,~,total,alphavarall,totalparams,totalparamerrors,totalfit,~,~]=...
@@ -72,7 +75,7 @@ fig.PaperPosition=[0 0 20 20];
 set(gca,'ycolor',[0,0,0]); 
 hold off
 
-filename='iceland_total_trend';
+filename='iceland_total_trend_Wangetal08';
 figdisp(filename,[],[],1,'epsc');
 
 % psconvert -A -Tf iceland_total_trend.eps

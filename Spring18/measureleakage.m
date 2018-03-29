@@ -34,10 +34,10 @@ for k=1:nmonths
 end
 
 if strcmp(GIAmodel,'none')
+	giaMagnitude=0;
+else
 	[~,GIAt,~,~,giaMagnitude]=correct4gia(thedates,GIAmodel,TH,L);
 	slept=slept-GIAt;
-else
-	giaMagnitude=0;
 end
 
 recoverTH={domRecover recoverB};

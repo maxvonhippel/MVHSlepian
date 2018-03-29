@@ -1,7 +1,7 @@
 domA='iceland';
-bA='1.0';
+bA=1.0;
 domB='greenland';
-bB='0.5';
+bB=0.5;
 L=60;
 % iceland -> greenland
 [slope1,slopeerror1,~,~,~]=measureleakage(domA,domB,bA,bB,0,L,'Paulson07');
