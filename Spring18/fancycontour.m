@@ -84,9 +84,9 @@ if not(exist('realFile','var')) & exist('syntheticFile','var')
 	recoveredSynthetic/2,LsRange,buffersRange);
 	labeled=setdiff(labeled,[100]);
 	contour(LsRange,buffersRange,percentRecovered,labeled,...
-		'LineColor','Black','ShowText','On');
+		'LineColor','Black','ShowText','On','FontName','TimesNewRoman');
 	contour(LsRange,buffersRange,percentRecovered,[100,100],...
-		'LineColor','Green','ShowText','On');
+		'LineColor','Green','ShowText','On','FontName','TimesNewRoman');
 	% Add title and axes
 	tl=title(sprintf('Synthetic recovered trend over %s',regionName));
 	filename=sprintf('%s_SyntheticRecovery', regionName);
@@ -98,7 +98,7 @@ elseif exist('realFile','var')
 	   'LineColor','Green','LineWidth',1.5);
 	% Then contour the actual data
 	contour(LsRange,buffersRange,recoveredTrends,labeled,'ShowText','On',...
-		'LineColor','Black');
+		'LineColor','Black','FontName','TimesNewRoman');
 	% Add title and axes
 	tl=title(sprintf('GRACE data trend (Gt/yr) over %s',regionName));
 	filename=sprintf('%s_RealRecovery', regionName);
@@ -110,9 +110,9 @@ box on;
 hold off;
 
 % Next, we want to format the figure for export
-set(tl,'FontSize',13);
-set(xl,'FontSize',13);
-set(yl,'FontSize',13);
+set(tl,'FontSize',13,'FontName','TimesNewRoman');
+set(xl,'FontSize',13,'FontName','TimesNewRoman');
+set(yl,'FontSize',13,'FontName','TimesNewRoman');
 
 fig.PaperUnits = 'centimeters';
 fig.PaperPosition = [0 0 20 20];

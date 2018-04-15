@@ -1,9 +1,9 @@
 dom='iceland';
 b=1.0;
 L=60;
-% GIAmodel='Paulson07';
+GIAmodel='Paulson07';
 % Wangetal08
-GIAmodel='Wangetal08';
+% GIAmodel='Wangetal08';
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
 thedates=thedates(1:157);
 fullS=potcoffs(1:157,:,1:4);
@@ -21,7 +21,7 @@ for k=1:nmonths
   end
   slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 end
-[~,GIAt,~,~,~]=correct4gia(thedates,GIAmodel,TH,L);
+[~,GIAt,~,~,trendg]=correct4gia(thedates,GIAmodel,TH,L);
 slept=slept-GIAt;
 % Estimate the total mass changes
 [~,~,~,~,total,alphavarall,totalparams,totalparamerrors,totalfit,~,~]=...
@@ -30,7 +30,6 @@ slept=slept-GIAt;
 % Acceleration: 1.0665 +- 0.5040 Gt/yr^2
 
 fig=figure;
-box on;
 x=thedates;
 thefit=totalfit(:,2);
 firsty=thefit(1);
@@ -42,10 +41,12 @@ y2=[ylow,fliplr(yhigh)];
 hold on
 fill(x2,y2,[0.85 0.85 0.85],'LineStyle','None');
 yyaxis left;
+% Do ylim from -200 to 100 Gt
+ylim([-200 100]);
 plot(thedates,y,'Color','black','LineWidth',1.5,'LineStyle','-');
 yfit=totalfit(:,2)-firsty;
 plot(thedates,yfit,'Color','blue','LineWidth',1.5,'LineStyle','-');
-datetick('x');
+% Add reference line for 2010 volcanic erruption
 yl=ylabel('Mass (Gt)');
 xl=xlabel('Time');
 % tl=title({'Integrated Mass Change for Iceland ',...
@@ -57,25 +58,32 @@ slopeerror=totalparamerrors(2,2);
 acc=totalparams(3,2)*365*365*2;
 accerror=totalparamerrors(3,2)*365*2;
 
-labelstr={sprintf('Slope = %.4f $\\pm$ %.4f Gt/yr',slope,slopeerror),...
-	sprintf('Acceleration = %.4f $\\pm$ %.4f Gt/yr$^2$',acc,accerror)};
-text(thedates(80),90,labelstr,'Interpreter','latex','FontSize',13);
+labelstr={sprintf('Slope = %.1f $\\pm$ %.1f Gt/yr',slope,slopeerror),...
+	sprintf('Acceleration = %.1f $\\pm$ %.1f Gt/yr$^2$',acc,accerror)};
+text(thedates(95),70,labelstr,'Interpreter','latex','FontSize',13,...
+  'FontName','Times');
 
 leftlim=ylim;
 yyaxis right;
 yyl=ylabel('Eustatic Sea Level (mm)');
 ylim(leftlim*0.00278);
-% set(tl,'FontSize',15);
-set(xl,'FontSize',13);
-set(yl,'FontSize',13);
-set(yyl,'FontSize',13);
+% line([thedates(93),thedates(93)],ylim,'Color','red');
+eruptionStart=datenum(datetime(2010,3,20));
+% eruptionEnd=datenum(datetime(2010,6,23));
+line([eruptionStart,eruptionStart],ylim,'Color','red');
+% line([eruptionEnd,eruptionEnd],ylim,'Color','red');
+fill(xEruption,yEruption,'red');
+set(xl,'FontSize',13,'FontName','Times');
+set(yl,'FontSize',13,'FontName','Times');
+set(yyl,'FontSize',13,'FontName','Times');
 
 fig.PaperUnits='centimeters';
 fig.PaperPosition=[0 0 20 20];
-set(gca,'ycolor',[0,0,0]); 
+set(gca,'ycolor',[0,0,0]);
+box on;
 hold off
 
-filename='iceland_total_trend_Wangetal08';
+filename='iceland_total_trend';
 figdisp(filename,[],[],1,'epsc');
 
 % psconvert -A -Tf iceland_total_trend.eps
