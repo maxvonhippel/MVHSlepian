@@ -19,53 +19,38 @@ function fancycontour(realFile,syntheticFile,regionName,labeled)
 % 
 % Authored by maxvonhippel-at-email.arizona.edu on 02/15/18
 
+defval('syntheticFile','/Users/maxvonhippel/Documents/NASA/Matlab Scripts/Spring18/figures/synthetic/II_WITH_NOISE/(2002-2016)/II_WITH_NOISE.dat');
+defval('realFile','/Users/maxvonhippel/Documents/NASA/Matlab Scripts/Spring18/figures/real/ICELAND/(2002-2016)/ICELAND_REAL.dat');
+defval('regionName','Iceland');
+
+defval('filename','contours');
+
+defval('labeledSynthetic',linspace(0,220,12));
+defval('labeledReal',linspace(-20,-2,10));
+
+
 % Do we have any inputs?
 if not(exist('realFile','var')) & not(exist('syntheticFile','var'))
 	disp('Please provide realFile and/or syntheticFile arguments to script')
 	return
 end
 
-if not(exist('realFile','var')) & exist('syntheticFile','var')
-	% In this case we are doing percents, so 0 through 200
-	% If you want to do Iceland, a better choice would be 
-	% union(linspace(0,50,6),linspace(55,200,30))
-	defval('labeled',linspace(0,200,41));
-elseif (exist('realFile','var'))
-	% These are the contours to label in the chart
-	% This choice is good for Greenland but not for Iceland
-	% If you want to do Iceland, a the contour will go from about -21 to 1
-	% In this case a better choice would be linspace(-20,-2,10)
-	defval('labeled',linspace(-300,-100,11));
-	% Read in the input files
-	% Solution adapted from: 
-	% https://www.mathworks.com/matlabcentral/answers/
-	% 	79885-reading-dat-files-into-matlab
-	% First, real data.
-	reald=fopen(realFile,'r');
-	data=textscan(reald,'%f%f%f','HeaderLines',1,'Collect',1);
-	fclose(reald);
-	reald=data{1};
-	% Next, we want to draw the real recovery figure.
-	Ls=reald(:,1);
-	buffers=reald(:,2);
-	recovered=reald(:,3);
-end
+reald=fopen(realFile,'r');
+data=textscan(reald,'%f%f%f','HeaderLines',1,'Collect',1);
+fclose(reald);
+reald=data{1};
+% Next, we want to draw the real recovery figure.
+Ls=reald(:,1);
+buffers=reald(:,2);
+recovered=reald(:,3);
 
-if exist('syntheticFile','var')
-	% Next, synthetic data.
-	synthd=fopen(syntheticFile,'r');
-	data=textscan(synthd,'%f%f%f','HeaderLines',1,'Collect',1);
-	fclose(synthd);
-	synthd=data{1};
-	if not(exist('Ls','var'))
-		Ls=synthd(:,1);
-		buffers=synthd(:,2);
-		recovered=synthd(:,3);
-	end
-	LsSynthetic=synthd(:,1);
-	buffersSynthetic=synthd(:,2);
-	recoveredSynthetic=synthd(:,3);
-end
+synthd=fopen(syntheticFile,'r');
+data=textscan(synthd,'%f%f%f','HeaderLines',1,'Collect',1);
+fclose(synthd);
+synthd=data{1};
+LsSynthetic=synthd(:,1);
+buffersSynthetic=synthd(:,2);
+recoveredSynthetic=synthd(:,3);
 
 % Ranges of axes
 LsRange=min(Ls):(max(Ls)-min(Ls))/200:max(Ls);
@@ -73,49 +58,48 @@ buffersRange=min(buffers):(max(buffers)-min(buffers))/200:max(buffers);
 % Contour data
 [LsRange, buffersRange]=meshgrid(LsRange,buffersRange);
 recoveredTrends=griddata(Ls,buffers,recovered,LsRange,buffersRange);
+
 % Chart it
+ax1 = subplot(1,2,1);
 fig=gcf;
 hold on;
-% First, we want to add the 100% contour from the synthetic data
 
-if not(exist('realFile','var')) & exist('syntheticFile','var')
-	% Synthetic Recovery Figure
-	percentRecovered=griddata(LsSynthetic,buffersSynthetic,...
-	recoveredSynthetic/2,LsRange,buffersRange);
-	labeled=setdiff(labeled,[100]);
-	contour(LsRange,buffersRange,percentRecovered,labeled,...
-		'LineColor','Black','ShowText','On','FontName','TimesNewRoman');
-	contour(LsRange,buffersRange,percentRecovered,[100,100],...
-		'LineColor','Green','ShowText','On','FontName','TimesNewRoman');
-	% Add title and axes
-	tl=title(sprintf('Synthetic recovered trend over %s',regionName));
-	filename=sprintf('%s_SyntheticRecovery', regionName);
-elseif exist('realFile','var')
-	% Real Recovery Figure
-	percentRecovered=griddata(LsSynthetic,buffersSynthetic,recoveredSynthetic,...
-		LsRange,buffersRange);
-	contour(LsRange,buffersRange,percentRecovered/200,[1,1],'ShowText','Off',...
-	   'LineColor','Green','LineWidth',1.5);
-	% Then contour the actual data
-	contour(LsRange,buffersRange,recoveredTrends,labeled,'ShowText','On',...
-		'LineColor','Black','FontName','TimesNewRoman');
-	% Add title and axes
-	tl=title(sprintf('GRACE data trend (Gt/yr) over %s',regionName));
-	filename=sprintf('%s_RealRecovery', regionName);
-end
-
-xl=xlabel('bandwidth L');
-yl=ylabel('buffer extent (degrees)');
+% Synthetic Recovery Figure
+percentRecovered=griddata(LsSynthetic,buffersSynthetic,...
+recoveredSynthetic/2,LsRange,buffersRange);
+labeledSynthetic=setdiff(labeledSynthetic,[100]);
+contour(LsRange,buffersRange,percentRecovered,labeledSynthetic,...
+	'LineColor','Black','ShowText','On');
+contour(LsRange,buffersRange,percentRecovered,[100,100],...
+	'LineColor','Green','ShowText','On');
+% Add title and axes
+tl=title(sprintf('Synthetic data trend (%c) over %s','%',regionName));
+% Next, we want to format the figure for export
 box on;
 hold off;
 
+ax1 = subplot(1,2,2);
+hold on;
+% Real Recovery Figure
+% Then contour the actual data
+contour(LsRange,buffersRange,recoveredTrends,labeledReal,'ShowText','On',...
+	'LineColor','Black');
+contour(LsRange,buffersRange,percentRecovered,[100,100],...
+	'LineColor','Green','ShowText','Off');
+% Add title and axes
+tl=title(sprintf('GRACE data trend (Gt/yr) over %s',regionName));
 % Next, we want to format the figure for export
-set(tl,'FontSize',13,'FontName','TimesNewRoman');
-set(xl,'FontSize',13,'FontName','TimesNewRoman');
-set(yl,'FontSize',13,'FontName','TimesNewRoman');
+box on;
+hold off;
+
+xl=suplabel('bandwidth L','x');
+yl=suplabel('buffer extent (degrees)','y');
+
+
+hold off;
 
 fig.PaperUnits = 'centimeters';
-fig.PaperPosition = [0 0 20 20];
+fig.PaperPosition = [0 0 12 6];
 
 figdisp(filename,[],[],1,'epsc');
 system(['psconvert -A -Tf ' filename '.eps']);
