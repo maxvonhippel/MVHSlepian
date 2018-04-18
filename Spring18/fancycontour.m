@@ -18,16 +18,17 @@ function fancycontour(realFile,syntheticFile,regionName,labeled)
 % 					locations, this should be specified.
 % 
 % Authored by maxvonhippel-at-email.arizona.edu on 02/15/18
-
+clear;initialize;
+% 
 defval('syntheticFile','/Users/maxvonhippel/Documents/NASA/Matlab Scripts/Spring18/figures/synthetic/II_WITH_NOISE/(2002-2016)/II_WITH_NOISE.dat');
 defval('realFile','/Users/maxvonhippel/Documents/NASA/Matlab Scripts/Spring18/figures/real/ICELAND/(2002-2016)/ICELAND_REAL.dat');
 defval('regionName','Iceland');
-
 defval('filename','contours');
-
+defval('fontSize',12);
 defval('labeledSynthetic',linspace(0,220,12));
-defval('labeledReal',linspace(-20,-2,10));
-
+defval('labeledReal',linspace(-20,-4,9));
+defval('fontName','Helvetica');
+defval('paperPosition',[0 0 24 10]);
 
 % Do we have any inputs?
 if not(exist('realFile','var')) & not(exist('syntheticFile','var'))
@@ -60,8 +61,8 @@ buffersRange=min(buffers):(max(buffers)-min(buffers))/200:max(buffers);
 recoveredTrends=griddata(Ls,buffers,recovered,LsRange,buffersRange);
 
 % Chart it
-ax1 = subplot(1,2,1);
 fig=gcf;
+ax1=subplot(1,2,1);
 hold on;
 
 % Synthetic Recovery Figure
@@ -73,33 +74,40 @@ contour(LsRange,buffersRange,percentRecovered,labeledSynthetic,...
 contour(LsRange,buffersRange,percentRecovered,[100,100],...
 	'LineColor','Green','ShowText','On');
 % Add title and axes
-tl=title(sprintf('Synthetic data trend (%c) over %s','%',regionName));
+tl=title(sprintf('Synthetic data trend (%c) over %s','%',regionName),...
+	'FontSize',fontSize,'FontName',fontName);
+yl=ylabel('buffer extent (degrees)','FontSize',fontSize,'FontName',fontName);
+xl=xlabel('bandwidth L','FontSize',fontSize,'FontName',fontName);
 % Next, we want to format the figure for export
 box on;
 hold off;
 
-ax1 = subplot(1,2,2);
+ax2=subplot(1,2,2);
 hold on;
 % Real Recovery Figure
+contour(LsRange,buffersRange,percentRecovered,[100,100],...
+	'LineColor','Green','ShowText','Off');
 % Then contour the actual data
 contour(LsRange,buffersRange,recoveredTrends,labeledReal,'ShowText','On',...
 	'LineColor','Black');
-contour(LsRange,buffersRange,percentRecovered,[100,100],...
-	'LineColor','Green','ShowText','Off');
 % Add title and axes
-tl=title(sprintf('GRACE data trend (Gt/yr) over %s',regionName));
+tl=title(sprintf('GRACE data trend (Gt/yr) over %s',regionName),...
+	'FontSize',fontSize,'FontName',fontName);
+xl=xlabel('bandwidth L','FontSize',fontSize,'FontName',fontName);
 % Next, we want to format the figure for export
 box on;
 hold off;
 
-xl=suplabel('bandwidth L','x');
-yl=suplabel('buffer extent (degrees)','y');
-
-
-hold off;
+p1=get(ax1,'pos');
+p2=get(ax2,'pos');
+p1(1)=p1(1)+0.03;
+p2(1)=p2(1)-0.03;
+set(ax1,'pos',p1);
+set(ax2,'pos',p2);
 
 fig.PaperUnits = 'centimeters';
-fig.PaperPosition = [0 0 12 6];
+% For now, doing twice the size and downscaling in the latex
+fig.PaperPosition = paperPosition;
 
 figdisp(filename,[],[],1,'epsc');
 system(['psconvert -A -Tf ' filename '.eps']);
