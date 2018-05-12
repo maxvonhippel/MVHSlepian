@@ -1,3 +1,4 @@
+set(0,'defaulttextinterpreter','none');
 dom='iceland';
 b=1.0;
 L=60;
@@ -39,13 +40,24 @@ yhigh=y+(ones(1,length(thedates))*sqrt(alphavarall)*1.99);
 x2=[thedates,fliplr(thedates)];
 y2=[ylow,fliplr(yhigh)];
 hold on
-fill(x2,y2,[0.85 0.85 0.85],'LineStyle','None');
-yyaxis left;
 % Do ylim from -200 to 100 Gt
 ylim([-200 100]);
-plot(thedates,y,'Color','black','LineWidth',1.5,'LineStyle','-');
+eruptionStart=datenum(datetime(2010,3,20));
+eruptionEnd=datenum(datetime(2010,6,23));
+fill(x2,y2,grey,'LineStyle','None');
+red=[1 0 0];
+grey=[0.85 0.85 0.85];
+rectangle('Position',[eruptionStart -200 eruptionEnd-eruptionStart 300],...
+  'FaceColor',red,'EdgeColor',red);
+plot(x,yhigh,'Color',grey,'LineWidth',1,'LineStyle','-');
+plot(x,ylow,'Color',grey,'LineWidth',1,'LineStyle','-');
+text(datenum(datetime(2007,8,0)),-180,{sprintf('Eyjafjallaj%ckull',char(252)),'eruption'},'FontSize',12,'Color','red');
+
+yyaxis left;
+
+plot(thedates,y,'Color','black','LineWidth',1,'LineStyle','-');
 yfit=totalfit(:,2)-firsty;
-plot(thedates,yfit,'Color','blue','LineWidth',1.5,'LineStyle','-');
+plot(thedates,yfit,'Color','blue','LineWidth',1,'LineStyle','-');
 % Add reference line for 2010 volcanic erruption
 yl=ylabel('Mass (Gt)');
 xl=xlabel('Time');
@@ -58,32 +70,27 @@ slopeerror=totalparamerrors(2,2);
 acc=totalparams(3,2)*365*365*2;
 accerror=totalparamerrors(3,2)*365*2;
 
-labelstr={sprintf('Slope = %.1f $\\pm$ %.1f Gt/yr',slope,slopeerror),...
-	sprintf('Acceleration = %.1f $\\pm$ %.1f Gt/yr$^2$',acc,accerror)};
-text(thedates(95),70,labelstr,'Interpreter','latex','FontSize',13,...
-  'FontName','Times');
+labelstr={sprintf('Slope = %.1f %c %.1f Gt/yr',slope,char(hex2dec('B1')),slopeerror),...
+	sprintf('Acceleration = %.1f %c %.1f Gt/yr%c',acc,char(hex2dec('B1')),accerror,char(hex2dec('B2')))};
+text(datenum(datetime(2011,0,0)),5,labelstr,'FontSize',12);
 
 leftlim=ylim;
 yyaxis right;
 yyl=ylabel('Eustatic Sea Level (mm)');
 ylim(leftlim*0.00278);
-% line([thedates(93),thedates(93)],ylim,'Color','red');
-eruptionStart=datenum(datetime(2010,3,20));
-% eruptionEnd=datenum(datetime(2010,6,23));
-line([eruptionStart,eruptionStart],ylim,'Color','red');
-% line([eruptionEnd,eruptionEnd],ylim,'Color','red');
-fill(xEruption,yEruption,'red');
-set(xl,'FontSize',13,'FontName','Times');
-set(yl,'FontSize',13,'FontName','Times');
-set(yyl,'FontSize',13,'FontName','Times');
+
+set(xl,'FontSize',12);
+set(yl,'FontSize',12);
+set(yyl,'FontSize',12);
 
 fig.PaperUnits='centimeters';
-fig.PaperPosition=[0 0 20 20];
+fig.PaperPosition=[0 0 24 24];
 set(gca,'ycolor',[0,0,0]);
 box on;
+datetick('keeplimits');
 hold off
 
-filename='iceland_total_trend';
+filename='fig02';
 figdisp(filename,[],[],1,'epsc');
 
 % psconvert -A -Tf iceland_total_trend.eps
