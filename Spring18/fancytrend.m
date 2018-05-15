@@ -6,8 +6,15 @@ GIAmodel='Paulson07';
 % Wangetal08
 % GIAmodel='Wangetal08';
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
-thedates=thedates(1:157);
-fullS=potcoffs(1:157,:,1:4);
+% pre volcano:
+% thedates=thedates(1:93);
+% fullS=potcoffs(1:93,:,1:4);
+% post volcano:
+thedates=thedates(96:157);
+fullS=potcoffs(96:157,:,1:4);
+% all:
+% thedates=thedates(1:157);
+% fullS=potcoffs(1:157,:,1:4);
 nmonths=length(thedates);
 [slepcoffs,~,~,TH,G,CC,~,N]=grace2slept('CSRRL05',dom,...
   b,L,[],[],[],[],'SD',0);
