@@ -31,7 +31,7 @@ defval('fontName','Helvetica');
 defval('paperPosition',[0 0 24 10]);
 
 % Do we have any inputs?
-if not(exist('realFile','var')) & not(exist('syntheticFile','var'))
+if not(exist('realFile','var')) | not(exist('syntheticFile','var'))
 	disp('Please provide realFile and/or syntheticFile arguments to script')
 	return
 end
@@ -74,7 +74,7 @@ contour(LsRange,buffersRange,percentRecovered,labeledSynthetic,...
 contour(LsRange,buffersRange,percentRecovered,[100,100],...
 	'LineColor','Green','ShowText','On');
 % Add title and axes
-tl=title(sprintf('Synthetic data trend (%c) over %s','%',regionName),...
+tl=title(sprintf('a) Synthetic data trend (%c) over %s','%',regionName),...
 	'FontSize',fontSize,'FontName',fontName);
 yl=ylabel('buffer extent (degrees)','FontSize',fontSize,'FontName',fontName);
 xl=xlabel('bandwidth L','FontSize',fontSize,'FontName',fontName);
@@ -91,7 +91,7 @@ contour(LsRange,buffersRange,percentRecovered,[100,100],...
 contour(LsRange,buffersRange,recoveredTrends,labeledReal,'ShowText','On',...
 	'LineColor','Black');
 % Add title and axes
-tl=title(sprintf('GRACE data trend (Gt/yr) over %s',regionName),...
+tl=title(sprintf('b) GRACE data trend (Gt/yr) over %s',regionName),...
 	'FontSize',fontSize,'FontName',fontName);
 xl=xlabel('bandwidth L','FontSize',fontSize,'FontName',fontName);
 % Next, we want to format the figure for export
