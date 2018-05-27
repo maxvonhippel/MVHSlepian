@@ -91,8 +91,8 @@ slept2resid(slept,thedates,[3 182.625 365.25],[],[],CC(1:round(N)),TH);
 slope=totalparams(2,2)*365;
 acc=totalparams(3,2)*365*365*2;
 
-accerror=acc/YearlyAcceleration;
-slopeerror=slope/InitialSignal; % not a useful error if acc != 0
+accerror=100*acc/YearlyAcceleration;
+slopeerror=100*slope/InitialSignal; % not a useful error if acc != 0
 
 varns={slopeerror,accerror};
 varargout=varns(1:nargout);

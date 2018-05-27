@@ -1,61 +1,64 @@
-x=10:20:500;
-ya=zeros(25,1);
-ys=zeros(25,1);
+x=6:6:162;
+ya=zeros(size(x));
+ys=zeros(size(x));
 counter=1;
-for i=10:20:500
-  [~,ya(counter)]=hs12syntheticacceleration(200,1.0,i);
-  [ys(counter),~]=hs12syntheticacceleration(200,0.0,i);
+for i=x
+  [~,ya(counter)]=hs12syntheticacceleration(200,1.0,i,[],[],[],[],[],0);
+  [ys(counter),~]=hs12syntheticacceleration(200,0.0,i,[],[],[],[],[],0);
   counter=counter+1;
 end
 
 % ---- SLOPE ----
 
-num=8;
-fig=figure;
+fig=gcf;
+ax1=subplot(1,2,1);
 hold on;
 
-yl=ylabel('% Error');
-xl=xlabel('Years');
-tl=title('Slope Recovery');
+yl=ylabel('% Recovered');
+xl=xlabel('Months');
+tl=title('a) Slope Recovery');
 
-yss=abs(1-ys);
-yas=abs(1-ya);
+% yss=abs(1-ys);
+% yas=abs(1-ya);
 
-x=x(1:num)/12;
-plot(x,yss(1:num),'Color','blue','LineWidth',1,'LineStyle','-');
+plot(x,ys,'Color','blue');
 
-set(xl,'FontSize',12);
 set(yl,'FontSize',12);
-
-fig.PaperUnits='centimeters';
-fig.PaperPosition=[0 0 24 24];
 set(gca,'ycolor',[0,0,0]);
-hold off;
+xlim([6 162]);
+ylim([95 115]);
 
-filename='slope_error';
-figdisp(filename,[],[],1,'epsc');
+box on;
+hold off;
 
 % ---- ACCELERATION ----
 
-fig2=figure;
+ax2=subplot(1,2,2);
 hold on;
 
-yl=ylabel('% Error');
-xl=xlabel('Years');
-tl=title('Acceleration Recovery');
+tl=title('b) Acceleration Recovery');
+xl=xlabel('Months');
 
-plot(x,yas(1:num),'Color','red','LineWidth',1,'LineStyle','-');
+plot(x,ya,'Color','red');
 
-set(xl,'FontSize',12);
-set(yl,'FontSize',12);
-
-fig.PaperUnits='centimeters';
-fig.PaperPosition=[0 0 24 24];
 set(gca,'ycolor',[0,0,0]);
-ylim([0 100]);
+xlim([6 162]);
+ylim([-400 400]);
+
+box on;
 hold off;
 
-filename='acceleration_error';
+p1=get(ax1,'pos');
+p2=get(ax2,'pos');
+p1(1)=p1(1)+0.03;
+p2(1)=p2(1)-0.03;
+set(ax1,'pos',p1);
+set(ax2,'pos',p2);
+
+fig.PaperUnits='centimeters';
+fig.PaperPosition=[0 0 24 10];
+
+filename='fit_error';
 figdisp(filename,[],[],1,'epsc');
 
 % psconvert -A -Tf iceland_total_trend.eps
