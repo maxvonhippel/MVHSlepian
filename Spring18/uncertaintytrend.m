@@ -3,8 +3,8 @@ ya=zeros(size(x));
 ys=zeros(size(x));
 counter=1;
 for i=x
-  [~,ya(counter)]=hs12syntheticacceleration(200,1.0,i,[],[],[],[],[],0);
-  [ys(counter),~]=hs12syntheticacceleration(200,0.0,i,[],[],[],[],[],0);
+  [~,ya(counter)]=hs12syntheticacceleration(-200,1.0,i,[],[],[],[],[],0);
+  [ys(counter),~]=hs12syntheticacceleration(-200,0.0,i,[],[],[],[],[],0);
   counter=counter+1;
 end
 
