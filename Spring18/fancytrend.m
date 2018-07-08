@@ -3,18 +3,16 @@ dom='iceland';
 b=1.0;
 L=60;
 GIAmodel='Paulson07';
-% Wangetal08
-% GIAmodel='Wangetal08';
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
 % pre volcano:
 % thedates=thedates(1:93);
 % fullS=potcoffs(1:93,:,1:4);
 % post volcano:
-thedates=thedates(96:157);
-fullS=potcoffs(96:157,:,1:4);
+% thedates=thedates(96:157);
+% fullS=potcoffs(96:157,:,1:4);
 % all:
-% thedates=thedates(1:157);
-% fullS=potcoffs(1:157,:,1:4);
+thedates=thedates(1:157);
+fullS=potcoffs(1:157,:,1:4);
 nmonths=length(thedates);
 [slepcoffs,~,~,TH,G,CC,~,N]=grace2slept('CSRRL05',dom,...
   b,L,[],[],[],[],'SD',0);
@@ -91,7 +89,7 @@ set(yl,'FontSize',12);
 set(yyl,'FontSize',12);
 
 fig.PaperUnits='centimeters';
-fig.PaperPosition=[0 0 24 24];
+fig.PaperPosition=[0 0 24 18];
 set(gca,'ycolor',[0,0,0]);
 box on;
 datetick('keeplimits');
