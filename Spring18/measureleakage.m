@@ -4,51 +4,101 @@ function varargout=measureleakage(domSignal,domRecover,...
 
 % Returns: slope,slopeerror,acc,accerror,giaMagnitude
 
-defval('domSignal','iceland');
 defval('domRecover','greenland');
+defval('domSignal','iceland');
 defval('signalB',1.0);
 defval('recoverB',0.5);
 defval('forcenew',0);
+defval('signalRecover',238.20);
+defval('signalSignal',9.68);
+defval('res',10);
 defval('L',60);
-defval('GIAmodel','Wangetal08');
+defval('GIAmodel','Paulson07');
 
-[fullS,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
+[potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
 
 thedates=thedates(1:157);
-fullS=fullS(1:157,:,1:4);
+potcoffs=potcoffs(1:157,:,1:4);
 nmonths=length(thedates);
 
-[slepcoffs,~,~,TH,G,CC,~]=grace2slept('CSRRL05',domSignal,signalB,L,[],[],[],[],'SD',forcenew);
+[ESTresid,~,~,~,~,~]=plmt2resid(potcoffs(:,:,1:4),thedates,[1 1 181.0 365.0]);
+[Clmlmp,~,~,~,~]=plmresid2cov(ESTresid,L,[]);
+[~,~,~,lmcosidata,~,~,~,~,~,ronmdata]=addmon(L);
+% Decompose the covariance matrix
+T=cholcov(Clmlmp);
+[n,m]=size(T);
+if isempty(T)
+  disp('Empty covariance matrix, something is wrong.');
+  return
+end
 
+% BOXCAP GREENLAND + ICELAND
+[~,~,~,~,~,lmcosiSignal]=geoboxcap(2*L,domSignal);
+[~,~,~,~,~,lmcosiRecover]=geoboxcap(2*L,domRecover);
+% Then truncate
+if size(lmcosiSignal,1) > addmup(L)
+  lmcosiSignal=lmcosiSignal(1:addmup(L),:);
+end
+if size(lmcosiRecover,1) > addmup(L)
+  lmcosiRecover=lmcosiRecover(1:addmup(L),:);
+end
+
+% * 10^12 converts Gt / unit sphere to kg / unit sphere / day
+% / [spharea(domSignal) * 4 * pi * 6370000^2] divides by area in m^2 of the
+% domain domSignal, putting us into units of kg / m^2 / day
+% Then / 365 converts to units of kg / m^2 / yr
+factorSignal=signalSignal*10^12/spharea(domSignal)/4/pi/6370000^2/365;
+factorRecover=signalRecover*10^12/spharea(domRecover)/4/pi/6370000^2/365;
+deltadates=thedates-thedates(1);
+lmcosiSSDsignal=zeros([nmonths,size(lmcosiSignal)]);
+lmcosiSSDrecover=zeros([nmonths,size(lmcosiRecover)]);
+lmcosiSSDcombined=zeros([nmonths,size(lmcosiRecover)]);
+counter=1;
+for k=deltadates
+  factor2Signal=(factorSignal*k);
+  factor2Recover=(factorRecover*k);
+  lmcosiSSDsignal(counter,:,:)=[lmcosiSignal(:,1:2) ...
+  	lmcosiSignal(:,3:4)*factor2Signal];
+  lmcosiSSDrecover(counter,:,:)=[lmcosiSignal(:,1:2) ...
+  	lmcosiRecover(:,3:4)*factor2Recover];
+  lmcosiSSDcombined(counter,:,:)=[lmcosiSignal(:,1:2) ...
+  	lmcosiSignal(:,3:4)*factor2Signal + lmcosiRecover(:,3:4)*factor2Recover];
+  counter=counter+1;
+end
+fullSsignal=lmcosiSSDsignal;
+fullSrecover=lmcosiSSDrecover;
+fullScombined=lmcosiSSDcombined;
+
+TH={domRecover recoverB};
+[slepcoffs,~,~,TH,G,CC,~,~]=grace2slept('CSRRL05',domRecover,recoverB,L,...
+       	[],[],[],[],'SD',forcenew);
 [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
-slept=zeros(nmonths,(L+1)^2);
-
+sleptRecover=zeros(nmonths,(L+1)^2);
+sleptCombined=zeros(nmonths,(L+1)^2);
 for k=1:nmonths
-	lmcosi=squeeze(fullS(k,:,:));
-	if size(lmcosi,1) < addmup(L)
-		lmcosi=[lmcosi; lmcosipad(size(lmcosi,1)+1:end,:)];
+	lmcosiRecover=squeeze(fullSrecover(k,:,:));
+	lmcosiCombined=squeeze(fullScombined(k,:,:));
+	if size(lmcosiRecover,1) < addmup(L)
+		lmcosiRecover=[lmcosiRecover; lmcosipad(size(lmcosi,1)+1:end,:)];
 	else
-		lmcosi=lmcosi(1:addmup(L),:);
+		lmcosiRecover=lmcosiRecover(1:addmup(L),:);
 	end
-	slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
+	if size(lmcosiCombined,1) < addmup(L)
+		lmcosiCombined=[lmcosiCombined; lmcosipad(size(lmcosi,1)+1:end,:)];
+	else
+		lmcosiCombined=lmcosiCombined(1:addmup(L),:);
+	end
+	sleptRecover(k,:)=G'*lmcosiRecover(2*size(lmcosiRecover,1)+ronm(1:(L+1)^2));
+	sleptCombined(k,:)=G'*lmcosiCombined(2*size(lmcosiCombined,1)+ronm(1:(L+1)^2));
 end
+[~,~,~,~,~,~,totalparamsRecover,~,~,~,~]=...
+	slept2resid(sleptRecover,thedates,[1 181.0 365.0],[],[],CC,TH);
+[~,~,~,~,~,~,totalparamsCombined,~,~,~,~]=...
+	slept2resid(sleptCombined,thedates,[1 181.0 365.0],[],[],CC,TH);
+format long g;
 
-if strcmp(GIAmodel,'none')
-	giaMagnitude=0;
-else
-	[~,GIAt,~,~,giaMagnitude]=correct4gia(thedates,GIAmodel,TH,L);
-	slept=slept-GIAt;
-end
+resultRecover=totalparamsRecover(2)*365;
+resultCombined=totalparamsCombined(2)*365;
 
-recoverTH={domRecover recoverB};
-[ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,totalparams,...
-	totalparamerrors,totalfit,functionintegrals,alphavar]...
-	=slept2resid(slept,thedates,[3 182.625 365.25],[],[],CC,recoverTH);
-
-slope=totalparams(2,2)*365;
-slopeerror=totalparamerrors(2,2);
-acc=totalparams(3,2)*365*365*2;
-accerror=totalparamerrors(3,2)*365*2;
-
-varns={slope,slopeerror,acc,accerror,giaMagnitude};
-varargout=varns(1:nargout);
+disp(resultRecover)
+disp(resultCombined)
