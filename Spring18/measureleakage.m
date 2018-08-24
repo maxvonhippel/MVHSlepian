@@ -4,16 +4,17 @@ function varargout=measureleakage(domSignal,domRecover,...
 
 % Returns: slope,slopeerror,acc,accerror,giaMagnitude
 
-defval('domRecover','greenland');
-defval('domSignal','iceland');
-defval('signalB',1.0);
-defval('recoverB',0.5);
+defval('domRecover','iceland');
+defval('domSignal','greenland');
+defval('signalB',0.5);
+defval('recoverB',1.0);
 defval('forcenew',0);
-defval('signalRecover',238.20);
-defval('signalSignal',9.68);
+defval('signalRecover',9.68);
+defval('signalSignal',238.20);
 defval('res',10);
 defval('L',60);
 defval('GIAmodel','Paulson07');
+defval('wantnoise',1);
 
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
 
@@ -55,21 +56,41 @@ lmcosiSSDrecover=zeros([nmonths,size(lmcosiRecover)]);
 lmcosiSSDcombined=zeros([nmonths,size(lmcosiRecover)]);
 counter=1;
 for k=deltadates
+  
   factor2Signal=(factorSignal*k);
   factor2Recover=(factorRecover*k);
+  
   lmcosiSSDsignal(counter,:,:)=[lmcosiSignal(:,1:2) ...
   	lmcosiSignal(:,3:4)*factor2Signal];
   lmcosiSSDrecover(counter,:,:)=[lmcosiSignal(:,1:2) ...
   	lmcosiRecover(:,3:4)*factor2Recover];
   lmcosiSSDcombined(counter,:,:)=[lmcosiSignal(:,1:2) ...
   	lmcosiSignal(:,3:4)*factor2Signal + lmcosiRecover(:,3:4)*factor2Recover];
+
+  if wantnoise
+    % Make a synthetic noise realization
+    syntheticnoise=randn(1,n)*T;
+    % Reorder the noise
+    temp1=lmcosidata(:,3:4);
+    temp1(ronmdata)=syntheticnoise(:);
+    syntheticnoise=[lmcosidata(:,1:2) temp1];
+    lmcosiSSDsignal(counter,:,:)=[lmcosidata(:,1:2)...
+       squeeze(lmcosiSSDsignal(counter,:,3:4))+syntheticnoise(:,3:4)];
+    lmcosiSSDrecover(counter,:,:)=[lmcosidata(:,1:2)...
+       squeeze(lmcosiSSDrecover(counter,:,3:4))+syntheticnoise(:,3:4)];
+    lmcosiSSDcombined(counter,:,:)=[lmcosidata(:,1:2)...
+       squeeze(lmcosiSSDcombined(counter,:,3:4))+syntheticnoise(:,3:4)];
+  end
+  
   counter=counter+1;
+
 end
 fullSsignal=lmcosiSSDsignal;
 fullSrecover=lmcosiSSDrecover;
 fullScombined=lmcosiSSDcombined;
 
 TH={domRecover recoverB};
+
 [slepcoffs,~,~,TH,G,CC,~,~]=grace2slept('CSRRL05',domRecover,recoverB,L,...
        	[],[],[],[],'SD',forcenew);
 [~,~,~,lmcosipad,~,~,~,~,~,ronm]=addmon(L);
@@ -99,6 +120,14 @@ format long g;
 
 resultRecover=totalparamsRecover(2)*365;
 resultCombined=totalparamsCombined(2)*365;
+resultDiff=resultRecover-resultCombined;
 
 disp(resultRecover)
 disp(resultCombined)
+
+% Greenland + Iceland -> Greenland = 235.54
+% Greenland           -> Greenland = 235.79
+% Difference ---------->           = 0.25
+% Greenland + Iceland -> Iceland   = 10.15
+%             Iceland -> Iceland   = 10.15
+% Difference ---------->           = 0.35
