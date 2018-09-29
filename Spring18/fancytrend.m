@@ -1,6 +1,6 @@
 set(0,'defaulttextinterpreter','none');
-dom='iceland';
-b=1.0;
+dom='greenland';
+b=0.5;
 L=60;
 GIAmodel='Paulson07';
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
