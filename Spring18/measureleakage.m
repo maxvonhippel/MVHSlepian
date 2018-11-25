@@ -128,6 +128,6 @@ disp(resultCombined)
 % Greenland + Iceland -> Greenland = 235.54
 % Greenland           -> Greenland = 235.79
 % Difference ---------->           = 0.25
-% Greenland + Iceland -> Iceland   = 10.15
-%             Iceland -> Iceland   = 10.15
-% Difference ---------->           = 0.35
+% Greenland + Iceland -> Iceland   = 9.13
+%             Iceland -> Iceland   = 9.49
+% Difference ---------->           = 0.27
