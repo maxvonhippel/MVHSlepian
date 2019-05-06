@@ -1,5 +1,5 @@
 #
-# GMT 5.4.4 Defaults file
+# GMT 5.4.3 Defaults file
 #
 # COLOR Parameters
 #
@@ -14,16 +14,16 @@ COLOR_HSV_MAX_V                = 1
 #
 # DIR Parameters
 #
-DIR_CACHE                      = /home/mvh/.gmt/cache
+DIR_CACHE                      = /Users/maxvonhippel/.gmt/cache
 DIR_DATA                       = 
-DIR_DCW                        = /usr/share/gmt-dcw
-DIR_GSHHG                      = 
+DIR_DCW                        = /tmp/gmt-20180103-91729-14iw0yr/gmt-5.4.3/dcw
+DIR_GSHHG                      = /usr/local/Cellar/gmt/5.4.3/share/gmt/coast
 #
 # FONT Parameters
 #
-FONT_ANNOT_PRIMARY             = 15p,Helvetica,black
+FONT_ANNOT_PRIMARY             = 10p,Helvetica,black
 FONT_ANNOT_SECONDARY           = 14p,Helvetica,black
-FONT_LABEL                     = 15p,Helvetica,black
+FONT_LABEL                     = 10p,Helvetica,black
 FONT_LOGO                      = 8p,Helvetica,black
 FONT_TITLE                     = 24p,Helvetica,black
 #
@@ -54,7 +54,7 @@ GMT_FFT                        = auto
 GMT_HISTORY                    = true
 GMT_INTERPOLANT                = akima
 GMT_LANGUAGE                   = us
-GMT_TRIANGULATE                = Watson
+GMT_TRIANGULATE                = Shewchuk
 GMT_VERBOSE                    = compat
 #
 # I/O Parameters
@@ -89,7 +89,7 @@ MAP_GRID_CROSS_SIZE_PRIMARY    = 0p
 MAP_GRID_CROSS_SIZE_SECONDARY  = 0p
 MAP_GRID_PEN_PRIMARY           = default,gray
 MAP_GRID_PEN_SECONDARY         = thinner,black
-MAP_LABEL_OFFSET               = 0.111
+MAP_LABEL_OFFSET               = 0.222
 MAP_LINE_STEP                  = 0.75p
 MAP_LOGO                       = false
 MAP_LOGO_POS                   = BL/-54p/-54p
