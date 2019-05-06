@@ -36,7 +36,7 @@ divideBy=1;
 defval('bDivide',0);
 defval('LDivide',0);
 
-defval('GIAmodel','Paulson07');
+% defval('GIAmodel','Paulson07');
 
 for L=Ls
   for B=buffers

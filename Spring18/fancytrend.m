@@ -1,8 +1,8 @@
 set(0,'defaulttextinterpreter','none');
-dom='greenland';
-b=0.5;
+dom='iceland';
+b=1.0;
 L=60;
-GIAmodel='Paulson07';
+% GIAmodel='Paulson07';
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
 % pre volcano:
 % thedates=thedates(1:93);
@@ -27,8 +27,8 @@ for k=1:nmonths
   end
   slept(k,:)=G'*lmcosi(2*size(lmcosi,1)+ronm(1:(L+1)^2));
 end
-[~,GIAt,~,~,trendg]=correct4gia(thedates,GIAmodel,TH,L);
-slept=slept-GIAt;
+% [~,GIAt,~,~,trendg]=correct4gia(thedates,GIAmodel,TH,L);
+% slept=slept-GIAt;
 % Estimate the total mass changes
 [~,~,~,~,total,alphavarall,totalparams,totalparamerrors,totalfit,~,~]=...
   slept2resid(slept,thedates,[3 182.625 365.25],[],[],CC(1:round(N)),TH);
@@ -61,6 +61,7 @@ text(datenum(datetime(2007,8,0)),-180,{sprintf('Eyjafjallaj%ckull',char(252)),'e
 yyaxis left;
 
 plot(thedates,y,'Color','black','LineWidth',1,'LineStyle','-');
+% GET THEDATES, Y FROM HERE
 yfit=totalfit(:,2)-firsty;
 plot(thedates,yfit,'Color','blue','LineWidth',1,'LineStyle','-');
 % Add reference line for 2010 volcanic erruption

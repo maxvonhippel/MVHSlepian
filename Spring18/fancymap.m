@@ -56,8 +56,8 @@ b=0.5;
 % set dates
 thedates=thedates(1:157);
 slept=slept(1:157,:);
-[thedates,PGRt]=correct4gia(thedates,'Paulson07',TH,60);
-sleptcorrected=slept-PGRt;
+% [thedates,PGRt]=correct4gia(thedates,'Paulson07',TH,60);
+% sleptcorrected=slept-PGRt;
 % get total fit
 [ESTsignal,ESTresid,ftests,extravalues,total,alphavarall,totalparams,...
 	totalparamerrors,totalfit,functionintegrals,alphavar]...

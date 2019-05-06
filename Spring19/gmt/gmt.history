@@ -1,0 +1,8 @@
+# GMT 5 Session common arguments shelf
+BEGIN GMT 5.4.4
+B	20:surface density change (cm water equivalent):
+J	O
+JO	Oa320/60/65/10c
+R	330/60/0/70r
+L	1
+END

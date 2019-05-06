@@ -4,16 +4,15 @@ function varargout=measureleakage(domSignal,domRecover,...
 
 % Returns: slope,slopeerror,acc,accerror,giaMagnitude
 
-defval('domRecover','iceland');
-defval('domSignal','greenland');
-defval('signalB',0.5);
-defval('recoverB',1.0);
+defval('domRecover','greenland');
+defval('domSignal','iceland');
+defval('signalB',1.0);
+defval('recoverB',0.5);
 defval('forcenew',0);
-defval('signalRecover',9.68);
-defval('signalSignal',238.20);
+defval('signalRecover',232.5);
+defval('signalSignal',9.3);
 defval('res',10);
 defval('L',60);
-defval('GIAmodel','Paulson07');
 defval('wantnoise',1);
 
 [potcoffs,~,thedates]=grace2plmt('CSR','RL05','SD',forcenew);
@@ -125,9 +124,10 @@ resultDiff=resultRecover-resultCombined;
 disp(resultRecover)
 disp(resultCombined)
 
-% Greenland + Iceland -> Greenland = 235.54
-% Greenland           -> Greenland = 235.79
-% Difference ---------->           = 0.25
-% Greenland + Iceland -> Iceland   = 9.13
-%             Iceland -> Iceland   = 9.49
-% Difference ---------->           = 0.27
+% Greenland + Iceland -> Greenland = 231.75
+% Greenland           -> Greenland = 231.99
+% Difference ---------->           = 0.24
+
+% Greenland + Iceland -> Iceland   = 9.33
+%             Iceland -> Iceland   = 9.67
+% Difference ---------->           = 0.34

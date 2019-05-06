@@ -13,8 +13,8 @@ function hs16regionaddition
 defval('regionA','iceland');
 defval('regionB','greenland');
 defval('L',60);
-defval('bA',1.0);
-defval('bB',0.5);
+defval('bA',0.5);
+defval('bB',1.0);
 defval('res',10);
 
 [potcoffs,cal_errors,thedates]=grace2plmt('CSR','RL05','SD',0);
